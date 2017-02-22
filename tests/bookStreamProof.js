@@ -43,14 +43,18 @@ beforeAll(function(){
 
   it('select outbound flight', function(){
     upsellPage.flight1.click();
+    browser.waitForAngular();
   });
 
   it('click shopping cart button', function(){
     upsellPage.shoppingCartButton.click();
+    browser.waitForAngular();
   });
 
   it('select return flight', function(){
-    upsellPage.returnFlight7.click();
+    //upsell.Page.returnFlight7.scrollIntoView();
+    upsellPage.returnFlight3.click();
+    browser.waitForAngular();
   });
 
   it('click shopping cart button', function(){
