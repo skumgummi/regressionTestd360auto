@@ -2,6 +2,9 @@ describe ('booking stream', function(){
 
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
+var passengerPage = require('../pages/passenger_page.js');
+var ancillariesPage = require('../pages/ancillaries_page.js');
+var paymentPage = require('../pages/payment_page.js');
 
 beforeAll(function(){
   console.log("before all running!");
@@ -10,23 +13,27 @@ beforeAll(function(){
 });
 
   it('select amount of passengers',  function(){
+    console.log("first test");
     homePage.openTravelers.click();
 
   });
 
   it('select origin', function(){
+    console.log("second test");
     homePage.openOrigin.click();
     homePage.openOrigin.sendKeys('ARN');
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
   });
 
   it('select destination', function(){
+    console.log("third test");
     homePage.openDestination.click();
     homePage.openDestination.sendKeys('LHR');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
   });
 
   it('select dates', function(){
+    console.log("fourth test");
     homePage.openDates.click();
     homePage.setOutbound();
     browser.waitForAngular();
@@ -34,30 +41,129 @@ beforeAll(function(){
   });
 
   it('Click forward button', function(){
+    console.log("fifth test");
     homePage.clickForwardButton();
   });
 
   it('accept cookies', function(){
+    console.log("sixth test");
     upsellPage.cookieButton.click();
   });
 
   it('select outbound flight', function(){
+    console.log("seventh test");
     upsellPage.flight1.click();
     browser.waitForAngular();
   });
 
   it('click shopping cart button', function(){
+    console.log("eighth test");
     upsellPage.shoppingCartButton.click();
     browser.waitForAngular();
   });
 
   it('select return flight', function(){
+    console.log("ninth test");
     //upsell.Page.returnFlight7.scrollIntoView();
     upsellPage.returnFlight3.click();
     browser.waitForAngular();
   });
 
   it('click shopping cart button', function(){
+    console.log("tenth test");
     upsellPage.shoppingCartButton.click();
   });
+
+  it('enter first name', function(){
+    console.log("eleventh test");
+    passengerPage.firstName0.click();
+    passengerPage.firstName0.sendKeys('Name');
+  });
+
+  it('enter last name', function(){
+    console.log("twelvth test");
+    passengerPage.lastName0.click();
+    passengerPage.lastName0.sendKeys('McNameface');
+  });
+
+  it('enter gender', function(){
+    console.log("thirteenth test");
+    passengerPage.gender0.click();
+    passengerPage.genderDropDownMale.click();
+  });
+
+  it('enter email', function(){
+    console.log("fourtheenth test");
+    passengerPage.email0.click();
+    passengerPage.email0.sendKeys('McNameface123@emailplace.com');
+  });
+
+  it('enter phone number', function(){
+    console.log("fifteenth test");
+    passengerPage.phone0.click();
+    passengerPage.phone0.sendKeys('701111111');
+  });
+
+  it('click shopping cart button', function(){
+    console.log("sixteenth test");
+    passengerPage.goToPaymentButton.click();
+  });
+
+  it('click shopping cart button', function(){
+    console.log("seventeenth test");
+    browser.waitForAngular();
+    ancillariesPage.shoppingCartButton.click();
+  });
+
+  it('Enter card number', function(){
+    console.log("eighteenth test");
+    paymentPage.creditcardForm.click();
+    paymentPage.creditcardForm.sendKeys('4111111111111111');
+  });
+
+  it('enter name on card', function(){
+    console.log("ninteenth test");
+    paymentPage.nameForm.click();
+    paymentPage.nameForm.sendKeys('Name McNameFace');
+  });
+
+  it('enter expiry date', function(){
+    console.log('twentieth test');
+    paymentPage.expiryDateForm.click();
+    paymentPage.expiryDateForm.sendKeys('08/18');
+  });
+
+  it('enter cvc code',  function(){
+    console.log('twentyfirst test');
+    paymentPage.cvvForm.click();
+    paymentPage.cvvForm.sendKeys('737');
+  });
+
+  it('Enter address', function(){
+    console.log('twentysecond test');
+    paymentPage.addressForm.click();
+    paymentPage.addressForm.sendKeys('StreetMcStreetface 11');
+  });
+
+  it('enter postal code', function(){
+    console.log('twentythird test');
+    paymentPage.postalcodeForm.click();
+    paymentPage.postalcodeForm.sendKeys('11111');
+  });
+
+  it('review purchase', function(){
+    console.log('twentyfourth test');
+    paymentPage.reviewButton.click();
+  });
+
+  it('accept terms', function(){
+    console.log('twentyfifth test');
+    paymentPage.checkBox.click();
+  });
+
+  it('Pay', function(){
+    console.log('twentysixth test');
+    paymentPage.payNowButton.click();
+  });
+
 });
