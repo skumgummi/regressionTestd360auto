@@ -161,7 +161,7 @@ beforeAll(function(){
   it('Pay', function(){
     console.log('twentysixth test');
     paymentPage.payNowButton.click()
-    browser.sleep(50000);
+    browser.sleep(10000);
   });
 
 });
