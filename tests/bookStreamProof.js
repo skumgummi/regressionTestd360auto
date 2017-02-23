@@ -115,12 +115,11 @@ beforeAll(function(){
     ancillariesPage.shoppingCartButton.click();
   });
 
-  it('Enter card number', function(){
+  it('Enter card details', function(){
     console.log("eighteenth test");
-    paymentPage.creditcardForm.click();
-    paymentPage.creditcardForm.sendKeys('4111111111111111');
+    paymentPage.visa();
   });
-
+  /*
   it('enter name on card', function(){
     console.log("ninteenth test");
     paymentPage.nameForm.click();
@@ -138,6 +137,7 @@ beforeAll(function(){
     paymentPage.cvvForm.click();
     paymentPage.cvvForm.sendKeys('737');
   });
+  */
 
   it('Enter address', function(){
     console.log('twentysecond test');
@@ -163,7 +163,7 @@ beforeAll(function(){
 
   it('Pay', function(){
     console.log('twentysixth test');
-    paymentPage.payNowButton.click();
+    paymentPage.payNowButton.click()
   });
 
 });
