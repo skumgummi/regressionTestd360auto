@@ -9,6 +9,7 @@ var paymentPage = require('../pages/payment_page.js');
 beforeAll(function(){
   console.log("before all running!");
   browser.get('https://d360u.flysas.com/se-en');
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 40000;
   browser.waitForAngular();
 });
 
@@ -161,7 +162,7 @@ beforeAll(function(){
   it('Pay', function(){
     console.log('twentysixth test');
     paymentPage.payNowButton.click()
-    browser.sleep(10000);
+    browser.sleep(30000);
   });
 
 });
