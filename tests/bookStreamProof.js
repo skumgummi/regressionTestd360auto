@@ -118,26 +118,23 @@ beforeAll(function(){
   it('Enter card details', function(){
     console.log("eighteenth test");
     paymentPage.visa();
+    browser.sleep(5000);
   });
   /*
-  it('enter name on card', function(){
+  it('enter city', function(){
     console.log("ninteenth test");
-    paymentPage.nameForm.click();
-    paymentPage.nameForm.sendKeys('Name McNameFace');
+    paymentPage.cityForm.click();
+    paymentPage.cityForm.sendKeys('Stockholm');
+    paymentPage.cityForm.sendKeys(protractor.Key.ENTER);
+
   });
 
-  it('enter expiry date', function(){
+  it('enter country', function(){
     console.log('twentieth test');
-    paymentPage.expiryDateForm.click();
-    paymentPage.expiryDateForm.sendKeys('08/18');
+    paymentPage.countryForm.click();
+    paymentPage.countryForm.sendKeys('Sweden');
+    paymentPage.countryForm.sendKeys(protractor.Key.ENTER);
   });
-
-  it('enter cvc code',  function(){
-    console.log('twentyfirst test');
-    paymentPage.cvvForm.click();
-    paymentPage.cvvForm.sendKeys('737');
-  });
-  */
 
   it('Enter address', function(){
     console.log('twentysecond test');
@@ -150,7 +147,7 @@ beforeAll(function(){
     paymentPage.postalcodeForm.click();
     paymentPage.postalcodeForm.sendKeys('11111');
   });
-
+ */
   it('review purchase', function(){
     console.log('twentyfourth test');
     paymentPage.reviewButton.click();
@@ -164,6 +161,7 @@ beforeAll(function(){
   it('Pay', function(){
     console.log('twentysixth test');
     paymentPage.payNowButton.click()
+    browser.sleep(50000);
   });
 
 });
