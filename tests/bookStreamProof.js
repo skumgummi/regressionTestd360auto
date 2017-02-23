@@ -16,7 +16,7 @@ beforeAll(function(){
   it('select amount of passengers',  function(){
     console.log("first test");
     homePage.openTravelers.click();
-
+    homePage.addAdult.click();
   });
 
   it('select origin', function(){
@@ -79,18 +79,25 @@ beforeAll(function(){
     console.log("eleventh test");
     passengerPage.firstName0.click();
     passengerPage.firstName0.sendKeys('Name');
+    passengerPage.firstName1.click();
+    passengerPage.firstName1.sendKeys('Namette');
   });
 
   it('enter last name', function(){
     console.log("twelvth test");
     passengerPage.lastName0.click();
     passengerPage.lastName0.sendKeys('McNameface');
+    passengerPage.lastName1.click();
+    passengerPage.lastName1.sendKeys('McNameface');
   });
 
   it('enter gender', function(){
     console.log("thirteenth test");
     passengerPage.gender0.click();
     passengerPage.genderDropDownMale.click();
+    passengerPage.gender1.click();
+    passengerPage.gender1.sendKeys(protractor.key.down);
+    passengerPage.gender1.sendKeys(protractor.key.enter);
   });
 
   it('enter email', function(){
@@ -121,34 +128,39 @@ beforeAll(function(){
     paymentPage.visa();
     browser.sleep(5000);
   });
-  /*
-  it('enter city', function(){
-    console.log("ninteenth test");
-    paymentPage.cityForm.click();
-    paymentPage.cityForm.sendKeys('Stockholm');
-    paymentPage.cityForm.sendKeys(protractor.Key.ENTER);
 
-  });
 
-  it('enter country', function(){
-    console.log('twentieth test');
-    paymentPage.countryForm.click();
-    paymentPage.countryForm.sendKeys('Sweden');
-    paymentPage.countryForm.sendKeys(protractor.Key.ENTER);
-  });
+/*
+  if(paymentPage.cityForm.isPresent(true)){
+    it('enter city', function(){
+      console.log("ninteenth test");
+      paymentPage.cityForm.click();
+      paymentPage.cityForm.sendKeys('Stockholm');
+      paymentPage.cityForm.sendKeys(protractor.Key.ENTER);
 
-  it('Enter address', function(){
-    console.log('twentysecond test');
-    paymentPage.addressForm.click();
-    paymentPage.addressForm.sendKeys('StreetMcStreetface 11');
-  });
+    });
 
-  it('enter postal code', function(){
-    console.log('twentythird test');
-    paymentPage.postalcodeForm.click();
-    paymentPage.postalcodeForm.sendKeys('11111');
-  });
- */
+    it('enter country', function(){
+      console.log('twentieth test');
+      paymentPage.countryForm.click();
+      paymentPage.countryForm.sendKeys('Sweden');
+      paymentPage.countryForm.sendKeys(protractor.Key.ENTER);
+    });
+
+    it('Enter address', function(){
+      console.log('twentysecond test');
+      paymentPage.addressForm.click();
+      paymentPage.addressForm.sendKeys('StreetMcStreetface 11');
+    });
+
+    it('enter postal code', function(){
+      console.log('twentythird test');
+      paymentPage.postalcodeForm.click();
+      paymentPage.postalcodeForm.sendKeys('11111');
+    });
+  }
+  */
+
   it('review purchase', function(){
     console.log('twentyfourth test');
     paymentPage.reviewButton.click();
