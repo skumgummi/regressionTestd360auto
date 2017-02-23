@@ -5,6 +5,8 @@ var homePage = function(){
   this.openDates = element(by.id('datesTab'));
   this.selectOutboundDate = element(by.binding('onwardMonthAndDate'));
   this.selectReturnDate = element(by.binding('returnMonthAndDate'));
+  this.addAdult = element(by.id('addAdults'));
+  this.removeAdult =  element(by.id('removeAdults'));
 
   //placeholder dates!
   this.setOutbound = function() {
