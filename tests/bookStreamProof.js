@@ -6,6 +6,8 @@ var passengerPage = require('../pages/passenger_page.js');
 var ancillariesPage = require('../pages/ancillaries_page.js');
 var paymentPage = require('../pages/payment_page.js');
 
+var hotkeys = require('protractor-hotkeys');
+
 beforeAll(function(){
   console.log("before all running!");
   browser.get('https://d360u.flysas.com/se-en');
@@ -96,8 +98,19 @@ beforeAll(function(){
     passengerPage.gender0.click();
     passengerPage.genderDropDownMale.click();
     passengerPage.gender1.click();
-    passengerPage.gender1.sendKeys(protractor.key.down);
-    passengerPage.gender1.sendKeys(protractor.key.enter);
+    //hotkeys.trigger('down down', { targetElement: passengerPage.gender1}).trigger('enter');
+    //browser.sleep(100);
+
+    passengerPage.firstName1.isPresent().then(function (secondaryPresent) {
+  	if (secondaryPresent) {
+        passengerPage.gender1.click().genderDropDownFemale.click();
+    }
+  	});
+
+    //hotkeys.trigger('down', { targetElement: passengerPage.gender1});
+    //browser.sleep(100);
+    //hotkeys.trigger('enter', { targetElement: browser.driver.activeElement()});
+    //passengerPage.gender1.sendKeys(protractor.Key.ENTER);
   });
 
   it('enter email', function(){
