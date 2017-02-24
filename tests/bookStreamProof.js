@@ -11,14 +11,14 @@ var hotkeys = require('protractor-hotkeys');
 beforeAll(function(){
   console.log("before all running!");
   browser.get('https://d360u.flysas.com/se-en');
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 40000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
   browser.waitForAngular();
 });
 
   it('select amount of passengers',  function(){
     console.log("first test");
     homePage.openTravelers.click();
-    homePage.addAdult.click();
+    //homePage.addAdult.click();
   });
 
   it('select origin', function(){
@@ -81,31 +81,32 @@ beforeAll(function(){
     console.log("eleventh test");
     passengerPage.firstName0.click();
     passengerPage.firstName0.sendKeys('Name');
-    passengerPage.firstName1.click();
-    passengerPage.firstName1.sendKeys('Namette');
+    //passengerPage.firstName1.click();
+    //passengerPage.firstName1.sendKeys('Namette');
   });
 
   it('enter last name', function(){
     console.log("twelvth test");
     passengerPage.lastName0.click();
     passengerPage.lastName0.sendKeys('McNameface');
-    passengerPage.lastName1.click();
-    passengerPage.lastName1.sendKeys('McNameface');
+    //passengerPage.lastName1.click();
+    //passengerPage.lastName1.sendKeys('McNameface');
   });
 
   it('enter gender', function(){
     console.log("thirteenth test");
     passengerPage.gender0.click();
     passengerPage.genderDropDownMale.click();
-    passengerPage.gender1.click();
+    //passengerPage.gender1.click();
     //hotkeys.trigger('down down', { targetElement: passengerPage.gender1}).trigger('enter');
     //browser.sleep(100);
-
+    /*
     passengerPage.firstName1.isPresent().then(function (secondaryPresent) {
   	if (secondaryPresent) {
         passengerPage.gender1.click().genderDropDownFemale.click();
     }
   	});
+    */
 
     //hotkeys.trigger('down', { targetElement: passengerPage.gender1});
     //browser.sleep(100);
@@ -187,7 +188,7 @@ beforeAll(function(){
   it('Pay', function(){
     console.log('twentysixth test');
     paymentPage.payNowButton.click()
-    browser.sleep(30000);
+    browser.sleep(45000);
   });
 
 });

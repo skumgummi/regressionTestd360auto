@@ -22,7 +22,8 @@ var homePage = function(){
   }
 
   this.clickForwardButton = function() {
-   var fwdButton = element(by.css('.cepArrow.center-block'));
+   //var fwdButton = element(by.css('.cepArrow.center-block'));
+   var fwdButton = element(by.css('.sas-cep-arrow.center-block'));
    fwdButton.click();
    return require('./upsell_page.js');
  }
