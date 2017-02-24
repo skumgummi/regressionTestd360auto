@@ -19,6 +19,9 @@ beforeAll(function(){
     console.log("first test");
     homePage.openTravelers.click();
     //homePage.addAdult.click();
+    browser.getCurrentUrl().then(function(url) {
+      expect(url.includes('adt=1')).toBe(true);
+    });
   });
 
   it('select origin', function(){
@@ -26,6 +29,9 @@ beforeAll(function(){
     homePage.openOrigin.click();
     homePage.openOrigin.sendKeys('ARN');
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
+    browser.getCurrentUrl().then(function(url) {
+      expect(url.includes('org=ARN')).toBe(true);
+    });
   });
 
   it('select destination', function(){
@@ -33,6 +39,9 @@ beforeAll(function(){
     homePage.openDestination.click();
     homePage.openDestination.sendKeys('LHR');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
+    browser.getCurrentUrl().then(function(url) {
+      expect(url.includes('dest=LHR')).toBe(true);
+    });
   });
 
   it('select dates', function(){
@@ -41,11 +50,19 @@ beforeAll(function(){
     homePage.setOutbound();
     browser.waitForAngular();
     homePage.setInbound();
+    browser.getCurrentUrl().then(function(url) {
+      //här måste man veta exakt datum, och just nu väljs inget särskilt datum
+      //expect(url.includes('[???]')).toBe(true);
+      console.log("expect not yet implemented")
+    });
   });
 
   it('Click forward button', function(){
     console.log("fifth test");
     homePage.clickForwardButton();
+    browser.getCurrentUrl().then(function(url) {
+      expect(url.includes('booking/select-flights?')).toBe(true);
+    });
   });
 
   it('accept cookies', function(){
