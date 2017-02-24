@@ -20,7 +20,7 @@ beforeAll(function(){
     homePage.openTravelers.click();
     //homePage.addAdult.click();
     browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('adt=1')).toBe(true);
+      expect(url.includes('adt=1')).toBe(true, 'URL doesnt contain "adt=1" ');
     });
   });
 
@@ -30,7 +30,7 @@ beforeAll(function(){
     homePage.openOrigin.sendKeys('ARN');
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
     browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('org=ARN')).toBe(true);
+      expect(url.includes('org=ARN')).toBe(true, 'URL doesnt contain "org=ARN" ');
     });
   });
 
@@ -40,7 +40,7 @@ beforeAll(function(){
     homePage.openDestination.sendKeys('LHR');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('dest=LHR')).toBe(true);
+      expect(url.includes('dest=LHR')).toBe(true,'URL doesnt contain "dest=LHR" ');
     });
   });
 
@@ -61,19 +61,30 @@ beforeAll(function(){
     console.log("fifth test");
     homePage.clickForwardButton();
     browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('booking/select-flights?')).toBe(true);
+      expect(url.includes('booking/select-flights?')).toBe(true,'URL doesnt show "booking/select-flights", user might not be able to select flight');
     });
   });
 
   it('accept cookies', function(){
     console.log("sixth test");
     upsellPage.cookieButton.click();
+    expect(upsellPage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
   });
 
   it('select outbound flight', function(){
     console.log("seventh test");
     upsellPage.flight1.click();
     browser.waitForAngular();
+    upsellPage.shoppingCartButton.isPresent().then(function(selectReturn){
+        if(selectReturn){
+          upsellPage.shoppingCartButton.getText().then(function(selectReturn){
+            expect(selectReturn).toEqual('SELECT RETURN', 'shopping cart button is supposed to be "SELECT RETURN"!');
+          });
+        }else {
+          //this will always fail, because this only happens when selectReturn is false. 
+          expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
+        }
+      });
   });
 
   it('click shopping cart button', function(){
