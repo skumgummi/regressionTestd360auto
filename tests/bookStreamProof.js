@@ -53,7 +53,7 @@ beforeAll(function(){
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
-      console.log("expect not yet implemented")
+      console.log("expect not yet implemented");
     });
   });
 
@@ -91,6 +91,10 @@ beforeAll(function(){
     console.log("eighth test");
     upsellPage.shoppingCartButton.click();
     browser.waitForAngular();
+    //skippar expect för denna tills vidare
+    //kräver någon sorts funktion som kollar om ett element är i viewporten eller inte
+    //det går att göra med en JQuery, men går det att köra med executeScript?
+    console.log("expect not yet implemented");
   });
 
   it('select return flight', function(){
@@ -98,6 +102,14 @@ beforeAll(function(){
     //upsell.Page.returnFlight7.scrollIntoView();
     upsellPage.returnFlight3.click();
     browser.waitForAngular();
+    if(selectReturn){
+      upsellPage.shoppingCartButton.getText().then(function(selectReturn){
+        expect(selectReturn).toEqual('CONTINUE', 'shopping cart button is supposed to be "CONTINUE"!');
+      });
+    }else {
+      //this will always fail, because this only happens when selectReturn is false. 
+      expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
+    }
   });
 
   it('click shopping cart button', function(){
