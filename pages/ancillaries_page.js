@@ -1,6 +1,9 @@
 var ancillariesPage = function(){
   this.shoppingCartButton = element(by.buttonText('CONTINUE'));
+
   this.selectSeatButton = element(by.css('img[src="images/seat-img.jpg"]'));
+  this.selectSeatOutbound = element(by.xpath("//*[@id="segment-container"]/div[2]/ul/li[1]/a"));
+  this.selectSeatReturn = element(by.xpath("//*[@id="segment-container"]/div[2]/ul/li[2]/a"));
 
   this.selectBagsButton = element(by.css('img[src="images/bag-img.jpg"]'));
   this.addBaggageOutbound = element(by.id('add_0_0'));
