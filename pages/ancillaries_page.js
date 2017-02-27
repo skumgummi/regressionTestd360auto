@@ -20,8 +20,8 @@ var ancillariesPage = function(){
   this.mealDropDown = element(by.css('.btn.btn-default.paidMealsBtn'));
   this.mealDropDown1 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[2]'));
   this.mealDropDown2 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[3]'));
-  this.mealDropDown2 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[4]'));
-  this.mealDropDown2 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[5]'));
+  this.mealDropDown3 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[4]'));
+  this.mealDropDown4 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[5]'));
 
   //Got stuck on the buttons used to switch between outbound and return flight, no unique identifiers? trying xpath
 
