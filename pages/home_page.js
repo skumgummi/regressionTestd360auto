@@ -13,7 +13,7 @@ var homePage = function(){
   this.passwordField = element(by.id('loginPassword'));
   this.loginButton = element(by.css('.btn.btn-blue.login-button-blue.mt0'));
 
-  this.hamburgerMenu = element(by.id(maincontent)); //Menu in the top left
+  this.hamburgerMenu = element(by.id('maincontent')); //Menu in the top left
   this.travelClasses = element(by.css('a[title="Travel classes"]'));
   this.ourAircraft = element(by.css('a[title="Our aircraft"]'));
   this.inflight = element(by.css('a[title="Inflight"]'));
