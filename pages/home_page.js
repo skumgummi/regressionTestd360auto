@@ -7,6 +7,46 @@ var homePage = function(){
   this.selectReturnDate = element(by.binding('returnMonthAndDate'));
   this.addAdult = element(by.id('addAdults'));
   this.removeAdult =  element(by.id('removeAdults'));
+  this.loginLink = element(by.id('ocpWidget_login'));
+  this.registerButton = element(by.id('ocpWidget_register'));
+  this.emailField = element(by.id('loginEmailAddress'));
+  this.passwordField = element(by.id('loginPassword'));
+  this.loginButton = element(by.css('.btn.btn-blue.login-button-blue.mt0'));
+
+  this.hamburgerMenu = element(by.id('maincontent')); //Menu in the top left
+  this.travelClasses = element(by.css('a[title="Travel classes"]'));
+  this.ourAircraft = element(by.css('a[title="Our aircraft"]'));
+  this.inflight = element(by.css('a[title="Inflight"]'));
+  this.sasYouth = element(by.css('a[title="SAS Youth"]'));
+  this.groupTrips = element(by.css('a[title="Group trips"]'));
+  this.travelExtras = element(by.css('a[title="Travel extras"]'));
+  this.charter = element(by.css('a[title="Charter"]'));
+  this.other = element(by.css('a[title="Other"]'));
+  this.baggage = element(by.css('a[title="Baggage"]'));
+  this.checkIn = element(by.css('a[title="Check in"]'));
+  this.flightStatus = element(by.css('a[title="Flight status"]'));
+  this.passportVisa = element(by.css('a[title="Passport & visa"]'));
+  this.atTheAirport = element(by.css('a[title=At the airport]'));
+  this.mobileServices = element(by.css('a[title=Mobile services]'));
+  this.childrenAnimals = element(by.css('a[title=Travel with children or animals]'));
+  this.assistance = element(by.css('a[title=Assistance]'));
+  this.serviceFeedback = element(by.css('a[title=Service and feedback]'));
+  this.termsAndConditions = element(by.css('a[title=Terms and conditions]'));
+  this.becomeAMember = element(by.css('a[title=Become a member]'));
+  this.aboutTheProgram = element(by.css('a[title=About the program]'));
+  this.membershipLevels = element(by.css('a[title=Membership levels]'));
+  this.earnPoints = element(by.css('a[title=Earn points]'));
+  this.usingPoints = element(by.css('a[title=Using points]'));
+  this.pointsCharts = element(by.css('a[title=Points charts]'));
+  this.travelCash = element(by.css('a[title=Travel cash]'));
+  this.registerMissingPoints = element(by.css('a[title=Register missing points]'));
+  this.partnerindexTest = element(by.css('a[title=Partnerindex-test]'));
+  this.information = element(by.css('a[title=Information]'));
+  this.becomeACorporateCustomer = element(by.css('a[title=Become a corporate customer]'));
+  this.sasCredits = element(by.css('a[title=SAS credits]'));
+  this.travelPassCorporate = element(by.css('a[title=Travel pass corporate]'));
+  this.moreWaysToTravelSmart = element(by.css('a[title=More ways to travel smart]'));
+  this.news = element(by.css('a[title=News]'));
 
   //placeholder dates!
   this.setOutbound = function() {
