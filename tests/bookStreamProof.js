@@ -102,14 +102,17 @@ beforeAll(function(){
     //upsell.Page.returnFlight7.scrollIntoView();
     upsellPage.returnFlight3.click();
     browser.waitForAngular();
-    if(selectReturn){
-      upsellPage.shoppingCartButton.getText().then(function(selectReturn){
-        expect(selectReturn).toEqual('CONTINUE', 'shopping cart button is supposed to be "CONTINUE"!');
+    upsellPage.shoppingCartButton.isPresent().then(function(selectReturn){
+        if(selectReturn){
+          upsellPage.shoppingCartButton.getText().then(function(selectReturn){
+            expect(selectReturn).toEqual('CONTINUE', 'shopping cart button is supposed to be "CONTINUE"!');
+          });
+        }else {
+          //this will always fail, because this only happens when selectReturn is false. 
+          expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
+        }
+        
       });
-    }else {
-      //this will always fail, because this only happens when selectReturn is false. 
-      expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
-    }
   });
 
   it('click shopping cart button', function(){
