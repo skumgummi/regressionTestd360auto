@@ -14,15 +14,15 @@ exports.config = {
     defaultTimeoutInterval: 120000
   },
   seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['bookStreamProof.js'],
-  
+  specs: [/*'bookStreamProof.js',*/ 'cmsStream.js'],
+
   onPrepare: function() {
 
    	  console.log(date);
       date='reports/'+date;
 
       jasmine.getEnv().addReporter(
-       
+
         new Jasmine2HtmlReporter({
           savePath: date,
           cleanDestination: false,

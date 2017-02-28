@@ -8,9 +8,14 @@ describe('cms stream', function(){
     browser.waitForAngular();
   });
 
-  clickHamburger(){
+  clickHamburger = function(){
     homePage.hamburgerMenu.click();
   }
+
+  it('Accept cookies', function(){
+    console.log('accepting cookies');
+    homePage.cookieButton.click();
+  });
 
   it('click Travel classes', function(){
     console.log('1');
