@@ -109,7 +109,7 @@ beforeAll(function(){
             expect(selectReturn).toEqual('SELECT RETURN', 'shopping cart button is supposed to be "SELECT RETURN"!');
           });
         }else {
-          //this will always fail, because this only happens when selectReturn is false. 
+          //this will always fail, because this only happens when selectReturn is false.
           expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
         }
       });
@@ -136,10 +136,10 @@ beforeAll(function(){
             expect(selectReturn).toEqual('CONTINUE', 'shopping cart button is supposed to be "CONTINUE"!');
           });
         }else {
-          //this will always fail, because this only happens when selectReturn is false. 
+          //this will always fail, because this only happens when selectReturn is false.
           expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
         }
-        
+
     });
   });
 
@@ -148,7 +148,7 @@ beforeAll(function(){
     upsellPage.shoppingCartButton.click();
     browser.waitForAngular();
     expect(passengerPage.firstName0.isPresent()).toBe(true,'First Name box not present. Is page still loading?');
-    
+
   });
 
   it('enter first name', function(){
@@ -175,6 +175,9 @@ beforeAll(function(){
 
   it('enter gender', function(){
     console.log("thirteenth test");
+    //List<WebElement> maleDropDown = driver.findElements(by.binding('booking.passenger.male'));
+    //List<WebElement> femaleDropDown = driver.findElements(by.binding('booking.passenger.female'));
+
     passengerPage.gender0.click();
     passengerPage.genderDropDownMale.click();
   passengerPage.gender0.getAttribute('value').then(function(attribute){
@@ -221,7 +224,7 @@ beforeAll(function(){
       expect(clickable).toBe(true,'Button to go to Payment is not clickable or visible!');
     });
 
-    
+
   });
 
   it('click shopping cart button', function(){
@@ -252,7 +255,7 @@ beforeAll(function(){
   });
   });
 
-  
+
 /*
   if(paymentPage.cityForm.isPresent(true)){
     it('enter city', function(){
@@ -292,12 +295,12 @@ beforeAll(function(){
     expect(paymentPage.insuranceRadioOptions.isPresent()).toBe(true,'Insurance options not visible!');
 
 
-    
+
   });
 
   it('accept terms', function(){
     console.log('twentyfifth test');
-    
+
     paymentPage.checkBox.click();
     paymentPage.inputAcceptCheckBox.getAttribute('checked').then(function(attribute){
       expect(attribute).toBe('true','Checkbox still not checked after click!');
@@ -317,4 +320,3 @@ beforeAll(function(){
 
   });
 });
-
