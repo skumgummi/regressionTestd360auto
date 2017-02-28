@@ -176,6 +176,7 @@ describe('cms stream', function(){
   it('click Register missing points', function(){
     console.log('26');
     clickHamburger();
+    browser.executeScript("arguments[0].scrollIntoView();", homePage.registerMissingPoints.getWebElement());
     homePage.registerMissingPoints.click();
   });
 
