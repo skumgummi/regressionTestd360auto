@@ -45,10 +45,16 @@ beforeAll(function(){
 
   it('select amount of passengers',  function(){
     console.log("first test");
+    
     homePage.openTravelers.click();
     //homePage.addAdult.click();
-    browser.getCurrentUrl().then(function(url) {
+    /*browser.getCurrentUrl().then(function(url) {
       expect(url.includes('adt=1')).toBe(true, 'URL doesnt contain "adt=1" ');
+    });*/
+
+    //this checks the input field rather than the URL
+    element(by.css('input[ng-show="travellersFlag"]')).getAttribute('value').then(function(attribute){
+      expect(attribute).toEqual('1 Adult','Chosen number of travellers not correct for this (hardcoded) test.');
     });
   });
 
@@ -244,7 +250,7 @@ beforeAll(function(){
     console.log("eighteenth test");
     paymentPage.visa();
     //additional expects done in above function in paymentPage.js
-    browser.sleep(5000);
+    //browser.sleep(5000);
     //expect(paymentPage.reviewButton);
     var EC = protractor.ExpectedConditions;
   browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 5000).then(function(clickable){
@@ -311,6 +317,8 @@ beforeAll(function(){
   it('Pay', function(){
     console.log('twentysixth test');
     paymentPage.payNowButton.click();
+    //kan nog ersätta denna sleep med en browser.wait med expectedconditions.
+    //jag tror den bara väntar så länge den behöver då, tills det väntade villkoret är sant
     browser.sleep(45000);
     browser.waitForAngular();
     expect(paymentPage.reservationNumber.isPresent()).toBe(true,'Reservation number not displayed!');
