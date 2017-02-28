@@ -6,18 +6,16 @@ describe('cms stream', function(){
     browser.get('https://d360u.flysas.com/se-en');
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
     browser.waitForAngular();
+
+    if(homePage.cookieButton.isPresent()){
+      console.log('accepting cookies');
+      homePage.cookieButton.click();
+    }
   });
 
   clickHamburger = function(){
     homePage.hamburgerMenu.click();
   }
-
-  it('Accept cookies', function(){
-    //if(homePage.cookieButton.isPresent())
-    console.log('accepting cookies');
-    homePage.cookieButton.click();
-    //expect(homePage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
-  });
 
   it('click Travel classes', function(){
     console.log('1');
