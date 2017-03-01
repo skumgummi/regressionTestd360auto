@@ -91,9 +91,9 @@ beforeAll(function(){
   it('select dates', function(){
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound();
+    homePage.setOutbound("1");
     browser.waitForAngular();
-    homePage.setInbound();
+    homePage.setInbound("5");
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);

@@ -14,7 +14,7 @@ exports.config = {
     defaultTimeoutInterval: 120000
   },
   seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: [/*'bookStreamProof.js', 'cmsStream.js', */'bookingStream2.js'],
+  specs: [/*'bookStreamProof.js', 'cmsStream.js', */'bookingStream3.js'],
 
   onPrepare: function() {
 
