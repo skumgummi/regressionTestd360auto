@@ -1,3 +1,5 @@
+
+
 describe ('booking stream', function(){
 
 var homePage = require('../pages/home_page.js');
@@ -183,23 +185,10 @@ beforeAll(function(){
     console.log("thirteenth test");
 
     passengerPage.gender0.click();
-    parent0 = element(by.css('#cardDetails0'));
-    
-    var child0 = element(by.css('#cardDetails0')).element(by.css('div.row')).
-    element(by.id('genderDropdown')).
-    element(by.binding('booking.passenger.male'));
-
-
-    child0.click();
+    passengerPage.gender0DropDownMale.click();
     
     passengerPage.gender1.click();
-    parent1 = element(by.css('#cardDetails1'));
-    
-    var child1 = parent1.element(by.css('div.row')).
-    element(by.id('genderDropdown')).
-    element(by.binding('booking.passenger.male'));
-    
-    child1.click();
+    passengerPage.gender1DropDownMale.click();
   });
 
   it('enter email', function(){
@@ -250,9 +239,9 @@ beforeAll(function(){
     //browser.sleep(5000);
     //expect(paymentPage.reviewButton);
     var EC = protractor.ExpectedConditions;
-  browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 5000).then(function(clickable){
-    expect(clickable).toBe(true,'Button to review payment is not clickable or visible!');
-  });
+    browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 5000).then(function(clickable){
+      expect(clickable).toBe(true,'Button to review payment is not clickable or visible!');
+    });
   });
 
 
