@@ -21,6 +21,8 @@ var homePage = function(){
   this.loginButton = element(by.css('.btn.btn-blue.login-button-blue.mt0'));
   this.tripSelect = element(by.id('tripSelect'));
   this.oneWay = element(by.xpath('//*[@id="tripSelect"]/ul/li[1]/a'));
+  this.monthSelect = element(by.id('monthSelect'));
+  this.selectAugust = element(by.xpath('//*[@id="dateView"]/div[1]/div[2]/div[1]/div/div[1]/div[1]/div/ul/li[6]/a'));
 
   this.hamburgerMenu = element(by.id('maincontent')); //Menu in the top left (CMS)
   this.travelClasses = element(by.css('a[title="Travel classes"]'));

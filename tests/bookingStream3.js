@@ -16,6 +16,7 @@ var flyer0 = {
     email: 'McNameface123@emailplace.com',
     phone:'701111111',
     countryCode: '46',
+    dob: '1983-05-07',
     getFirstName: function () {
         return this.firstName;
     },
@@ -33,23 +34,12 @@ var flyer0 = {
     },
     getCountryCode: function () {
       return this.countryCode;
-    }
-}
-
-var flyer1 = {
-    firstName: "Name Jr.",
-    lastName: "McNameface",
-    dob: '2014-01-01',
-    getFirstName: function () {
-        return this.firstName;
-    },
-    getLastName: function () {
-        return this.lastName;
     },
     getDob: function () {
       return this.dob;
     }
 }
+
 
 beforeAll(function(){
   console.log("before all running!");
@@ -61,10 +51,8 @@ beforeAll(function(){
   it('select amount of passengers',  function(){
     console.log("first test");
     homePage.openTravelers.click();
-    homePage.addChild.click();
     browser.getCurrentUrl().then(function(url) {
       expect(url.includes('adt=1')).toBe(true, 'URL doesnt contain "adt=1" ');
-      expect(url.includes('chd=1')).toBe(true, 'URL doesnt contain "chd=1" ');
     });
   });
 
@@ -93,7 +81,7 @@ beforeAll(function(){
   it('select dates', function(){
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound("1");
+    homePage.setOutbound("5");
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
@@ -119,16 +107,6 @@ beforeAll(function(){
     console.log("seventh test");
     upsellPage.flight1.click();
     browser.waitForAngular();
-    upsellPage.shoppingCartButton.isPresent().then(function(selectReturn){
-        if(selectReturn){
-          upsellPage.shoppingCartButton.getText().then(function(selectReturn){
-            expect(selectReturn).toEqual('SELECT RETURN', 'shopping cart button is supposed to be "SELECT RETURN"!');
-          });
-        }else {
-          //this will always fail, because this only happens when selectReturn is false.
-          expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
-        }
-      });
   });
 
   it('click shopping cart button', function(){
@@ -150,63 +128,41 @@ beforeAll(function(){
 
   });
 
-  it('enter first name', function(){
+  it('enter first passenger details', function(){
     console.log("eleventh test");
-    browser.executeScript("arguments[0].scrollIntoViewIfNeeded();", passengerPage.firstName1.getWebElement());
+    browser.executeScript("arguments[0].scrollIntoViewIfNeeded();", passengerPage.firstName0.getWebElement());
     passengerPage.firstName0.click();
     passengerPage.firstName0.sendKeys(flyer0.getFirstName());
-    passengerPage.firstName1.click();
-    passengerPage.firstName1.sendKeys(flyer1.getFirstName());
-    passengerPage.dob1.click();
-    passengerPage.dob1.sendKeys(flyer1.getDob());
+    passengerPage.lastName0.click();
+    passengerPage.lastName0.sendKeys(flyer0.getLastName());
+    passengerPage.gender0.click();
+    passengerPage.gender0DropDownFemale.click();
+    passengerPage.email0.click();
+    passengerPage.email0.sendKeys('McNameface123@emailplace.com');
+    passengerPage.phone0.click();
+    passengerPage.phone0.sendKeys(flyer0.getPhone());
+    passengerPage.dob0.click();
+    passengerPage.dob0.sendKeys(flyer0.getDob());
+
     passengerPage.firstName0.getAttribute('value').then(function(attribute){
       expect(attribute).toEqual(flyer0.getFirstName(),'Flyer first name not entered?');
     });
-    passengerPage.firstName1.getAttribute('value').then(function(attribute){
-      expect(attribute).toEqual(flyer1.getFirstName(),'Flyer first name not entered?');
-    });
-  });
-
-  it('enter last name', function(){
-    console.log("twelvth test");
-    passengerPage.lastName0.click();
-    passengerPage.lastName0.sendKeys(flyer0.getLastName());
-    passengerPage.lastName1.click();
-    passengerPage.lastName1.sendKeys(flyer1.getLastName());
     passengerPage.lastName0.getAttribute('value').then(function(attribute){
       expect(attribute).toEqual(flyer0.getLastName(),'Flyer last name not entered?');
     });
-    passengerPage.lastName1.getAttribute('value').then(function(attribute){
-      expect(attribute).toEqual(flyer1.getLastName(),'Flyer last name not entered?');
-    });
-
-  });
-
-  it('enter gender', function(){
-    console.log("thirteenth test");
-    passengerPage.gender0.click();
-    passengerPage.gender0DropDownFemale.click();
     passengerPage.gender0.getAttribute('value').then(function(attribute){
         expect(attribute).toEqual(flyer0.getGender(),'Flyer gender not entered?');
     });
+    passengerPage.email0.getAttribute('value').then(function(attribute){
+        expect(attribute).toEqual(flyer0.getEmail(),'Flyer email not entered?');
+    });
+    passengerPage.phone0.getAttribute('value').then(function(attribute){
+      expect(attribute).toEqual(flyer0.getCountryCode()+flyer0.getPhone(),'Flyer phone not entered?');
+    });
   });
 
-  it('enter email', function(){
-    console.log("fourtheenth test");
-    passengerPage.email0.click();
-    passengerPage.email0.sendKeys('McNameface123@emailplace.com');
-      passengerPage.email0.getAttribute('value').then(function(attribute){
-          expect(attribute).toEqual(flyer0.getEmail(),'Flyer email not entered?');
-      });
-    });
-
-  it('enter phone number', function(){
+  it('Is payment button clickable?', function(){
     console.log("fifteenth test");
-    passengerPage.phone0.click();
-    passengerPage.phone0.sendKeys(flyer0.getPhone());
-      passengerPage.phone0.getAttribute('value').then(function(attribute){
-        expect(attribute).toEqual(flyer0.getCountryCode()+flyer0.getPhone(),'Flyer phone not entered?');
-      });
     var EC = protractor.ExpectedConditions;
     browser.wait(EC.elementToBeClickable(passengerPage.goToPaymentButton), 5000).then(function(clickable){
       expect(clickable).toBe(true,'Button to go to Payment is not clickable or visible!');
@@ -229,7 +185,6 @@ beforeAll(function(){
     browser.waitForAngular();
     ancillariesPage.selectBagsButton.click();
     ancillariesPage.addBaggageOutbound.click();
-    ancillariesPage.addBaggageReturn.click();
     ancillariesPage.bagAddToBooking.click();
     ancillariesPage.shoppingCartButton.click();
     expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
