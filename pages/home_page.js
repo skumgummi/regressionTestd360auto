@@ -5,6 +5,8 @@ var homePage = function(){
   this.openTravelers = element(by.binding('translation["booking.cep.travellers"]'));
   this.openOrigin = element(by.id('select-origin'));
   this.openDestination = element(by.id('select-destination'));
+  this.openReturnFrom = element(by.id('select-ReturnFrom'));
+  this.openReturnTo = element(by.id('select-ReturnTo'));
   this.openDates = element(by.id('datesTab'));
   this.selectOutboundDate = element(by.binding('onwardMonthAndDate'));
   this.selectReturnDate = element(by.binding('returnMonthAndDate'));
@@ -21,6 +23,8 @@ var homePage = function(){
   this.loginButton = element(by.css('.btn.btn-blue.login-button-blue.mt0'));
   this.tripSelect = element(by.id('tripSelect'));
   this.oneWay = element(by.xpath('//*[@id="tripSelect"]/ul/li[1]/a'));
+  this.returnTrip = element(by.xpath('//*[@id="tripSelect"]/ul/li[2]/a'));
+  this.returnFromAnotherCity = element(by.xpath('//*[@id="tripSelect"]/ul/li[3]/a'));
   this.monthSelect = element(by.id('monthSelect'));
   this.selectAugust = element(by.xpath('//*[@id="dateView"]/div[1]/div[2]/div[1]/div/div[1]/div[1]/div/ul/li[6]/a'));
 
