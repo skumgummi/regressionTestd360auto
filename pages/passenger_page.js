@@ -1,3 +1,4 @@
+
 var passengerPage = function(){
   this.firstName0 = element(by.id('firstName0'));
   this.lastName0 = element(by.id('lastName0'));
@@ -15,7 +16,26 @@ var passengerPage = function(){
   this.lastName6 = element(by.id('lastName6'));
   this.firstName7 = element(by.id('firstName7'));
   this.lastName7 = element(by.id('lastName7'));
-
+  this.firstName8 = element(by.id('firstName8'));
+  this.lastName8 = element(by.id('lastName8'));
+  this.firstName9 = element(by.id('firstName9'));
+  this.lastName9 = element(by.id('lastName9'));
+  this.firstName10 = element(by.id('firstName10'));
+  this.lastName10 = element(by.id('lastName10'));
+  this.firstName11 = element(by.id('firstName11'));
+  this.lastName11 = element(by.id('lastName11'));
+  this.firstName12 = element(by.id('firstName12'));
+  this.lastName12 = element(by.id('lastName12'));
+  this.firstName13 = element(by.id('firstName13'));
+  this.lastName13 = element(by.id('lastName13'));
+  this.firstName14 = element(by.id('firstName14'));
+  this.lastName14 = element(by.id('lastName14'));
+  this.firstName15 = element(by.id('firstName15'));
+  this.lastName15 = element(by.id('lastName15'));
+  this.firstName16 = element(by.id('firstName16'));
+  this.lastName16 = element(by.id('lastName16'));
+  this.firstName17 = element(by.id('firstName17'));
+  this.lastName17 = element(by.id('lastName17'));
 
   this.gender0 = element(by.id('genderr0'));
   this.gender1 = element(by.id('genderr1'));
@@ -25,6 +45,17 @@ var passengerPage = function(){
   this.gender5 = element(by.id('genderr5'));
   this.gender6 = element(by.id('genderr6'));
   this.gender7 = element(by.id('genderr7'));
+  this.gender8 = element(by.id('genderr8'));
+  this.gender9 = element(by.id('genderr9'));
+  this.gender10 = element(by.id('genderr10'));
+  this.gender11 = element(by.id('genderr11'));
+  this.gender12 = element(by.id('genderr12'));
+  this.gender13 = element(by.id('genderr13'));
+  this.gender14 = element(by.id('genderr14'));
+  this.gender15 = element(by.id('genderr15'));
+  this.gender16 = element(by.id('genderr16'));
+  this.gender17 = element(by.id('genderr17'));
+
 
   this.dob0 = element(by.id('dateOfBirth0'));
   this.dob1 = element(by.id('dateOfBirth1'));
@@ -34,8 +65,18 @@ var passengerPage = function(){
   this.dob5 = element(by.id('dateOfBirth5'));
   this.dob6 = element(by.id('dateOfBirth6'));
   this.dob7 = element(by.id('dateOfBirth7'));
+  this.dob8 = element(by.id('dateOfBirth8'));
+  this.dob9 = element(by.id('dateOfBirth9'));
+  this.dob10 = element(by.id('dateOfBirth10'));
+  this.dob11 = element(by.id('dateOfBirth11'));
+  this.dob12 = element(by.id('dateOfBirth12'));
+  this.dob13 = element(by.id('dateOfBirth13'));
+  this.dob14 = element(by.id('dateOfBirth14'));
+  this.dob15 = element(by.id('dateOfBirth15'));
+  this.dob16 = element(by.id('dateOfBirth16'));
+  this.dob17 = element(by.id('dateOfBirth17'));
 
-  
+
   this.gender0DropDownMale =  element(by.css('#cardDetails0')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
   this.gender0DropDownFemale =  element(by.css('#cardDetails0')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
   this.gender1DropDownMale =  element(by.css('#cardDetails1')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
@@ -52,10 +93,26 @@ var passengerPage = function(){
   this.gender6DropDownFemale =  element(by.css('#cardDetails6')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
   this.gender7DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
   this.gender7DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
-
-
-
-
+  this.gender8DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender8DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender9DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender9DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender10DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender10DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender11DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender11DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender12DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender12DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender13DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender13DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender14DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender14DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender15DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender15DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender16DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender16DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
+  this.gender17DropDownMale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.male'));
+  this.gender17DropDownFemale =  element(by.css('#cardDetails7')).element(by.css('div.row')).element(by.id('genderDropdown')).element(by.binding('booking.passenger.female'));
 
 
 
