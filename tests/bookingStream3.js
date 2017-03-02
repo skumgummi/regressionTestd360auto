@@ -44,7 +44,7 @@ var flyer0 = {
 beforeAll(function(){
   console.log("before all running!");
   browser.get('https://d360u.flysas.com/se-en');
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 500000;
   browser.waitForAngular();
 });
 
@@ -107,16 +107,6 @@ beforeAll(function(){
     console.log("seventh test");
     upsellPage.flight1.click();
     browser.waitForAngular();
-  });
-
-  it('click shopping cart button', function(){
-    console.log("eighth test");
-    upsellPage.shoppingCartButton.click();
-    browser.waitForAngular();
-    //skippar expect för denna tills vidare
-    //kräver någon sorts funktion som kollar om ett element är i viewporten eller inte
-    //bör gå att göra meden executescript
-    console.log("expect not yet implemented");
   });
 
 
@@ -236,6 +226,7 @@ beforeAll(function(){
 
   it('review purchase', function(){
     console.log('twentyfourth test');
+    browser.sleep(45000);
     paymentPage.reviewButton.click();
     expect(paymentPage.paxDetails.isPresent()).toBe(true,'Pax details arent visible!');
     expect(paymentPage.interTotalPrize.isPresent()).toBe(true,'Total price not visible!');
