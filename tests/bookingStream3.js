@@ -1,4 +1,4 @@
-describe ('booking stream', function(){
+describe ('booking stream, 1 Adult, ARN-SFO one-way, 1 extra bag', function(){
 
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
@@ -13,7 +13,7 @@ var flyer0 = {
     firstName: "Namette",
     lastName: "McNameface",
     gender: 'Female',
-    email: 'McNameface123@emailplace.com',
+    email: 'niklas.ekstrand@sogeti.se',
     phone:'701111111',
     countryCode: '46',
     dob: '1983-05-07',

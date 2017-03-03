@@ -1,6 +1,6 @@
 
 
-describe ('booking stream', function(){
+describe ('booking stream, 2 adults, ARN-LHR return', function(){
 
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
@@ -15,7 +15,7 @@ var flyer0 = {
     firstName: "Name",
     lastName: "McNameface",
     gender: 'Male',
-    email: 'McNameface123@emailplace.com',
+    email: 'niklas.ekstrand@sogeti.se',
     phone:'701111111',
     countryCode: '46',
     getFirstName: function () {
@@ -47,7 +47,7 @@ beforeAll(function(){
 
   it('select amount of passengers',  function(){
     console.log("first test");
-    
+
     homePage.openTravelers.click();
     homePage.addAdult.click();
     /*browser.getCurrentUrl().then(function(url) {
@@ -75,6 +75,8 @@ beforeAll(function(){
     homePage.openDestination.click();
     homePage.openDestination.sendKeys('LHR');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
+    homePage.tripSelect.click();
+    homePage.returnTrip.click();
     browser.getCurrentUrl().then(function(url) {
       expect(url.includes('dest=LHR')).toBe(true,'URL doesnt contain "dest=LHR" ');
     });
@@ -186,7 +188,7 @@ beforeAll(function(){
 
     passengerPage.gender0.click();
     passengerPage.gender0DropDownMale.click();
-    
+
     passengerPage.gender1.click();
     passengerPage.gender1DropDownMale.click();
   });
@@ -274,7 +276,7 @@ beforeAll(function(){
       paymentPage.postalcodeForm.sendKeys('11111');
     });
   }*/
-  
+
 
   it('review purchase', function(){
     console.log('twentyfourth test');

@@ -1,6 +1,6 @@
 
 
-describe ('booking stream', function(){
+describe ('booking stream, 2 adults, ARN-LHR DUB-ARN return from another city ', function(){
 
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
@@ -15,7 +15,7 @@ var flyer0 = {
     firstName: "Name",
     lastName: "McNameface",
     gender: 'Male',
-    email: 'McNameface123@emailplace.com',
+    email: 'niklas.ekstrand@sogeti.se',
     phone:'701111111',
     countryCode: '46',
     getFirstName: function () {

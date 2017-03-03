@@ -1,4 +1,4 @@
-describe ('booking stream', function(){
+describe ('booking stream,  1 adult, 1 Infant, ARN-CDG Return', function(){
 
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
@@ -13,7 +13,7 @@ var flyer0 = {
     firstName: "Name",
     lastName: "McNameface",
     gender: 'Male',
-    email: 'McNameface123@emailplace.com',
+    email: 'niklas.ekstrand@sogeti.se',
     phone:'701111111',
     countryCode: '46',
     getFirstName: function () {
@@ -83,6 +83,8 @@ beforeAll(function(){
     homePage.openDestination.click();
     homePage.openDestination.sendKeys('CDG');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
+    homePage.tripSelect.click();
+    homePage.returnTrip.click();
     browser.getCurrentUrl().then(function(url) {
       expect(url.includes('dest=CDG')).toBe(true,'URL doesnt contain "dest=CDG" ');
     });

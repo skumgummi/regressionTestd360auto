@@ -1,4 +1,4 @@
-describe ('booking stream', function(){
+describe ('booking stream, 1 adult, ARN-LHR return', function(){
 
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
@@ -45,7 +45,7 @@ beforeAll(function(){
 
   it('select amount of passengers',  function(){
     console.log("first test");
-    
+
     homePage.openTravelers.click();
     //homePage.addAdult.click();
     /*browser.getCurrentUrl().then(function(url) {
@@ -81,9 +81,9 @@ beforeAll(function(){
   it('select dates', function(){
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound();
+    homePage.setOutbound("5");
     browser.waitForAngular();
-    homePage.setInbound();
+    homePage.setInbound("15");
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
@@ -185,7 +185,7 @@ beforeAll(function(){
     //List<WebElement> femaleDropDown = driver.findElements(by.binding('booking.passenger.female'));
 
     passengerPage.gender0.click();
-    passengerPage.genderDropDownMale.click();
+    passengerPage.gender0DropDownMale.click();
   passengerPage.gender0.getAttribute('value').then(function(attribute){
     //är gender någonsin relevant att testa? Kanske kan vara värt att fråga UAT-teamet.
       expect(attribute).toEqual(flyer0.getGender(),'Flyer gender not entered?');
@@ -211,7 +211,7 @@ beforeAll(function(){
   it('enter email', function(){
     console.log("fourtheenth test");
     passengerPage.email0.click();
-    passengerPage.email0.sendKeys('McNameface123@emailplace.com');
+    passengerPage.email0.sendKeys('niklas.ekstrand@sogeti.com');
       passengerPage.email0.getAttribute('value').then(function(attribute){
         //är gender någonsin relevant att testa? Kanske kan vara värt att fråga UAT-teamet.
           expect(attribute).toEqual(flyer0.getEmail(),'Flyer email not entered?');
@@ -322,7 +322,7 @@ beforeAll(function(){
     paymentPage.payNowButton.click();
     //kan nog ersätta denna sleep med en browser.wait med expectedconditions.
     //jag tror den bara väntar så länge den behöver då, tills det väntade villkoret är sant
-    browser.sleep(45000);
+    browser.sleep(10000);
     browser.waitForAngular();
     expect(paymentPage.reservationNumber.isPresent()).toBe(true,'Reservation number not displayed!');
 
