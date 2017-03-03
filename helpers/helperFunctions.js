@@ -51,5 +51,42 @@ module.exports = {
 			string += letters.charAt(Math.floor(Math.random() * letters.length));
 		}
 		return string;
-	}
+	},
+
+  /*
+  getRandomAirportScandinavia: function(){
+    var airportArray = ["ARN", "OSL", "CPH"];
+    var airport = "";
+    var airport = airportArray[parseInt(Math.random() * (2 - 0) + 0)];
+    return airport;
+  },
+
+  getRandomAirportEU: function(){
+    var airportArray = ["VIE", "BRU", "HEL", "KEF", "CDG", "TXL", "FRA", "HAM", "DUB", "AMS", "WAW", "GVA", "LHR", "ABZ"];
+    var airport = "";
+    var airport = airportArray[parseInt(Math.random() * (13 - 0) + 0)];
+    return airport;
+  },
+
+  getRandomAirportOther: function(){
+    var airportArray = ["EWR", "BOS", "IAD", "MIA", "ORD", "LAX", "SFO", "PEK", "HKG", "PVG", "NRT"];
+    var airport = "";
+    var airport = airportArray[parseInt(Math.random() * (10 - 0) + 0)];
+    return airport;
+  }
+  */
+  getRandomAirportScandinavia: function(){
+    var airportArray = ["ARN", "OSL", "CPH"];
+    return airportArray[Math.floor(Math.random() * airportArray.length)];
+  },
+
+  getRandomAirportEU: function(){
+    var airportArray = ["VIE", "BRU", "HEL", "KEF", "CDG", "TXL", "FRA", "HAM", "DUB", "AMS", "WAW", "GVA", "LHR", "ABZ"];
+    return airportArray[Math.floor(Math.random() * airportArray.length)];
+  },
+
+  getRandomAirportOther: function(){
+    var airportArray = ["EWR", "BOS", "IAD", "MIA", "ORD", "LAX", "SFO", "PEK", "HKG", "PVG", "NRT"];
+    return airportArray[Math.floor(Math.random() * airportArray.length)];
+  }
 };
