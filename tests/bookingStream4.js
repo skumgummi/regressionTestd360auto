@@ -45,6 +45,12 @@ beforeAll(function(){
   browser.waitForAngular();
 });
 
+afterAll(function() {
+  browser.driver.manage().deleteAllCookies();
+  browser.executeScript('window.sessionStorage.clear();');
+  browser.executeScript('window.localStorage.clear();');
+});
+
   it('select amount of passengers',  function(){
     console.log("first test");
 
@@ -96,7 +102,7 @@ beforeAll(function(){
     homePage.openDates.click();
     homePage.setOutbound('5');
     browser.waitForAngular();
-    homePage.setInbound('22');
+    homePage.setInbound('15');
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
@@ -205,7 +211,7 @@ beforeAll(function(){
   it('enter email', function(){
     console.log("fourtheenth test");
     passengerPage.email0.click();
-    passengerPage.email0.sendKeys('McNameface123@emailplace.com');
+    passengerPage.email0.sendKeys('niklas.ekstrand@sogeti.com');
       passengerPage.email0.getAttribute('value').then(function(attribute){
         //är gender någonsin relevant att testa? Kanske kan vara värt att fråga UAT-teamet.
           expect(attribute).toEqual(flyer0.getEmail(),'Flyer email not entered?');

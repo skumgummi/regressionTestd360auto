@@ -14,6 +14,12 @@ beforeAll(function(){
   browser.waitForAngular();
 });
 
+afterAll(function() {
+  browser.driver.manage().deleteAllCookies();
+  browser.executeScript('window.sessionStorage.clear();');
+  browser.executeScript('window.localStorage.clear();');
+});
+
 it('Login user', function(){
   homePage.loginLink.click();
   homePage.emailField.click();

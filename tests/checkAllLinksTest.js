@@ -1,13 +1,19 @@
 describe('testing all links on a given page', function(){
-	
+
 	var homePage = require('../pages/home_page.js');
-	
+
 
 	beforeAll(function(){
 		console.log("before all running!");
 		browser.get('https://d360u.flysas.com/se-en');
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 250000;
 		browser.waitForAngular();
+	});
+
+	afterAll(function() {
+	  browser.driver.manage().deleteAllCookies();
+	  browser.executeScript('window.sessionStorage.clear();');
+	  browser.executeScript('window.localStorage.clear();');
 	});
 	clickHamburger = function(){
     	homePage.hamburgerMenu.click();
@@ -17,7 +23,7 @@ describe('testing all links on a given page', function(){
 
 		/*var allLinks = browser.findElements(by.css('a')).then(function(links){
 
-		});	*/	
+		});	*/
 		/*
 		browser.findElements(by.css('a')).then(function(links){
 			console.log('elements should be found now');
@@ -32,15 +38,15 @@ describe('testing all links on a given page', function(){
 		        link.getAttribute("href").then(function (href) {
 		        	browser.get(href);
 		        });
-		        
+
 		        //console.log(browser.getCurrentUrl());
 		        expect(browser.getCurrentUrl()).not.toContain('/Error/');
 
 		    });
 		});*/
-		
 
-		
+
+
 		$$('a').map(function(link) {
 		    return link.getAttribute("href");/*.then(function (href) {
 		    	//this replace function was used specifically for a certain user
@@ -53,14 +59,14 @@ describe('testing all links on a given page', function(){
 
 		        console.log(jasmine.DEFAULT_TIMEOUT_INTERVAL);
 				var urls = new Array();
-				
+
 
 				var url = '';
 				url += link;
 		        //link.getAttribute("href").then(function (href) {
 		        if(url.includes('d360u')){
 
-		        	
+
 		        	browser.get(link).then(function(){
 					console.log('****************');
 					console.log("This link will be checked");
@@ -70,14 +76,14 @@ describe('testing all links on a given page', function(){
 					console.log("Checked the link below");
 					console.log(link+" <---------------------");
 		        	});
-		        	
+
 		        }
-		        //add an else for those that are not checked? 
+		        //add an else for those that are not checked?
 		        //Maybe to look at later and see if maybe we are missing some links to check
 		        //});
-		        
+
 		        //console.log(browser.getCurrentUrl());
-		        
+
 
 
 		        /*browser.get(link);
@@ -86,7 +92,7 @@ describe('testing all links on a given page', function(){
 				*/
 		    });
 		});
-		
+
 	});
 
 

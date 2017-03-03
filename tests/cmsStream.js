@@ -13,6 +13,12 @@ describe('cms stream', function(){
     }
   });
 
+  afterAll(function() {
+    browser.driver.manage().deleteAllCookies();
+    browser.executeScript('window.sessionStorage.clear();');
+    browser.executeScript('window.localStorage.clear();');
+  });
+
   clickHamburger = function(){
     homePage.hamburgerMenu.click();
   }

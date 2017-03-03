@@ -13,7 +13,7 @@ var flyer0 = {
     firstName: "Name",
     lastName: "McNameface",
     gender: 'Male',
-    email: 'McNameface123@emailplace.com',
+    email: 'niklas.ekstrand@sogeti.com',
     phone:'701111111',
     countryCode: '46',
     getFirstName: function () {
@@ -41,6 +41,12 @@ beforeAll(function(){
   browser.get('https://d360u.flysas.com/se-en');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
   browser.waitForAngular();
+});
+
+afterAll(function() {
+  browser.driver.manage().deleteAllCookies();
+  browser.executeScript('window.sessionStorage.clear();');
+  browser.executeScript('window.localStorage.clear();');
 });
 
   it('select amount of passengers',  function(){

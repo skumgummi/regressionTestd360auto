@@ -58,6 +58,12 @@ beforeAll(function(){
   browser.waitForAngular();
 });
 
+afterAll(function() {
+  browser.driver.manage().deleteAllCookies();
+  browser.executeScript('window.sessionStorage.clear();');
+  browser.executeScript('window.localStorage.clear();');
+});
+
   it('select amount of passengers',  function(){
     console.log("first test");
     homePage.openTravelers.click();
@@ -213,7 +219,7 @@ beforeAll(function(){
   it('enter email', function(){
     console.log("fourtheenth test");
     passengerPage.email0.click();
-    passengerPage.email0.sendKeys('McNameface123@emailplace.com');
+    passengerPage.email0.sendKeys('niklas.ekstrand@sogeti.com');
       passengerPage.email0.getAttribute('value').then(function(attribute){
           expect(attribute).toEqual(flyer0.getEmail(),'Flyer email not entered?');
       });
