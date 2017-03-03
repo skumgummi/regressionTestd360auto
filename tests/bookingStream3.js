@@ -5,13 +5,14 @@ var upsellPage = require('../pages/upsell_page.js');
 var passengerPage = require('../pages/passenger_page.js');
 var ancillariesPage = require('../pages/ancillaries_page.js');
 var paymentPage = require('../pages/payment_page.js');
+var helperFunctions = require('../helpers/helperFunctions.js');
 
 var hotkeys = require('protractor-hotkeys');
 
 //flyerobject, because it felt right
 var flyer0 = {
-    firstName: "Namette",
-    lastName: "McNameface",
+    firstName: helperFunctions.getRandomString(helperFunctions.getRandomNum(2, 32)),
+    lastName: helperFunctions.getRandomString(helperFunctions.getRandomNum(2, 40)),
     gender: 'Female',
     email: 'niklas.ekstrand@sogeti.se',
     phone:'701111111',

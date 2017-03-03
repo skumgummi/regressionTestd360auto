@@ -7,13 +7,14 @@ var upsellPage = require('../pages/upsell_page.js');
 var passengerPage = require('../pages/passenger_page.js');
 var ancillariesPage = require('../pages/ancillaries_page.js');
 var paymentPage = require('../pages/payment_page.js');
+var helperFunctions = require('../helpers/helperFunctions.js');
 
 var hotkeys = require('protractor-hotkeys');
 
 //flyerobject, because it felt right
 var flyer0 = {
-    firstName: "Name",
-    lastName: "McNameface",
+    firstName: helperFunctions.getRandomString(helperFunctions.getRandomNum(2, 32)),
+    lastName: helperFunctions.getRandomString(helperFunctions.getRandomNum(2, 40)),
     gender: 'Male',
     email: 'niklas.ekstrand@sogeti.se',
     phone:'701111111',
@@ -35,6 +36,21 @@ var flyer0 = {
     },
     getCountryCode: function () {
       return this.countryCode;
+    }
+}
+
+var flyer1 = {
+    firstName: helperFunctions.getRandomString(helperFunctions.getRandomNum(2, 32)),
+    lastName: helperFunctions.getRandomString(helperFunctions.getRandomNum(2, 40)),
+    gender: 'Female',
+    getFirstName: function () {
+        return this.firstName;
+    },
+    getLastName: function () {
+        return this.lastName;
+    },
+    getGender: function () {
+      return this.gender;
     }
 }
 
@@ -184,7 +200,7 @@ afterAll(function() {
       expect(attribute).toEqual(flyer0.getFirstName(),'Flyer first name not entered?');
     });
     passengerPage.firstName1.click();
-    passengerPage.firstName1.sendKeys('Namette');
+    passengerPage.firstName1.sendKeys(flyer1.getFirstName());
   });
 
   it('enter last name', function(){
@@ -195,7 +211,7 @@ afterAll(function() {
       expect(attribute).toEqual(flyer0.getLastName(),'Flyer last name not entered?');
     });
     passengerPage.lastName1.click();
-    passengerPage.lastName1.sendKeys('McNameface');
+    passengerPage.lastName1.sendKeys(flyer1.getLastName());
   });
 
   it('enter gender', function(){
@@ -205,7 +221,7 @@ afterAll(function() {
     passengerPage.gender0DropDownMale.click();
 
     passengerPage.gender1.click();
-    passengerPage.gender1DropDownMale.click();
+    passengerPage.gender1DropDownFemale.click();
   });
 
   it('enter email', function(){
