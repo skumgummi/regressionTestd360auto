@@ -63,6 +63,8 @@ var homePage = function(){
   this.moreWaysToTravelSmart = element(by.css('a[title="More ways to travel smart"]'));
   this.news = element(by.css('a[title="News"]'));
 
+  this.travellerFlag = element(by.css('input[ng-show="travellersFlag"]'));
+
   //placeholder dates!
   this.setOutbound = function(date) {
     otbDate = date;
