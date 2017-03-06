@@ -185,10 +185,34 @@ afterAll(function() {
     console.log("seventeenth test");
     browser.waitForAngular();
     ancillariesPage.selectSeatButton.click();
-    ancillariesPage.selectSeat();
-    
-    ancillariesPage.seatAddToBooking.click();
-    ancillariesPage.shoppingCartButton.click();
+    if(ancillariesPage.selectSeat1.isPresent()){
+      ancillariesPage.selectSeat1.click();
+      ancillariesPage.selectSeat();
+    }
+    if(ancillariesPage.selectSeat2.isPresent()){
+      ancillariesPage.selectSeat2.click();
+      ancillariesPage.selectSeat();
+    }
+    if(ancillariesPage.selectSeat3.isPresent()){
+      ancillariesPage.selectSeat3.click();
+      ancillariesPage.selectSeat();
+    }
+    if(ancillariesPage.selectSeat4.isPresent()){
+      ancillariesPage.selectSeat4.click();
+      ancillariesPage.selectSeat();
+    }
+    if(ancillariesPage.selectSeat5.isPresent()){
+      ancillariesPage.selectSeat5.click();
+      ancillariesPage.selectSeat();
+    }
+    if(ancillariesPage.selectSeat6.isPresent()){
+      ancillariesPage.selectSeat6.click();
+      ancillariesPage.selectSeat();
+    }
+    else{
+      ancillariesPage.seatAddToBooking.click();
+      ancillariesPage.shoppingCartButton.click();
+    }
     expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
   });
 

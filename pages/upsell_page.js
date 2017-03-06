@@ -2,24 +2,24 @@ var upsellPage = function(){
   /*
    * Outbound flights
    */
-  this.flight1 = element(by.id('flight1'));
-  this.flight2 = element(by.id('flight2'));
-  this.flight3 = element(by.id('flight3'));
-  this.flight4 = element(by.id('flight4'));
-  this.flight5 = element(by.id('flight5'));
-  this.flight6 = element(by.id('flight6'));
-  this.flight7 = element(by.id('flight7'));
+  this.flight1 = element(by.id('GO1'));
+  this.flight2 = element(by.id('GO2'));
+  this.flight3 = element(by.id('GO3'));
+  this.flight4 = element(by.id('GO4'));
+  this.flight5 = element(by.id('GO5'));
+  this.flight6 = element(by.id('GO6'));
+  this.flight7 = element(by.id('GO7'));
 
   /*
    * Return flights
    */
-  this.returnFlight1 = element(by.id('returnFlight1'));
-  this.returnFlight2 = element(by.id('returnFlight2'));
-  this.returnFlight3 = element(by.id('returnFlight3'));
-  this.returnFlight4 = element(by.id('returnFlight4'));
-  this.returnFlight5 = element(by.id('returnFlight5'));
-  this.returnFlight6 = element(by.id('returnFlight6'));
-  this.returnFlight7 = element(by.id('returnFlight7'));
+  this.returnFlight1 = element(by.id('GOReturn1'));
+  this.returnFlight2 = element(by.id('GOReturn2'));
+  this.returnFlight3 = element(by.id('GOReturn3'));
+  this.returnFlight4 = element(by.id('GOReturn4'));
+  this.returnFlight5 = element(by.id('GOReturn5'));
+  this.returnFlight6 = element(by.id('GOReturn6'));
+  this.returnFlight7 = element(by.id('GOReturn7'));
 
   this.shoppingCartButton = element(by.id('shoppingcrtbtn'));
   this.cookieButton = element(by.id('closeButton'));
