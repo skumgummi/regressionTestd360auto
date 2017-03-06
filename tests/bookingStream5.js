@@ -71,7 +71,7 @@ afterAll(function() {
     homePage.openOrigin.sendKeys(helperFunctions.getRandomAirportScandinavia());
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
     browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('org=ARN' || 'org=OSL' || 'org=CPH')).toBe(true, 'URL doesnt contain correct airport ');
+      expect(url.includes('org=ARN' || 'org=OSL' || 'org=CPH')).toBe(true, 'URL doesnt contain correct origin airport');
     });
   });
 
@@ -83,14 +83,14 @@ afterAll(function() {
     homePage.tripSelect.click();
     homePage.oneWay.click();
     browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('dest=SFO')).toBe(true,'URL doesnt contain "dest=SFO" ');
+      expect(url.includes('dest=EWR' || 'dest=BOS' || 'dest=IAD' || 'dest=MIA' || 'dest=ORD' || 'dest=LAX' || 'dest=SFO' || 'dest=PEK' ||'dest=HKG' || 'dest=PVG' ||'dest=NRT')).toBe(true,'URL doesnt contain correct destination airport');
     });
   });
 
   it('select dates', function(){
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound("5");
+    homePage.setOutbound("11");
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
