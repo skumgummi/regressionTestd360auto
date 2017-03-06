@@ -57,6 +57,23 @@ module.exports = {
 		    browser.executeScript('window.scrollTo(0,'+scrollTarget+');');
 	    });
 	},
+	scrollElementToBeClickable: function (element, i){
+
+		var scrollTarget = 0;
+		var headerHeight = i;
+
+		var elementPosition = element.getLocation().then(function (location) {
+
+	    	scrollTarget = location.y-headerHeight;
+	    	
+	    	if(scrollTarget < 0) {
+	    		console.log('scroll target of '+scrollTarget+' changed to 0');
+	    		scrollTarget = 0;
+	    	}
+
+		    browser.executeScript('window.scrollTo(0,'+scrollTarget+');');
+	    });
+	},
 
 	//returns a random number between the values given to the function
 	getRandomNum: function (min, max){
