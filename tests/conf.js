@@ -6,6 +6,7 @@ date = date.replace(/:/gi, '');
 date = date.replace(/ /gi, '_');
 
 exports.config = {
+  allScriptsTimeout: 30000,
   framework: 'jasmine2',
   capabilities: {
 		'browserName': 'chrome'
