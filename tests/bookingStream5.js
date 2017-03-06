@@ -68,7 +68,8 @@ afterAll(function() {
   it('select origin', function(){
     console.log("second test");
     homePage.openOrigin.click();
-    homePage.openOrigin.sendKeys(helperFunctions.getRandomAirportScandinavia());
+    //homePage.openOrigin.sendKeys(helperFunctions.getRandomAirportScandinavia());
+    homePage.openOrigin.sendKeys('ARN');
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
     browser.getCurrentUrl().then(function(url) {
@@ -79,7 +80,8 @@ afterAll(function() {
   it('select destination', function(){
     console.log("third test");
     homePage.openDestination.click();
-    homePage.openDestination.sendKeys(helperFunctions.getRandomAirportOther());
+    //homePage.openDestination.sendKeys(helperFunctions.getRandomAirportOther());
+    homePage.openDestination.sendKeys('PEK');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
     homePage.tripSelect.click();
@@ -139,7 +141,7 @@ afterAll(function() {
     passengerPage.gender0.click();
     passengerPage.gender0DropDownFemale.click();
     passengerPage.email0.click();
-    passengerPage.email0.sendKeys('niklas.ekstrand@sogeti.com');
+    passengerPage.email0.sendKeys(flyer0.getEmail());
     passengerPage.phone0.click();
     passengerPage.phone0.sendKeys(flyer0.getPhone());
     passengerPage.dob0.click();
@@ -183,10 +185,14 @@ afterAll(function() {
 
   it('add baggage', function(){
     console.log("seventeenth test");
-    browser.waitForAngular();
-    ancillariesPage.selectBagsButton.click();
-    ancillariesPage.addBaggageOutbound.click();
-    ancillariesPage.bagAddToBooking.click();
+    browser.waitForAngular().then(function(){
+      if(ancillariesPage.selectBagsButton === undefined || ancillariesPage.selectBagsButton === null){
+        console.log('does this happen?');
+        ancillariesPage.selectBagsButton.click();
+        ancillariesPage.addBaggageOutbound.click();
+        ancillariesPage.bagAddToBooking.click();
+      }
+    });
     ancillariesPage.shoppingCartButton.click();
     expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
   });

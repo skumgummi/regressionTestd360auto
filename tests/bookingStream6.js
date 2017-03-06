@@ -185,7 +185,7 @@ afterAll(function() {
     console.log("seventeenth test");
     browser.waitForAngular();
     ancillariesPage.selectSeatButton.click();
-    if(ancillariesPage.selectSeat1.isPresent()){
+    if(ancillariesPage.selectSeat1 != null || ancillariesPage.selectSeat1 != undefined){
       ancillariesPage.selectSeat1.click();
       ancillariesPage.selectSeat();
     }
