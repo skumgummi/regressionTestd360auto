@@ -1,4 +1,4 @@
-describe ('booking stream, 1 Adult, random scandinavia - random America/Asia one-way, 1 extra bag', function(){
+describe ('booking stream, 1 Adult, random scandinavia - random Europe one-way, random seat booking', function(){
 
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
@@ -79,13 +79,13 @@ afterAll(function() {
   it('select destination', function(){
     console.log("third test");
     homePage.openDestination.click();
-    homePage.openDestination.sendKeys(helperFunctions.getRandomAirportOther());
+    homePage.openDestination.sendKeys(helperFunctions.getRandomAirportEU());
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
     homePage.tripSelect.click();
     homePage.oneWay.click();
     browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('=EWR' || '=BOS' || '=IAD' || '=MIA' || '=ORD' || '=LAX' || '=SFO' || '=PEK' ||'=HKG' || '=PVG' ||'=NRT')).toBe(true,'URL doesnt contain correct destination airport');
+      expect(url.includes('dest=')).toBe(true,'URL doesnt contain correct destination airport');
     });
   });
 
@@ -181,12 +181,13 @@ afterAll(function() {
     });
   });
 
-  it('add baggage', function(){
+  it('select seat', function(){
     console.log("seventeenth test");
     browser.waitForAngular();
-    ancillariesPage.selectBagsButton.click();
-    ancillariesPage.addBaggageOutbound.click();
-    ancillariesPage.bagAddToBooking.click();
+    ancillariesPage.selectSeatButton.click();
+    ancillariesPage.selectSeat();
+    
+    ancillariesPage.seatAddToBooking.click();
     ancillariesPage.shoppingCartButton.click();
     expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
   });
@@ -237,7 +238,7 @@ afterAll(function() {
 
   it('review purchase', function(){
     console.log('twentyfourth test');
-    browser.sleep(10000);
+    browser.sleep(20000);
     paymentPage.reviewButton.click();
     expect(paymentPage.paxDetails.isPresent()).toBe(true,'Pax details arent visible!');
     expect(paymentPage.interTotalPrize.isPresent()).toBe(true,'Total price not visible!');

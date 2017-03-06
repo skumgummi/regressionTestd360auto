@@ -1,9 +1,19 @@
 var ancillariesPage = function(){
+
+  var helperFunctions = require('../helpers/helperFunctions.js');
+
   this.shoppingCartButton = element(by.buttonText('CONTINUE'));
 
+  this.airplaneType = element(by.xpath('//*[@id="segment-container"]/div[5]/ng-include/div/div/div/div/div/div[2]/div/div/div[1]/p/b'));
+
   this.selectSeatButton = element(by.css('img[src="images/seat-img.jpg"]'));
-  this.selectSeatOutbound = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[1]/a'));
-  this.selectSeatReturn = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[2]/a'));
+  this.selectSeat1 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[1]/a'));
+  this.selectSeat2 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[2]/a'));
+  this.selectSeat3 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[3]/a'));
+  this.selectSeat4 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[4]/a'));
+  this.selectSeat5 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[5]/a'));
+  this.selectSeat6 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[6]/a'));
+  this.seatAddToBooking = element(by.xpath('//*[@id="cep-widget"]/div/div[1]/div[1]/div/div[1]/div[3]/button'));
 
   this.selectBagsButton = element(by.css('img[src="images/bag-img.jpg"]'));
   this.addBaggageOutbound = element(by.id('add_0_0'));
@@ -22,6 +32,76 @@ var ancillariesPage = function(){
   this.mealDropDownOption2 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[3]'));
   this.mealDropDownOption3 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[4]'));
   this.mealDropDownOption4 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[5]'));
+
+
+
+  this.selectSeat = function(){
+    var airplane = "";
+    browser.sleep(2000);
+    element(by.xpath('//*[@id="segment-container"]/div[5]/ng-include/div/div/div/div/div/div[2]/div/div/div[1]/p/b')).getText().then(function(text){
+      airplane = text;
+      console.log('0 Airplane:' + airplane);
+    }).then(function(){
+
+      selectSeat737800go = function(){
+        var rowNum = helperFunctions.getRandomNum(4, 19);
+        var seatNum = helperFunctions.getRandomNum(1, 6);
+        helperFunctions.scrollElementToBeClickable(element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')));
+        element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')).click();
+      };
+
+
+      selectSeat737700go = function(){
+        var rowNum = helperFunctions.getRandomNum(2, 17);
+        var seatNum = helperFunctions.getRandomNum(1, 6);
+        helperFunctions.scrollElementToBeClickable(element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')));
+        element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')).click();
+      };
+
+      selectSeat737600go = function(){
+        var rowNum = helperFunctions.getRandomNum(2, 13);
+        var seatNum = helperFunctions.getRandomNum(1, 6);
+        helperFunctions.scrollElementToBeClickable(element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')));
+        element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')).click();
+      };
+
+      selectSeatA319go = function(){
+        var rowNum = helperFunctions.getRandomNum(2, 17);
+        var seatNum = helperFunctions.getRandomNum(1, 6);
+        helperFunctions.scrollElementToBeClickable(element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')));
+        element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')).click();
+      };
+
+    if(airplane == "Boeing 737-600"){
+      console.log("Selecting seat in Boeing 737-600");
+      console.log('1 Airplane:' + airplane);
+      selectSeat737600go();
+    }
+    else if(airplane == "Boeing 737-700"){
+      console.log("Selecting seat in Boeing 737-700");
+      console.log('2 Airplane:' + airplane);
+      selectSeat737700go();
+    }
+    else if(airplane == "Boeing 737-800"){
+      console.log("Selecting seat in Boeing 737-800");
+      console.log('3 Airplane:' + airplane);
+      selectSeat737800go();
+    }
+    else if(airplane == "Airbus A319"){
+      console.log("Selecting seat in Airbus a319");
+      console.log('4 Airplane:' + airplane);
+      selectSeatA319go();
+    }
+    else{
+      console.log("Selecting seat in unknown airplane");
+      console.log('5 Airplane:' + airplane);
+      selectSeat737600go();
+    }
+  });
+
+  }
+
+
 
   //Got stuck on the buttons used to switch between outbound and return flight, no unique identifiers? trying xpath
 

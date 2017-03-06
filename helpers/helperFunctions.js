@@ -13,7 +13,7 @@ module.exports = {
 		var elementPosition = element.getLocation().then(function (location) {
 
 	    	scrollTarget = location.y-headerHeight;
-	    	
+
 	    	if(scrollTarget < 0) {
 	    		console.log('scroll target of '+scrollTarget+' changed to 0');
 	    		scrollTarget = 0;
@@ -66,7 +66,7 @@ module.exports = {
   },
 
   getRandomAirportEU: function(){
-    var airportArray = ["VIE", "BRU", "HEL", "KEF", "CDG", "TXL", "FRA", "HAM", "DUB", "AMS", "WAW", "GVA", "LHR", "ABZ"];
+    var airportArray = ["VIE", "BRU", "HEL", "KEF", "CDG", "TXL", "FRA", "HAM", "DUB", "AMS", "WAW", "GVA", "LHR", "ABZ", "LPA", "ATH", "MLA", "TOS", "MUC"];
     return airportArray[Math.floor(Math.random() * airportArray.length)];
   },
 
