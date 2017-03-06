@@ -4,6 +4,37 @@ module.exports = {
     return 1+1;
   },
 
+  //returns a flyer object with some random values
+  getFlyer : function () {
+		var flyer = {
+			firstName: '',
+			middleName: '',
+			lastName: '',
+			gender: 'female',
+			email: '',
+			phone:'',
+			countryCode: '',
+			dobAdult: '1950-01-01',
+			//dobYouth behövs inte eftersom man måste vara inloggad för att köpa ungdomsbiljett
+			dobChild:'2015-01-01',
+			dobInfant: '2017-03-03' 
+		}
+		flyer.firstName = this.getRandomString(this.getRandomNum(2,7));
+		flyer.lastName = this.getRandomString(this.getRandomNum(2,40));
+		
+		var rand = this.getRandomNum(1,2);
+		if (rand = 1) {
+			flyer.gender = 'male';
+		}
+		flyer.email =  firstName+'.'+lastName+'@'+this.getRandomString(this.getRandomNum(2,5))+'mail.com';
+		//flyer.email = 'rickard.sjogren@sogeti.se';
+		//flyer.email = 'niklas.ekstrand@sogeti.se';
+		flyer.phone = '70'+this.getRandomNum(1000000,9999999);
+		flyer.countryCode = 46;
+		
+		return flyer;
+	},
+
   //scrolls to element, taking into account the header height so it's not covered by the header
   scrollElementToBeClickable: function (element){
 
