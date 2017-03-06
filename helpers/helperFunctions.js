@@ -57,7 +57,7 @@ module.exports = {
 		    browser.executeScript('window.scrollTo(0,'+scrollTarget+');');
 	    });
 	},
-	scrollElementToBeClickable: function (element, i){
+	scrollElementUpWithOffset: function (element, i){
 
 		var scrollTarget = 0;
 		var headerHeight = i;
