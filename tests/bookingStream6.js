@@ -185,34 +185,53 @@ afterAll(function() {
     console.log("seventeenth test");
     browser.waitForAngular();
     ancillariesPage.selectSeatButton.click();
-    if(ancillariesPage.selectSeat1 != null || ancillariesPage.selectSeat1 != undefined){
-      ancillariesPage.selectSeat1.click();
-      ancillariesPage.selectSeat();
-    }
-    if(ancillariesPage.selectSeat2.isPresent()){
-      ancillariesPage.selectSeat2.click();
-      ancillariesPage.selectSeat();
-    }
-    if(ancillariesPage.selectSeat3.isPresent()){
-      ancillariesPage.selectSeat3.click();
-      ancillariesPage.selectSeat();
-    }
-    if(ancillariesPage.selectSeat4.isPresent()){
-      ancillariesPage.selectSeat4.click();
-      ancillariesPage.selectSeat();
-    }
-    if(ancillariesPage.selectSeat5.isPresent()){
-      ancillariesPage.selectSeat5.click();
-      ancillariesPage.selectSeat();
-    }
-    if(ancillariesPage.selectSeat6.isPresent()){
-      ancillariesPage.selectSeat6.click();
-      ancillariesPage.selectSeat();
-    }
-    else{
+    console.log('selecting seat 1');
+    ancillariesPage.selectSeat();
+    ancillariesPage.selectSeat2.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 2');
+        ancillariesPage.selectSeat2.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    ancillariesPage.selectSeat3.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 3');
+        ancillariesPage.selectSeat3.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    ancillariesPage.selectSeat4.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 4');
+        ancillariesPage.selectSeat4.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    ancillariesPage.selectSeat5.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 5');
+        ancillariesPage.selectSeat5.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    ancillariesPage.selectSeat6.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 6');
+        ancillariesPage.selectSeat6.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    browser.waitForAngular().then(function(){
+      ancillariesPage.forgotSeatOkay.isPresent().then(function(present){
+        if(present){
+          console.log('Forgot to pick seat, but thats okay');
+          ancillariesPage.forgotSeatOkay.click();
+        }
+      });
       ancillariesPage.seatAddToBooking.click();
       ancillariesPage.shoppingCartButton.click();
-    }
+    });
     expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
   });
 

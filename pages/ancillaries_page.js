@@ -14,6 +14,8 @@ var ancillariesPage = function(){
   this.selectSeat5 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[5]/a'));
   this.selectSeat6 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[6]/a'));
   this.seatAddToBooking = element(by.xpath('//*[@id="cep-widget"]/div/div[1]/div[1]/div/div[1]/div[3]/button'));
+  this.forgotSeatOkay = element(by.xpath('//*[@id="cep-widget"]/div[1]/div[2]/div[2]/div[2]/button'));
+  this.noSeatAvailable = element(by.binding('translation["ancillarySeatMap.noseatavailabletext"]'));
 
   this.selectBagsButton = element(by.css('img[src="images/bag-img.jpg"]'));
   this.addBaggageOutbound = element(by.id('add_0_0'));
@@ -38,10 +40,15 @@ var ancillariesPage = function(){
   this.selectSeat = function(){
     var airplane = "";
     browser.sleep(2000);
-    element(by.xpath('//*[@id="segment-container"]/div[5]/ng-include/div/div/div/div/div/div[2]/div/div/div[1]/p/b')).getText().then(function(text){
-      airplane = text;
-      console.log('0 Airplane:' + airplane);
-    }).then(function(){
+    element(by.xpath('//*[@id="segment-container"]/div[5]/ng-include/div/div/div/div/div/div[2]/div/div/div[1]/p/b')).isPresent().then(function(present){
+      if(present){
+        element(by.xpath('//*[@id="segment-container"]/div[5]/ng-include/div/div/div/div/div/div[2]/div/div/div[1]/p/b')).getText().then(function(text){
+        airplane = text;
+        console.log('0 Airplane:' + airplane);
+      })
+    }}
+    );
+    browser.waitForAngular().then(function(){
 
       selectSeat737800go = function(){
         var rowNum = helperFunctions.getRandomNum(4, 19);
@@ -72,6 +79,13 @@ var ancillariesPage = function(){
         element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')).click();
       };
 
+      selectSeatA320go = function(){
+        var rowNum = helperFunctions.getRandomNum(2, 17);
+        var seatNum = helperFunctions.getRandomNum(1, 6);
+        helperFunctions.scrollElementToBeClickable(element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')));
+        element(by.xpath('//*[@id="cep-widget"]/div/div[2]/div/div[2]/div/div/div/div['+rowNum.toString()+']/div/sas-seat['+seatNum.toString()+']/span/span')).click();
+      };
+
     if(airplane == "Boeing 737-600"){
       console.log("Selecting seat in Boeing 737-600");
       console.log('1 Airplane:' + airplane);
@@ -92,9 +106,14 @@ var ancillariesPage = function(){
       console.log('4 Airplane:' + airplane);
       selectSeatA319go();
     }
+    else if(airplane == "Airbus A320"){
+      console.log("Selecting seat in Airbus A320");
+      console.log('5 Airplane:' + airplane);
+      selectSeat737700go();
+    }
     else{
       console.log("Selecting seat in unknown airplane");
-      console.log('5 Airplane:' + airplane);
+      console.log('Unknown Airplane:' + airplane);
       selectSeat737600go();
     }
   });
