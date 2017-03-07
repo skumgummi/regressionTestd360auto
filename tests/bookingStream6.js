@@ -83,7 +83,7 @@ afterAll(function() {
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
     homePage.tripSelect.click();
-    homePage.oneWay.click();
+    homePage.returnTrip.click();
     browser.getCurrentUrl().then(function(url) {
       expect(url.includes('dest=')).toBe(true,'URL doesnt contain correct destination airport');
     });
@@ -93,6 +93,7 @@ afterAll(function() {
     console.log("fourth test");
     homePage.openDates.click();
     homePage.setOutbound("11");
+    homePage.setInbound("22");
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
@@ -142,8 +143,6 @@ afterAll(function() {
     passengerPage.email0.sendKeys('niklas.ekstrand@sogeti.com');
     passengerPage.phone0.click();
     passengerPage.phone0.sendKeys(flyer0.getPhone());
-    passengerPage.dob0.click();
-    passengerPage.dob0.sendKeys(flyer0.getDob());
 
     passengerPage.firstName0.getAttribute('value').then(function(attribute){
       expect(attribute).toEqual(flyer0.getFirstName(),'Flyer first name not entered?');
@@ -229,7 +228,11 @@ afterAll(function() {
           ancillariesPage.forgotSeatOkay.click();
         }
       });
-      ancillariesPage.seatAddToBooking.click();
+      ancillariesPage.seatAddToBooking.isPresent().then(function(present){
+        if(present){
+          ancillariesPage.seatAddToBooking.click();
+        }
+      });
       ancillariesPage.shoppingCartButton.click();
     });
     expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
