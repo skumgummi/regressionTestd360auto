@@ -119,8 +119,45 @@ afterAll(function() {
     console.log("seventh test");
     upsellPage.flight1.click();
     browser.waitForAngular();
+    upsellPage.shoppingCartButton.isPresent().then(function(selectReturn){
+        if(selectReturn){
+          upsellPage.shoppingCartButton.getText().then(function(selectReturn){
+            expect(selectReturn).toEqual('SELECT RETURN', 'shopping cart button is supposed to be "SELECT RETURN"!');
+          });
+        }else {
+          //this will always fail, because this only happens when selectReturn is false.
+          expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
+        }
+      });
   });
 
+  it('click shopping cart button', function(){
+    console.log("eighth test");
+    upsellPage.shoppingCartButton.click();
+    browser.waitForAngular();
+    //skippar expect för denna tills vidare
+    //kräver någon sorts funktion som kollar om ett element är i viewporten eller inte
+    //bör gå att göra meden executescript
+    console.log("expect not yet implemented");
+  });
+
+  it('select return flight', function(){
+    console.log("ninth test");
+    browser.executeScript("arguments[0].scrollIntoViewIfNeeded();", upsellPage.returnFlight1.getWebElement());
+    upsellPage.returnFlight1.click();
+    browser.waitForAngular();
+    upsellPage.shoppingCartButton.isPresent().then(function(selectReturn){
+        if(selectReturn){
+          upsellPage.shoppingCartButton.getText().then(function(selectReturn){
+            expect(selectReturn).toEqual('CONTINUE', 'shopping cart button is supposed to be "CONTINUE"!');
+          });
+        }else {
+          //this will always fail, because this only happens when selectReturn is false.
+          expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
+        }
+
+    });
+  });
 
   it('click shopping cart button', function(){
     console.log("tenth test");
