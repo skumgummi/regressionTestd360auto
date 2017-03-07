@@ -8,7 +8,7 @@ var passengerPage = function(){
   this.lastName2 = element(by.id('lastName2'));
   this.firstName3 = element(by.id('firstName3'));
   this.lastName3 = element(by.id('lastName3'));
-  this.firstName4 = element(by.id('firstNam4'));
+  this.firstName4 = element(by.id('firstName4'));
   this.lastName4 = element(by.id('lastName4'));
   this.firstName5 = element(by.id('firstName5'));
   this.lastName5 = element(by.id('lastName5'));
@@ -121,5 +121,8 @@ var passengerPage = function(){
 
   this.goToPaymentButton = element(by.id('goToPayment'));
 
+
+
 };
 module.exports = new passengerPage();
+
