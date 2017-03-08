@@ -19,7 +19,7 @@ module.exports = {
 			dobAdult: '19500101',
 			//dobYouth behövs inte eftersom man måste vara inloggad för att köpa ungdomsbiljett
 			dobChild:'20150101',
-			dobInfant: '20170101' 
+			dobInfant: '20170101'
 		}
 		//shorter strings, because long strings makes the testing slower
 		//eventually, using an array with names will probably be better
@@ -27,7 +27,7 @@ module.exports = {
 		flyer.lastName = this.getRandomString(this.getRandomNum(2,10));
 		//flyer.firstName = this.getRandomString(this.getRandomNum(2,32));
 		//flyer.lastName = this.getRandomString(this.getRandomNum(2,40));
-		
+
 		var rand = this.getRandomNum(1,2);
 		if (rand == 1) {
 			flyer.gender = 'male';
@@ -37,7 +37,7 @@ module.exports = {
 		//flyer.email = 'niklas.ekstrand@sogeti.se';
 		flyer.phone = '70'+this.getRandomNum(1000000,9999999);
 		flyer.countryCode = 46;
-		
+
 		return flyer;
 	},
 
@@ -50,7 +50,7 @@ module.exports = {
 		var elementPosition = element.getLocation().then(function (location) {
 
 	    	scrollTarget = location.y-headerHeight;
-	    	
+
 	    	if(scrollTarget < 0) {
 	    		//console.log('scroll target of '+scrollTarget+' changed to 0');
 	    		scrollTarget = 0;
@@ -67,7 +67,7 @@ module.exports = {
 		var elementPosition = element.getLocation().then(function (location) {
 
 	    	scrollTarget = location.y-headerHeight;
-	    	
+
 	    	if(scrollTarget < 0) {
 	    		//console.log('scroll target of '+scrollTarget+' changed to 0');
 	    		scrollTarget = 0;
@@ -120,7 +120,7 @@ module.exports = {
   },
 
   getRandomAirportEU: function(){
-    var airportArray = ["VIE", "BRU", "HEL", "KEF", "CDG", "TXL", "FRA", "HAM", "DUB", "AMS", "WAW", "GVA", "LHR", "ABZ", "LPA", "ATH", "MLA", "TOS", "MUC"];
+    var airportArray = ["VIE", "BRU", "HEL", "KEF", "CDG", "TXL", "FRA", "HAM", "DUB", "AMS", "WAW", "GVA", "LHR", "LPA", "ATH", "MLA", "TOS", "MUC"];
     return airportArray[Math.floor(Math.random() * airportArray.length)];
   },
 
