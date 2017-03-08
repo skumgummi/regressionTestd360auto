@@ -69,6 +69,7 @@ afterAll(function() {
     console.log("second test");
     homePage.openOrigin.click();
     homePage.openOrigin.sendKeys(helperFunctions.getRandomAirportScandinavia());
+    //homePage.openOrigin.sendKeys('CPH');
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
     browser.getCurrentUrl().then(function(url) {
@@ -80,6 +81,7 @@ afterAll(function() {
     console.log("third test");
     homePage.openDestination.click();
     homePage.openDestination.sendKeys(helperFunctions.getRandomAirportEU());
+    //homePage.openDestination.sendKeys('GVA');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
     homePage.tripSelect.click();
