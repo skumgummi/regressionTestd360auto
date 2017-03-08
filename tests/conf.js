@@ -27,7 +27,7 @@ exports.config = {
         new Jasmine2HtmlReporter({
           savePath: date,
           cleanDestination: false,
-          fileNamePrefix: 'Prefix'
+          fileNamePrefix: 'D360'
         })
 
       );
