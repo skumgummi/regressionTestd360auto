@@ -1,4 +1,5 @@
 var passengerPage = require('../pages/passenger_page.js');
+var ancillariesPage = require('../pages/ancillaries_page.js');
 
 module.exports = {
   foo: 'bar',
@@ -308,5 +309,60 @@ module.exports = {
     	inputObj.phone = passengerPage.phone17;
 	}
     return inputObj;
+  },
+
+  seatSelection : function(){
+    browser.waitForAngular();
+    //ancillariesPage.selectSeatButton.click();
+    console.log('selecting seat 1');
+    ancillariesPage.selectSeat();
+    ancillariesPage.selectSeat2.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 2');
+        ancillariesPage.selectSeat2.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    ancillariesPage.selectSeat3.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 3');
+        ancillariesPage.selectSeat3.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    ancillariesPage.selectSeat4.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 4');
+        ancillariesPage.selectSeat4.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    ancillariesPage.selectSeat5.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 5');
+        ancillariesPage.selectSeat5.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    ancillariesPage.selectSeat6.isPresent().then(function(present){
+      if(present){
+        console.log('selecting seat 6');
+        ancillariesPage.selectSeat6.click();
+        ancillariesPage.selectSeat();
+      }
+    });
+    browser.waitForAngular().then(function(){
+      ancillariesPage.forgotSeatOkay.isPresent().then(function(present){
+        if(present){
+          console.log('Forgot to pick seat, but thats okay');
+          ancillariesPage.forgotSeatOkay.click();
+        }
+      });
+      ancillariesPage.seatAddToBooking.isPresent().then(function(present){
+        if(present){
+          ancillariesPage.seatAddToBooking.click();
+        }
+      });
+    });
   },
 };

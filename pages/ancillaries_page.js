@@ -52,9 +52,9 @@ var ancillariesPage = function(){
         element(by.xpath('//*[@id="segment-container"]/div[5]/ng-include/div/div/div/div/div/div[2]/div/div/div[1]/p/b')).getText().then(function(text){
         airplane = text;
         console.log('0 Airplane:' + airplane);
-      })
-    }}
-    );
+        })
+      }
+    });
     browser.waitForAngular().then(function(){
 
       selectSeat737800go = function(){
@@ -208,8 +208,7 @@ var ancillariesPage = function(){
       backButton.click();
     }
   });
-
-  }
+};
 
 
 

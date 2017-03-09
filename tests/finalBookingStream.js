@@ -1,5 +1,3 @@
-
-
 describe ('booking stream', function(){
 
 var homePage = require('../pages/home_page.js');
@@ -11,9 +9,9 @@ var helperFunctions = require('../helpers/helperFunctions.js');
 
 var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
-var totalAdults = 7;
-var totalChildren = 2;
-var totalInfants = 7;
+var totalAdults = 3;
+var totalChildren = 0;
+var totalInfants = 0;
 var totalPassengers;
 
 var flyers = [];
@@ -316,66 +314,22 @@ afterAll(function() {
     });
   });
 
+  /*
   it('select seat', function(){
     console.log("seventeenth test");
-    browser.waitForAngular();
-    ancillariesPage.selectSeatButton.click();
-    console.log('selecting seat 1');
-    ancillariesPage.selectSeat();
-    ancillariesPage.selectSeat2.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 2');
-        ancillariesPage.selectSeat2.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    ancillariesPage.selectSeat3.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 3');
-        ancillariesPage.selectSeat3.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    ancillariesPage.selectSeat4.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 4');
-        ancillariesPage.selectSeat4.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    ancillariesPage.selectSeat5.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 5');
-        ancillariesPage.selectSeat5.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    ancillariesPage.selectSeat6.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 6');
-        ancillariesPage.selectSeat6.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    browser.waitForAngular().then(function(){
-      ancillariesPage.forgotSeatOkay.isPresent().then(function(present){
-        if(present){
-          console.log('Forgot to pick seat, but thats okay');
-          ancillariesPage.forgotSeatOkay.click();
-        }
-      });
-      ancillariesPage.seatAddToBooking.isPresent().then(function(present){
-        if(present){
-          ancillariesPage.seatAddToBooking.click();
-        }
-      });
-    });
+    helperFunctions.seatSelection();
     expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
   });
+  */
 
-  it('select seats for remaining passengers', function(){
-    for (var i = 0; i < totalAdults+totalChildren-1; i++) {
-      //Write this tomorrow!
+  it('select seats for passengers', function(){
+    for (var i = 1; i <= totalAdults+totalChildren; i++) {
+      ancillariesPage.selectSeatButton.click();
+      //var passengerSeatSelection = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+i.toString()+']'));
+      console.log("selecting seat for passenger: "+i.toString());
+      //passengerSeatSelection.click();
+      element(by.xpath('//*[@id="segment-container"]/div[4]/div['+i.toString()+']')).click();
+      helperFunctions.seatSelection();
     }
   })
 

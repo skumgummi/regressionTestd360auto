@@ -219,8 +219,13 @@ afterAll(function() {
     });
   });
 
+  it('press select seat button', function(){
+    ancillariesPage.selectSeatButton.click();
+  });
+
   it('select seat', function(){
     console.log("seventeenth test");
+    /*
     browser.waitForAngular();
     ancillariesPage.selectSeatButton.click();
     console.log('selecting seat 1');
@@ -272,8 +277,12 @@ afterAll(function() {
           ancillariesPage.seatAddToBooking.click();
         }
       });
+
+
       ancillariesPage.shoppingCartButton.click();
     });
+    */
+    helperFunctions.seatSelection();
     expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
   });
 
