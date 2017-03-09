@@ -1,7 +1,10 @@
 var homePage = function(){
 
+  var helperFunctions = require('../helpers/helperFunctions.js');
+
   this.cookieButton = element(by.id('closeButton'));
 
+  this.myTripsButton = element(by.id('my-trips'));
   this.openTravelers = element(by.binding('translation["booking.cep.travellers"]'));
   this.openOrigin = element(by.id('select-origin'));
   this.openDestination = element(by.id('select-destination'));

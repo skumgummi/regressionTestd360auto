@@ -1,6 +1,8 @@
 var passengerPage = require('../pages/passenger_page.js');
 var ancillariesPage = require('../pages/ancillaries_page.js');
 
+var count = 0;
+
 module.exports = {
   foo: 'bar',
   doSomething: function () {
@@ -365,4 +367,16 @@ module.exports = {
       });
     });
   },
+
+  getTomorrow : function(){
+    var date = new Date();
+    var tomorrow = date.getDate()+1;
+    return tomorrow.toString();
+  },
+
+  testCounter : function(){
+    console.log(" ");
+    console.log('Test number: ' + count);
+    count++;
+  }
 };
