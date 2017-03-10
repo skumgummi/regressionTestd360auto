@@ -8,7 +8,7 @@ var myTripsPage = function(){
   this.bookingReferenceWindow = element(by.id('bookingReferenceMobile'));
   this.lastNameWindow = element(by.id('lastName'));
   this.arrowButton = element(by.xpath('//*[@id="isolationWrap"]/div/div/div[2]/div/div[1]/div[1]/div[3]/form/div[2]'));
-  this.buySeatButton = element(by.css('.tripDetailsBuySeats'));
+  this.buySeatButton = element(by.xpath('//*[@id="detailViewPaxTileCollapse0"]/div[2]/div[2]/div/div[2]/div/div/div[1]/a'));
 
 };
 module.exports = new myTripsPage();

@@ -56,7 +56,7 @@ describe ('mmb stream 1', function(){
     helperFunctions.testCounter();
     homePage.openDestination.click();
     browser.waitForAngular();
-    homePage.openDestination.sendKeys('OSL');
+    homePage.openDestination.sendKeys('UME');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
   });
@@ -139,13 +139,17 @@ describe ('mmb stream 1', function(){
     myTripsPage.arrowButton.click();
   });
 
+  it('open select a seat page', function(){
+    helperFunctions.testCounter();
+    browser.sleep(10000);
+    helperFunctions.scrollElementToBeClickable(myTripsPage.buySeatButton);
+    myTripsPage.buySeatButton.click()
+  });
+
   it('Select a seat', function(){
     helperFunctions.testCounter();
-    helperFunctions.scrollElementToBeClickable(myTripsPage.buySeatButton);
-    //myTripsPage.buySeatButton.click()
-    browser.sleep(500000);
-    //browser.waitForAngular();
-    //helperFunctions.seatSelection();
-  })
+    //seatSelection only works on the anciallaries page, gotta fix that
+    helperFunctions.seatSelection();
+  });
 
 });
