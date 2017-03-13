@@ -25,7 +25,7 @@ var paymentPage = function(){
   this.inputAcceptCheckBox = element(by.id('checkbox111'));
   this.reservationNumber = element(by.binding('reservation.airlineBookingReference'));
   this.insuranceRadioOptions = element(by.css('#readytoPayRadio'));
-  
+
 
 
   this.visa = function() {
@@ -36,7 +36,7 @@ var paymentPage = function(){
     var idEndDate = browser.driver.findElement(protractor.By.id('idEndDate'));
     var ownerVisible = browser.driver.findElement(protractor.By.id('owner_visible'));
     var cvv = browser.driver.findElement(protractor.By.id('cvv'));
-    
+
 
     //browser.driver.switchTo().frame(0);
     creditCardBox.sendKeys('4111111111111111');
@@ -47,6 +47,29 @@ var paymentPage = function(){
     expect(ownerVisible.getAttribute('value')).toBe('Emil Burman','owner name in box doesnt match name entered!');
     cvv.sendKeys('737');
     expect(cvv.getAttribute('value')).toBe('737','cvv numbers in box dont match numbers entered!');
+    browser.driver.switchTo().defaultContent();
+
+	}
+
+  this.mc = function() {
+    browser.waitForAngular();
+	  browser.driver.switchTo().frame("creditCardFrame");
+
+    var creditCardBox = browser.driver.findElement(protractor.By.id('pan_visible'));
+    var idEndDate = browser.driver.findElement(protractor.By.id('idEndDate'));
+    var ownerVisible = browser.driver.findElement(protractor.By.id('owner_visible'));
+    var cvv = browser.driver.findElement(protractor.By.id('cvv'));
+
+
+    //browser.driver.switchTo().frame(0);
+    creditCardBox.sendKeys('5432673003275469');
+    expect(creditCardBox.getAttribute('value')).toBe('3742 5101 8720 018', 'credit card number in box doesnt match number entered!');
+    idEndDate.sendKeys('08/18');
+    expect(idEndDate.getAttribute('value')).toBe('08/18', 'end date in box doesnt match end date entered!');
+    ownerVisible.sendKeys('Emil Burman');
+    expect(ownerVisible.getAttribute('value')).toBe('Emil Burman','owner name in box doesnt match name entered!');
+    cvv.sendKeys('000');
+    expect(cvv.getAttribute('value')).toBe('000','cvv numbers in box dont match numbers entered!');
     browser.driver.switchTo().defaultContent();
 
 	}

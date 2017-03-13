@@ -47,7 +47,7 @@ describe ('mmb stream 1', function(){
     homePage.oneWay.click();
     homePage.openOrigin.click();
     browser.waitForAngular();
-    homePage.openOrigin.sendKeys('ARN');
+    homePage.openOrigin.sendKeys('LLA');
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
   });
@@ -56,7 +56,7 @@ describe ('mmb stream 1', function(){
     helperFunctions.testCounter();
     homePage.openDestination.click();
     browser.waitForAngular();
-    homePage.openDestination.sendKeys('UME');
+    homePage.openDestination.sendKeys('ARN');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
   });
@@ -87,7 +87,7 @@ describe ('mmb stream 1', function(){
 
   it('Enter card details', function(){
     helperFunctions.testCounter();
-    paymentPage.visa();
+    paymentPage.mc();
     browser.sleep(5000);
   });
 
