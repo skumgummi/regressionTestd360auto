@@ -47,7 +47,7 @@ describe ('mmb stream 1', function(){
     homePage.oneWay.click();
     homePage.openOrigin.click();
     browser.waitForAngular();
-    homePage.openOrigin.sendKeys('LLA');
+    homePage.openOrigin.sendKeys('ARN');
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
   });
@@ -56,7 +56,7 @@ describe ('mmb stream 1', function(){
     helperFunctions.testCounter();
     homePage.openDestination.click();
     browser.waitForAngular();
-    homePage.openDestination.sendKeys('ARN');
+    homePage.openDestination.sendKeys('LHR');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
   });
@@ -85,10 +85,17 @@ describe ('mmb stream 1', function(){
     ancillariesPage.shoppingCartButton.click();
   });
 
-  it('Enter card details', function(){
+  it('click klarna button', function(){
     helperFunctions.testCounter();
-    paymentPage.mc();
-    browser.sleep(5000);
+    browser.sleep(30000);
+    helperFunctions.scrollElementToBeClickable(paymentPage.klarnaButton);
+    paymentPage.klarnaButton.click();
+  });
+
+  it('click klarna invoice', function(){
+    helperFunctions.testCounter();
+    paymentPage.klarnaInvoice.click();
+    browser.sleep(30000);
   });
 
   it('review purchase', function(){
@@ -104,16 +111,38 @@ describe ('mmb stream 1', function(){
 
   it('Pay', function(){
     helperFunctions.testCounter();
-    paymentPage.payNowButton.click();
+    paymentPage.confirmButton.click();
     browser.sleep(45000);
+  });
+
+  it('enter klarna details', function(){
+    helperFunctions.testCounter();
+    browser.ignoreSynchronization = true;
+    paymentPage.klarnaSSNField.click();
+    paymentPage.klarnaSSNField.sendKeys(paymentPage.klarnaSSN);
+    browser.sleep(1000);
+    paymentPage.klarnaRetrieveAddress.click();
+    browser.sleep(1000);
+    paymentPage.klarnaSubmitButton.click();
+    browser.sleep(3000);
   });
 
   it('Save booking reference', function(){
     helperFunctions.testCounter();
+    browser.ignoreSynchronization = false;
+    browser.sleep(40000);
     element(by.xpath('//*[@id="mmbOverlayModalDialog"]/div/div/div/div/div[3]/div/div/div[2]/div[2]/div[1]/div[1]/div/span')).isPresent().then(function(present){
       if(present){
         element(by.xpath('//*[@id="mmbOverlayModalDialog"]/div/div/div/div/div[3]/div/div/div[2]/div[2]/div[1]/div[1]/div/span')).getText().then(function(text){
         bookingReference = text;
+        console.log('Booking reference:' + bookingReference);
+        console.log('Booking reference:' + bookingReference);
+        console.log('Booking reference:' + bookingReference);
+        console.log('Booking reference:' + bookingReference);
+        console.log('Booking reference:' + bookingReference);
+        console.log('Booking reference:' + bookingReference);
+        console.log('Booking reference:' + bookingReference);
+        console.log('Booking reference:' + bookingReference);
         console.log('Booking reference:' + bookingReference);
         })
       }
@@ -139,6 +168,7 @@ describe ('mmb stream 1', function(){
     myTripsPage.arrowButton.click();
   });
 
+  /*
   it('open select a seat page', function(){
     helperFunctions.testCounter();
     browser.sleep(10000);
@@ -150,6 +180,11 @@ describe ('mmb stream 1', function(){
     helperFunctions.testCounter();
     //seatSelection only works on the anciallaries page, gotta fix that
     helperFunctions.seatSelection();
+  });
+  */
+
+  it('Check in',  function(){
+    //do some shit
   });
 
 });

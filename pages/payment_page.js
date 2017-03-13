@@ -17,6 +17,7 @@ var paymentPage = function(){
   this.payNowButton = element(by.css('input[value="PAY NOW"]'));
 
   this.reviewButton = element(by.buttonText('REVIEW'));
+  this.confirmButton = element(by.xpath('//*[@id="accordion"]/div[3]/div[3]/button'));
 
   //this is an iframe, but is it from SIP or just from a credit card service? If SIP, it will need to be replaced when SIP is bypassed.
   this.creditCardFrame = element(by.id('creditCardFrame'));
@@ -25,6 +26,15 @@ var paymentPage = function(){
   this.inputAcceptCheckBox = element(by.id('checkbox111'));
   this.reservationNumber = element(by.binding('reservation.airlineBookingReference'));
   this.insuranceRadioOptions = element(by.css('#readytoPayRadio'));
+
+  this.klarnaButton = element(by.xpath('//*[@id="payAccordion"]/div[3]/div[2]'));
+  this.klarnaInvoice = element(by.id('klarna_invoice'));
+
+  //Klarna test website stuff (https://test.adyen.com/hpp/details.shtml)
+  this.klarnaSSNField = element(by.id('ssnr'));
+  this.klarnaSubmitButton = element(by.id('mainSubmit'));
+  this.klarnaRetrieveAddress = element(by.id('klarnaOpenInvoiceGetAddressButton'));
+  this.klarnaSSN = "4103219202";
 
 
 
