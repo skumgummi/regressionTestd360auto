@@ -158,6 +158,7 @@ describe ('mmb stream 1', function(){
 
   it('press my trips button', function(){
     helperFunctions.testCounter();
+    browser.get('https://d360u.flysas.com/se-en');
     homePage.myTripsButton.click();
   });
 
@@ -187,7 +188,6 @@ describe ('mmb stream 1', function(){
 
   it('Go to check in',  function(){
     helperFunctions.testCounter();
-    browser.get('https://d360u.flysas.com/se-en');
     myTripsPage.checkinButton.click();
   });
 
