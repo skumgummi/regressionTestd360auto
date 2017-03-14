@@ -8,7 +8,7 @@ module.exports = {
   doSomething: function () {
     return 1+1;
   },
-
+ 
   /******************************************
   * ATTENTION          						*			
   * When using this function, make sure		*
