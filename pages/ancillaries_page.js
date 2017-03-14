@@ -6,7 +6,8 @@ var ancillariesPage = function(){
 
   this.airplaneType = element(by.xpath('//*[@id="segment-container"]/div[5]/ng-include/div/div/div/div/div/div[2]/div/div/div[1]/p/b'));
 
-  this.selectSeatButton = element(by.css('img[src="images/seat-img.jpg"]'));
+  //this.selectSeatButton = element(by.css('img[src="images/seat-img.jpg"]'));
+  this.selectSeatButton = element(by.css('li[ng-click="selectSeat()"]'));
   this.selectSeat1 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[1]/a'));
   this.selectSeat2 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[2]/a'));
   this.selectSeat3 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[3]/a'));

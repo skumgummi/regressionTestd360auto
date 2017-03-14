@@ -9,6 +9,39 @@ module.exports = {
     return 1+1;
   },
 
+  /******************************************
+  * ATTENTION          						*			
+  * When using this function, make sure		*
+  * whatever operation uses the output is 	*
+  * synced with the control flow.			*
+  *	This is a good practice in general.		*
+  * 										*
+  * So e.g. you can put your operation in 	*
+  * a .then() function, even after doing 	*
+  * a browser.getCurrentUrl() without using	*
+  * the url for anything.					*
+  *******************************************/
+  getAvailableSeats : function () {
+	var availableSeats = [];
+	var seats = element.all(by.css('span[ng-click="data.selectGivenSeatForGivenPax(seat, $event);"]')).then(function(elm){
+        for (var i = 0; i < elm.length; i++) {
+          
+          //let creates a local variable for each iteration of the for-loop. 
+          //This is required because the for-loop doesn't stop to wait for calls to the browser, like .getAttribute(), to finish
+          let j = i;
+          elm[j].getAttribute('class').then(function(clss){
+            
+            //for some planes, seats are labeled 'seatFree', and others 'seatChargeable'
+            if(clss.includes('seatFree') || clss.includes('seatChargeable')){
+              availableSeats.push(elm[j]);
+            }
+          });
+        }
+      });
+      return availableSeats;
+  },
+
+
   //returns a flyer object with some random values
   getFlyer : function () {
 		var flyer = {
