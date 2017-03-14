@@ -149,10 +149,12 @@ describe ('mmb stream 1', function(){
     });
   });
 
+  /*
   it('press x button', function(){
     helperFunctions.testCounter();
     myTripsPage.xButton.click();
   });
+  */
 
   it('press my trips button', function(){
     helperFunctions.testCounter();
@@ -183,8 +185,28 @@ describe ('mmb stream 1', function(){
   });
   */
 
-  it('Check in',  function(){
-    //do some shit
+  it('Go to check in',  function(){
+    helperFunctions.testCounter();
+    browser.get('https://d360u.flysas.com/se-en');
+    myTripsPage.checkinButton.click();
+  });
+
+  it('check in', function(){
+    helperFunctions.testCounter();
+    myTripsPage.checkinTick.click();
+    myTripsPage.checkin.click();
+  });
+
+  it('Press send boarding pass', function(){
+    helperFunctions.testCounter();
+    myTripsPage.sendBoardingPass.click();
+  });
+
+  it('Enter email and send', function(){
+    helperFunctions.testCounter();
+    myTripsPage.emailField.click();
+    myTripsPage.emailField.sendKeys('niklas.ekstrand@sogeti.se');
+    myTripsPage.sendButton.click();
   });
 
 });
