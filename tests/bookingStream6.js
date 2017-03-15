@@ -46,7 +46,8 @@ var flyer0 = {
 
 beforeAll(function(){
   console.log("before all running!");
-  browser.get('https://d360u.flysas.com/se-en');
+  //browser.get('https://d360u.flysas.com/se-en');
+  browser.get('https://sas.no/en');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 500000;
   browser.waitForAngular();
 });
@@ -85,7 +86,7 @@ afterAll(function() {
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.sleep(100);
     homePage.tripSelect.click();
-    homePage.returnTrip.click();
+    homePage.oneWay.click();
     browser.getCurrentUrl().then(function(url) {
       expect(url.includes('dest=')).toBe(true,'URL doesnt contain correct destination airport');
     });
@@ -94,8 +95,8 @@ afterAll(function() {
   it('select dates', function(){
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound("11");
-    homePage.setInbound("22");
+    homePage.setOutbound("20");
+    //homePage.setInbound("29");
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
@@ -143,6 +144,7 @@ afterAll(function() {
     console.log("expect not yet implemented");
   });
 
+  /*
   it('select return flight', function(){
     console.log("ninth test");
     browser.executeScript("arguments[0].scrollIntoViewIfNeeded();", upsellPage.returnFlight1.getWebElement());
@@ -160,6 +162,7 @@ afterAll(function() {
 
     });
   });
+  */
 
   it('click shopping cart button', function(){
     console.log("tenth test");
@@ -226,10 +229,24 @@ afterAll(function() {
 
   it('select seat', function(){
     console.log("seventeenth test");
-    browser.waitForAngular();
+    browser.wait(EC.elementToBeClickable(ancillariesPage.selectSeatButton), 5000).then(function(clickable){
+      expect(clickable).toBe(true,'Select seat button is not clickable or visible!');
+    });
     ancillariesPage.selectSeatButton.click();
-    console.log('selecting seat 1');
-    ancillariesPage.selectSeat();
+
+    //browser.sleep(5000);
+    //browser.wait(EC.elementToBeClickable(seat), 5000).then(function(clickable){
+      //expect(clickable).toBe(true,'Select seat button is not clickable or visible!');
+    //}).then(function(){
+    availableSeats = helperFunctions.getAvailableSeats();
+
+
+    browser.getCurrentUrl().then(function(url) {
+      //availableSeats = kek;
+      console.log(availableSeats.length);
+      helperFunctions.scrollElementToBeClickable(availableSeats[0]);
+      availableSeats[0].click();
+    });
     ancillariesPage.selectSeat2.isPresent().then(function(present){
       if(present){
         console.log('selecting seat 2');

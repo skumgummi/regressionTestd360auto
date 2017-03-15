@@ -7,7 +7,7 @@ describe('Checking iFrame for 404 or showing as if not logged in', function(){
 	var pagesToCheck = ['https://www.sas.se/profil/retroregistrering/','https://www.sas.se/profil/ge-bort-kort/','https://www.sas.se/profil/order-new-card/',
 						'https://www.sas.se/profil/upgrade-on-star/', 'https://www.sas.se/profil/travel-cash/',
 						'https://www.sas.se/profil/attach-travel-pass/', 'https://www.sas.se/profil/attach-eurobonus/'];
-	
+
 	//pagesToCheck = ['https://www.sas.se/profil/retroregistrering/','https://www.sas.se/profil/ge-bort-kort/'];
 
 	var url = '';
@@ -25,10 +25,14 @@ describe('Checking iFrame for 404 or showing as if not logged in', function(){
 	var username = "iframetest@sas.se";
 	var password = "pass123";
 
+	//sas.no login
+	//var username = "sasnotest@testemail.com";
+	//var password = "123abc";
+
 
 	beforeAll(function(){
 		console.log("before all running!");
-		
+
 		browser.get('https://sas.se');
 		//browser.get('https://d360u.flysas.com/se-en');
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 250000;
@@ -41,7 +45,7 @@ describe('Checking iFrame for 404 or showing as if not logged in', function(){
 	  browser.executeScript('window.sessionStorage.clear();');
 	  browser.executeScript('window.localStorage.clear();');
 	});
-  	
+
   	it ('log in', function(){
 		homePage.loginLink.click();
 		homePage.emailField.click();
@@ -78,8 +82,8 @@ describe('Checking iFrame for 404 or showing as if not logged in', function(){
 		  		var errorElement = element(by.css('div.errorNo')).element(by.xpath("./span"));
 				var errorPresence = false;
 				var errorReport = '';
-				
-				
+
+
 				browser.isElementPresent(errorElement).then(function(presence){
 					if(presence){
 						errorPresence = true;
@@ -97,7 +101,7 @@ describe('Checking iFrame for 404 or showing as if not logged in', function(){
 							}
 
 						});
-						
+
 					} else {
 						errorReport = 'No error found on '+url;
 					}
@@ -105,18 +109,18 @@ describe('Checking iFrame for 404 or showing as if not logged in', function(){
 
 				expect(url.includes('/Errors/')).toBe(false, 'URL contains "/Errors/". Full url is: '+url+' ... Error occurred when trying to reach '+ toCheck);
 				expect(url.includes('/Error/')).toBe(false, 'URL contains "/Error/". Full url is: '+url+' ... Error occurred when trying to reach '+ toCheck);
-				
+
 				browser.isElementPresent(errorElement).then(function(presence){
 					expect(presence).toBe(false, errorReport);
 					fail404 = presence;
 				});
-				
+
 
 			});
 
 
 			it ('checking if iFrame is correct', function(){
-		  		
+
 		  		if(!fail404){
 
 			  		var errMsg;
@@ -125,22 +129,22 @@ describe('Checking iFrame for 404 or showing as if not logged in', function(){
 			  		browser.getCurrentUrl().then(function(currentUrl) {
 						url = currentUrl;
 					});
-			  		
+
 					browser.isElementPresent(iframe).then(function(presence){
 			  			if(presence){
 			  				console.log('iframe presence ----> '+presence);
-			  				
+
 			  				//browser.driver.switchTo().frame(browser.driver.findElement(protractor.By.css('iframe[allowfullscreen=""]')));
 			  				browser.driver.switchTo().frame(iframe.getWebElement());
-							
-							
-							
+
+
+
 							browser.driver.findElement(protractor.By.xpath('/html')).then(function(htm){
 								htm.getAttribute('xmlns').then(function(xml){
 									if(xml != null){
-										
+
 										browser.driver.findElement(protractor.By.name('aspnetForm')).then(function(elm){
-											
+
 											if (elm == null || elm == 'undefined'){
 												console.log('DEN ÄR NULL / UNDEFINED!' + elm)
 											}
@@ -161,27 +165,27 @@ describe('Checking iFrame for 404 or showing as if not logged in', function(){
 									}
 
 								});
-								
+
 							});
 
 
-							
 
-							
-							
-							
+
+
+
+
 			  			} else {
-			  				
+
 			  				errMsg = 'classic sas iFrame not found. Is this the page you are trying to test? '+url;
 			  				console.log(errMsg);
 			  				expect(presence).toBe(true,errMsg);
 			  			}
 
-			  			
-			  			
+
+
 			  		});
 		  		}
-		  		
+
 	  		});
 		}
 	}

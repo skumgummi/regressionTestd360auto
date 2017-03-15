@@ -8,9 +8,9 @@ module.exports = {
   doSomething: function () {
     return 1+1;
   },
- 
+
   /******************************************
-  * ATTENTION          						*			
+  * ATTENTION          						*
   * When using this function, make sure		*
   * whatever operation uses the output is 	*
   * synced with the control flow.			*
@@ -25,12 +25,12 @@ module.exports = {
 	var availableSeats = [];
 	var seats = element.all(by.css('span[ng-click="data.selectGivenSeatForGivenPax(seat, $event);"]')).then(function(elm){
         for (var i = 0; i < elm.length; i++) {
-          
-          //let creates a local variable for each iteration of the for-loop. 
+
+          //let creates a local variable for each iteration of the for-loop.
           //This is required because the for-loop doesn't stop to wait for calls to the browser, like .getAttribute(), to finish
           let j = i;
           elm[j].getAttribute('class').then(function(clss){
-            
+
             //for some planes, seats are labeled 'seatFree', and others 'seatChargeable'
             if(clss.includes('seatFree') || clss.includes('seatChargeable')){
               availableSeats.push(elm[j]);
@@ -39,6 +39,24 @@ module.exports = {
         }
       });
       return availableSeats;
+  },
+
+  getNumberOfFlights : function () {
+	var numFlights = [];
+	var flights = element.all(by.css('a[data-toggle="tab"]')).then(function(elm){
+    console.log("elm is: " + elm.length);
+        for (var i = 0; i < elm.length; i++) {
+          console.log("does this happen? " + i);
+          let j = i;
+          elm[j].getAttribute('class').then(function(clss){
+            if(clss.includes('btn btn-tabs')){
+              numFlights.push(elm[j]);
+            }
+          });
+        }
+      });
+      console.log("numFlights is: " +numFlights.length);
+      return numFlights;
   },
 
 
