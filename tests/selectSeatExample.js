@@ -11,7 +11,7 @@ var helperFunctions = require('../helpers/helperFunctions.js');
 
 var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
-var totalAdults = 1;
+var totalAdults = 4;
 var totalChildren = 0;
 var totalInfants = 0;
 var totalPassengers;
@@ -313,6 +313,7 @@ afterAll(function() {
     ancillariesPage.selectSeatButton.click();
   });
 
+/*
   it ('Select more seats', function(){
     numberOfFlights = helperFunctions.getNumberOfFlights();
     browser.waitForAngular().then(function(){
@@ -330,11 +331,38 @@ afterAll(function() {
         });
       };
     })
-
-    /*
-
-    */
   });
+  */
+
+  it('Select seats for more passengers', function(){
+    for(var i = 1; i<=totalChildren+totalAdults; i++){
+      console.log('this is the thing '+i);
+      current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+i+']'));
+      browser.waitForAngular().then(function(){
+        numberOfFlights = helperFunctions.getNumberOfFlights();
+        browser.waitForAngular().then(function(){
+          console.log("Should come after message with elm length "+numberOfFlights.length);
+          for(var j = 0; j < numberOfFlights.length; j++){
+            numberOfFlights[j].click();
+            browser.waitForAngular().then(function(){
+              availableSeats = helperFunctions.getAvailableSeats();
+            });
+            browser.waitForAngular().then(function(){
+              current.click();
+            });
+
+            browser.getCurrentUrl().then(function(url) {
+              console.log(availableSeats.length);
+              helperFunctions.scrollElementToBeClickable(availableSeats[0]);
+              availableSeats[0].click();
+            });
+          };
+        });
+
+      });
+    };
+  });
+
 /*
   it('click shopping cart button', function(){
     console.log("seventeenth test");
