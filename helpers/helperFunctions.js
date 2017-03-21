@@ -9,6 +9,8 @@ module.exports = {
     return 1+1;
   },
 
+
+
   /******************************************
   * ATTENTION          						*
   * When using this function, make sure		*
@@ -83,7 +85,7 @@ module.exports = {
 		//flyer.lastName = this.getRandomString(this.getRandomNum(2,40));
 
 		var rand = this.getRandomNum(1,2);
-		if (rand == 1) {
+		if (rand === 1) {
 			flyer.gender = 'male';
 		}
 		flyer.email =  'autotest@autotestmail.com';
@@ -199,6 +201,7 @@ module.exports = {
     	phone: 'test',
 	}
 	if(i == 0){
+    console.log('firstName0 etc');
 		inputObj.firstName = passengerPage.firstName0;
     	inputObj.lastName = passengerPage.lastName0;
     	inputObj.gender = passengerPage.gender0;
@@ -208,6 +211,7 @@ module.exports = {
     	inputObj.email = passengerPage.email0;
     	inputObj.phone = passengerPage.phone0;
 	} else if(i == 1) {
+    console.log('firstName1 etc');
 		inputObj.firstName = passengerPage.firstName1;
     	inputObj.lastName = passengerPage.lastName1;
     	inputObj.gender = passengerPage.gender1;
@@ -217,6 +221,7 @@ module.exports = {
     	inputObj.email = passengerPage.email1;
     	inputObj.phone = passengerPage.phone1;
 	} else if (i == 2) {
+    console.log('firstName2 etc');
 		inputObj.firstName = passengerPage.firstName2;
     	inputObj.lastName = passengerPage.lastName2;
     	inputObj.gender = passengerPage.gender2;
@@ -226,6 +231,7 @@ module.exports = {
     	inputObj.email = passengerPage.email2;
     	inputObj.phone = passengerPage.phone2;
 	} else if (i == 3) {
+    console.log('firstName3 etc');
 		inputObj.firstName = passengerPage.firstName3;
     	inputObj.lastName = passengerPage.lastName3;
     	inputObj.gender = passengerPage.gender3;
@@ -235,6 +241,7 @@ module.exports = {
     	inputObj.email = passengerPage.email3;
     	inputObj.phone = passengerPage.phone3;
 	} else if (i == 4) {
+    console.log('firstName4 etc');
 		inputObj.firstName = passengerPage.firstName4;
     	inputObj.lastName = passengerPage.lastName4;
     	inputObj.gender = passengerPage.gender4;
@@ -244,6 +251,7 @@ module.exports = {
     	inputObj.email = passengerPage.email4;
     	inputObj.phone = passengerPage.phone4;
 	} else if (i == 5) {
+    console.log('firstName5 etc');
 		inputObj.firstName = passengerPage.firstName5;
     	inputObj.lastName = passengerPage.lastName5;
     	inputObj.gender = passengerPage.gender5;
@@ -253,6 +261,7 @@ module.exports = {
     	inputObj.email = passengerPage.email5;
     	inputObj.phone = passengerPage.phone5;
 	} else if (i == 6) {
+    console.log('firstName6 etc');
 		inputObj.firstName = passengerPage.firstName6;
     	inputObj.lastName = passengerPage.lastName6;
     	inputObj.gender = passengerPage.gender6;
@@ -262,6 +271,7 @@ module.exports = {
     	inputObj.email = passengerPage.email6;
     	inputObj.phone = passengerPage.phone6;
 	} else if (i == 7) {
+    console.log('firstName7 etc');
 		inputObj.firstName = passengerPage.firstName7;
     	inputObj.lastName = passengerPage.lastName7;
     	inputObj.gender = passengerPage.gender7;
@@ -271,6 +281,7 @@ module.exports = {
     	inputObj.email = passengerPage.email7;
     	inputObj.phone = passengerPage.phone7;
 	} else if (i == 8) {
+    console.log('firstName8 etc');
 		inputObj.firstName = passengerPage.firstName8;
     	inputObj.lastName = passengerPage.lastName8;
     	inputObj.gender = passengerPage.gender8;
@@ -280,6 +291,7 @@ module.exports = {
     	inputObj.email = passengerPage.email8;
     	inputObj.phone = passengerPage.phone8;
 	} else if (i == 9) {
+    console.log('firstName9 etc');
 		inputObj.firstName = passengerPage.firstName9;
     	inputObj.lastName = passengerPage.lastName9;
     	inputObj.gender = passengerPage.gender9;
@@ -289,6 +301,7 @@ module.exports = {
     	inputObj.email = passengerPage.email9;
     	inputObj.phone = passengerPage.phone9;
 	} else if (i == 10) {
+    console.log('firstName10 etc');
 		inputObj.firstName = passengerPage.firstName10;
     	inputObj.lastName = passengerPage.lastName10;
     	inputObj.gender = passengerPage.gender10;
@@ -298,6 +311,7 @@ module.exports = {
     	inputObj.email = passengerPage.email10;
     	inputObj.phone = passengerPage.phone10;
 	} else if (i == 11) {
+    console.log('firstName11 etc');
 		inputObj.firstName = passengerPage.firstName11;
     	inputObj.lastName = passengerPage.lastName11;
     	inputObj.gender = passengerPage.gender11;
@@ -307,6 +321,7 @@ module.exports = {
     	inputObj.email = passengerPage.email11;
     	inputObj.phone = passengerPage.phone11;
 	} else if (i == 12) {
+    console.log('firstName12 etc');
 		inputObj.firstName = passengerPage.firstName12;
     	inputObj.lastName = passengerPage.lastName12;
     	inputObj.gender = passengerPage.gender12;
@@ -316,6 +331,7 @@ module.exports = {
     	inputObj.email = passengerPage.email12;
     	inputObj.phone = passengerPage.phone12;
 	} else if (i == 13) {
+    console.log('firstName13 etc');
 		inputObj.firstName = passengerPage.firstName13;
     	inputObj.lastName = passengerPage.lastName13;
     	inputObj.gender = passengerPage.gender13;
@@ -325,6 +341,7 @@ module.exports = {
     	inputObj.email = passengerPage.email13;
     	inputObj.phone = passengerPage.phone13;
 	} else if (i == 14) {
+    console.log('firstName14 etc');
 		inputObj.firstName = passengerPage.firstName14;
     	inputObj.lastName = passengerPage.lastName14;
     	inputObj.gender = passengerPage.gender14;
@@ -334,6 +351,7 @@ module.exports = {
     	inputObj.email = passengerPage.email14;
     	inputObj.phone = passengerPage.phone14;
 	} else if (i == 15) {
+    console.log('firstName15 etc');
 		inputObj.firstName = passengerPage.firstName15;
     	inputObj.lastName = passengerPage.lastName15;
     	inputObj.gender = passengerPage.gender15;
@@ -343,6 +361,7 @@ module.exports = {
     	inputObj.email = passengerPage.email15;
     	inputObj.phone = passengerPage.phone15;
 	} else if (i == 16) {
+    console.log('firstName16 etc');
 		inputObj.firstName = passengerPage.firstName16;
     	inputObj.lastName = passengerPage.lastName16;
     	inputObj.gender = passengerPage.gender16;
@@ -352,6 +371,7 @@ module.exports = {
     	inputObj.email = passengerPage.email16;
     	inputObj.phone = passengerPage.phone16;
 	} else if (i == 17) {
+    console.log('firstName17 etc');
 		inputObj.firstName = passengerPage.firstName17;
     	inputObj.lastName = passengerPage.lastName17;
     	inputObj.gender = passengerPage.gender17;

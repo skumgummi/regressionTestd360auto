@@ -15,7 +15,7 @@ exports.config = {
     defaultTimeoutInterval: 120000
   },
   seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['selectSeatExample.js'],
+  specs: ['bookStreamDynamic.js'],
 
   onPrepare: function() {
 

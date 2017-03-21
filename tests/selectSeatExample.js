@@ -30,11 +30,12 @@ beforeAll(function(){
   browser.get('https://sas.no/en');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
 
-  totalPassengers = totalAdults+totalChildren+totalInfants;
+  //unfortunately this doesn't actually work :/
+  /*totalPassengers = totalAdults+totalChildren+totalInfants;
   var t = totalPassengers*1000;
   t+=30000;
   console.log('timeout is now '+t);
-  allScriptsTimeout = 30000+t;
+  allScriptsTimeout = 30000+t;*/
   browser.waitForAngular();
 });
 
@@ -176,7 +177,7 @@ afterAll(function() {
   it('main adult details', function (){
     var flyer0 = helperFunctions.getFlyer();
 
-
+    
     //first name
     passengerPage.firstName0.click();
     passengerPage.firstName0.sendKeys(flyer0.firstName);
@@ -190,7 +191,21 @@ afterAll(function() {
     } else {
       passengerPage.gender0DropDownFemale.click();
     }
-
+    var dobPresent = true;
+    browser.wait(EC.presenceOf(passengerPage.dob0), 100)
+      .catch(function(expectation) {
+        dobPresent = false;
+        //throw expectation;
+    }).then(function(){
+      if (dobPresent) {
+        //date of birth
+        passengerPage.dob0.click();
+        passengerPage.dob0.sendKeys(flyer0.dobAdult);
+        passengerPage.dob0.sendKeys('01');
+        passengerPage.dob0.sendKeys('01');
+      }
+    });
+    
     //email
     passengerPage.email0.click();
     passengerPage.email0.sendKeys(flyer0.email);
@@ -198,10 +213,10 @@ afterAll(function() {
     //phone number
     passengerPage.phone0.click();
     passengerPage.phone0.sendKeys(flyer0.phone);
-
-
+    
+    
     //i starts at 1 because the first adult is handled separately
-    for (var i = 1; i < totalPassengers; i++) {
+    for (var i = 0; i < totalPassengers; i++) {
       var inputObj = helperFunctions.getFlyerInputsObj(i);
       flyerInputElements.push(inputObj);
       var flyer = helperFunctions.getFlyer();
@@ -210,70 +225,117 @@ afterAll(function() {
 
   });
 
-
+ 
   //all other adults
 
   it('remaining adult details', function (){
-    for (var i = 0; i < totalAdults-1; i++) {
-
-
-
-      helperFunctions.scrollElementToBeClickable(flyerInputElements[i].firstName);
+    for (var i = 1; i < totalAdults; i++) {
+      let j = i;
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
 
       //first name
-      flyerInputElements[i].firstName.click();
-      flyerInputElements[i].firstName.sendKeys(flyers[i].firstName);
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
       //last name
-      flyerInputElements[i].lastName.click();
-      flyerInputElements[i].lastName.sendKeys(flyers[i].lastName);
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
       //gender
-      flyerInputElements[i].gender.click();
-      if (flyers[i].gender == 'male'){
-        flyerInputElements[i].genderDropDownMale.click();
+      flyerInputElements[j].gender.click();
+      if (flyers[j].gender == 'male'){
+        flyerInputElements[j].genderDropDownMale.click();
       } else {
-        flyerInputElements[i].genderDropDownFemale.click();
+        flyerInputElements[j].genderDropDownFemale.click();
       }
+      var dobPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].dob), 100)
+        .catch(function(expectation) {
+          dobPresent = false;
+      }).then(function(){
+        if (dobPresent) {
+          //date of birth
+          flyerInputElements[j].dob.click();
+          flyerInputElements[j].dob.sendKeys(flyers[j].dobAdult);
+          flyerInputElements[j].dob.sendKeys('01');
+          flyerInputElements[j].dob.sendKeys('01');
+        }
+      });
+
       //this expect is not ideal
       //it might even fuck up at the end, looking for a new element to scroll to when no scroll is required
-      expect(flyerInputElements[i].firstName.isPresent()).toBe(true,'Cant find next element. Wont be able to scroll to it!');
+      expect(flyerInputElements[j].firstName.isPresent()).toBe(true,'Cant find next element. Wont be able to scroll to it!');
     }
   });
 
   it('all children details', function (){
-    for (var i = totalAdults-1; i < totalChildren+totalAdults-1; i++) {
-
-
-      helperFunctions.scrollElementToBeClickable(flyerInputElements[i].firstName);
+    for (var i = totalAdults; i < totalChildren+totalAdults; i++) {
+      
+      let j = i;
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
       //first name
-      flyerInputElements[i].firstName.click();
-      flyerInputElements[i].firstName.sendKeys(flyers[i].firstName);
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
       //last name
-      flyerInputElements[i].lastName.click();
-      flyerInputElements[i].lastName.sendKeys(flyers[i].lastName);
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
+      
+      //gender
+      var genderPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].gender), 100).
+      catch(function(expectation){
+        genderPresent = false;
+      }).then(function(){
+        if(genderPresent){
+          flyerInputElements[j].gender.click();
+          if (flyers[j].gender == 'male'){
+            flyerInputElements[j].genderDropDownMale.click();
+          } else {
+            flyerInputElements[j].genderDropDownFemale.click();
+          }
+        }
+      });
+          
       //date of birth
-      flyerInputElements[i].dob.click();
+      flyerInputElements[j].dob.click();
       //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
-      flyerInputElements[i].dob.sendKeys(flyers[i].dobChild);
-      flyerInputElements[i].dob.sendKeys('01');
-      flyerInputElements[i].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys(flyers[j].dobChild);
+      flyerInputElements[j].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys('01');
     }
   });
 
   it('all infants details', function (){
-    for (var i = totalAdults+totalChildren-1; i < totalPassengers-1; i++) {
-      helperFunctions.scrollElementToBeClickable(flyerInputElements[i].firstName);
+    for (var i = totalAdults+totalChildren; i < totalPassengers; i++) {
+      let j = i;
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
       //first name
-      flyerInputElements[i].firstName.click();
-      flyerInputElements[i].firstName.sendKeys(flyers[i].firstName);
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
       //last name
-      flyerInputElements[i].lastName.click();
-      flyerInputElements[i].lastName.sendKeys(flyers[i].lastName);
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
+      
+      //gender
+      var genderPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].gender), 100).
+      catch(function(expectation){
+        genderPresent = false;
+      }).then(function(){
+        if(genderPresent){
+          flyerInputElements[j].gender.click();
+          if (flyers[j].gender == 'male'){
+            flyerInputElements[j].genderDropDownMale.click();
+          } else {
+            flyerInputElements[j].genderDropDownFemale.click();
+          }
+        }
+      });
+          
       //date of birth
-      flyerInputElements[i].dob.click();
+      flyerInputElements[j].dob.click();
       //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
-      flyerInputElements[i].dob.sendKeys(flyers[i].dobInfant);
-      flyerInputElements[i].dob.sendKeys('01');
-      flyerInputElements[i].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys(flyers[j].dobInfant);
+      flyerInputElements[j].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys('01');
     }
   });
 
@@ -348,7 +410,9 @@ afterAll(function() {
               availableSeats = helperFunctions.getAvailableSeats();
             });
             browser.waitForAngular().then(function(){
-              current.click();
+              browser.wait(EC.elementToBeClickable(current), 5000).then(function(clickable){
+                current.click();
+              });
             });
 
             browser.getCurrentUrl().then(function(url) {
