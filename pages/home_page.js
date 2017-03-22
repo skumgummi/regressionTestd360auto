@@ -4,6 +4,10 @@ var homePage = function(){
 
   this.cookieButton = element(by.id('closeButton'));
 
+  this.adultsLabel = element(by.id('Adults')).element(by.binding('pax.paxConstraints.preSelected'));
+  this.childrenLabel = element(by.id('Children')).element(by.binding('pax.paxConstraints.preSelected'));
+  this.infantsLabel = element(by.id('Infants')).element(by.binding('pax.paxConstraints.preSelected'));
+
   this.myTripsButton = element(by.id('my-trips'));
   this.openTravelers = element(by.binding('translation["booking.cep.travellers"]'));
   this.openOrigin = element(by.id('select-origin'));
@@ -67,24 +71,48 @@ var homePage = function(){
   this.news = element(by.css('a[title="News"]'));
 
   this.travellerFlag = element(by.css('input[ng-show="travellersFlag"]'));
+  this.fwdButton = element(by.css('.sas-cep-arrow.center-block'));
 
+  
+  //var datePickerCss = '.ui-state-enabled.ui-state-hover.ui-datepicker-td-hover';
   //placeholder dates!
-  this.setOutbound = function(date) {
-    otbDate = date;
-    element.all(by.linkText(otbDate)).first().click();
+  this.setOutbound = function(day, month, year) {
+    //month reduced by 1 because January = 0 on the website
+    month--;;
+    var monthId = month+year;
+    var otbDay = day;
+    var selectedDate = element(by.id(monthId)).element(by.linkText(otbDay));
+    helperFunctions.scrollElementUpWithOffset(selectedDate,420);
+    selectedDate.click();
     browser.driver.sleep(400);
   }
 
-  this.setInbound = function(date) {
-    otbDate = date;
-    element.all(by.linkText(otbDate)).first().click();
+  this.setInbound = function(day, month, year) {
+    //month reduced by 1 because January = 0 on the website
+    month--;
+    var monthId = month+year;
+    var inbDay = day;
+    var selectedDate = element(by.id(monthId)).element(by.linkText(inbDay));
+    helperFunctions.scrollElementUpWithOffset(selectedDate,300);
+    selectedDate.click();
     browser.driver.sleep(400);
   }
+  /*this.setOutbound = function(date) {
+    let inbDate = date;
+    element.all(by.linkText(inbDate)).first().click();
+    browser.driver.sleep(400);
+  }*/
+
+  /*this.setInbound = function(date) {
+    let inbDate = date;
+    element.all(by.linkText(inbDate)).first().click();
+    browser.driver.sleep(400);
+  }*/
 
   this.clickForwardButton = function() {
    //var fwdButton = element(by.css('.cepArrow.center-block'));
-   var fwdButton = element(by.css('.sas-cep-arrow.center-block'));
-   fwdButton.click();
+   
+   this.fwdButton.click();
    return require('./upsell_page.js');
  }
 

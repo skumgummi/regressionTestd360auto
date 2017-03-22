@@ -8,18 +8,31 @@ var passengerPage = require('../pages/passenger_page.js');
 var ancillariesPage = require('../pages/ancillaries_page.js');
 var paymentPage = require('../pages/payment_page.js');
 var helperFunctions = require('../helpers/helperFunctions.js');
-
 var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
-var totalAdults = 1;
-var totalChildren = 1;
-var totalInfants = 1;
-var totalPassengers;
 
+//these should be changed to take data from test parameters or something like that (i.e. data driven)
+var totalAdults = 1;
+var totalChildren = 0;
+var totalInfants = 1;
+var outBoundDay = '23';
+var outBoundMonth = '6';
+var outBoundYear = '2017';
+var inBoundDay = '27'
+var inBoundMonth = '6'
+var inBoundYear = '2017'
+var orig = 'ARN';
+var dest = 'LAX';
 var flyers = [];
+
+//these values do not need to be set through test parameters
+var totalPassengers;
+var totalAdultsStr = '';
+var totalChildrenStr = '';
+var totalInfantsStr = '';
 var flyerInputElements = [];
 
-//to be used to skip test of test through if-statements
+//to be used to skip rest of test through if-statements
 var testFailed = false;
 
 beforeAll(function(){
@@ -32,7 +45,13 @@ beforeAll(function(){
   t+=30000;
   console.log('timeout is now '+t);
   allScriptsTimeout = t;
+  
+  totalAdultsStr = totalAdults+'';
+  totalChildrenStr = totalChildren+'';
+  totalInfantsStr = totalInfants+'';
+
   browser.waitForAngular();
+
 });
 
 afterAll(function() {
@@ -49,10 +68,15 @@ afterAll(function() {
     
 
     //this mostly verifies that page has loaded correctly, and test can proceed
-    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found. Did page load correctly?')
-      .catch(function(expectation) {
+    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found. Did page load correctly? Skipping remainder of this test to avoid critical failure.')
+      .catch(function(err) {
         testFailed = true;
-        throw expectation;
+        throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
     });
     
     homePage.openTravelers.click().then(function(){
@@ -67,54 +91,105 @@ afterAll(function() {
         homePage.addInfant.click();
       }
     });
-    /*browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('adt=1')).toBe(true, 'URL doesnt contain "adt=1" ');
-    });*/
 
-    //this checks the input field rather than the URL
-    //element(by.css('input[ng-show="travellersFlag"]')).getAttribute('value').then(function(attribute){
-      //expect(attribute).toEqual('4 Travelers','Chosen number of travellers not correct for this (hardcoded) test.');
-    //});
+    //verifies that requested amount of passengers was able to be selected
+    homePage.adultsLabel.getText().then(function(text) {
+      expect(parseInt(text)).toEqual(totalAdults, 'Number of adults selected doesnt match test specs. Did test attempt to use an invalid amount of adults? Continuing test with '+text+' adults.');
+      browser.waitForAngular().then(function(){
+        if (text != totalAdultsStr) {
+          totalAdults = parseInt(text);
+        }
+      });
+    });
+    homePage.childrenLabel.getText().then(function(text) {
+      expect(parseInt(text)).toEqual(totalChildren, 'Number of children selected doesnt match test specs. Did test attempt to use an invalid amount of children+adults? Continuing test with '+text+' children.');
+      browser.waitForAngular().then(function(){
+        if (text != totalChildrenStr) {
+          totalChildren = parseInt(text);
+        }
+      });
+    });
+    homePage.infantsLabel.getText().then(function(text) {
+      expect(parseInt(text)).toEqual(totalInfants, 'Number of infants selected doesnt match test specs. Did test attempt to use an invalid amount of infants? Continuing test with '+text+' infants.');
+      browser.waitForAngular().then(function(){
+        if (text != totalInfantsStr) {
+          totalInfants = parseInt(text);
+        }
+      });
+    });
   });
 
   it('select origin', function(){
-    browser.wait(EC.elementToBeClickable(homePage.openOrigin), 5000, 'Not able to . Button not identified as clickable.').then(function(clickable){
-      expect(clickable).toBe(true,'Not able to select amount of travelers. Button not identified as clickable');
+    browser.wait(EC.elementToBeClickable(homePage.openOrigin), 5000, 'Button for selecting origin not clickable/present. Did page load correctly? Skipping remainder of this test to avoid critical failure.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
     });
-
+    
     console.log("second test");
     homePage.openOrigin.click();
-    homePage.openOrigin.sendKeys('ARN');
+    homePage.openOrigin.sendKeys(orig);
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
-    browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('org=ARN')).toBe(true, 'URL doesnt contain "org=ARN" ');
-    });
+    //homePage.openOrigin.getAttribute('value')
+    
   });
 
   it('select destination', function(){
+    browser.wait(EC.elementToBeClickable(homePage.openDestination), 5000, 'Button for selecting destination is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     console.log("third test");
     homePage.openDestination.click();
-    homePage.openDestination.sendKeys('LAX');
+    homePage.openDestination.sendKeys(dest);
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
-    browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('dest=LHR')).toBe(true,'URL doesnt contain "dest=LHR" ');
-    });
+    
   });
 
   it('select dates', function(){
+    browser.wait(EC.elementToBeClickable(homePage.openDates), 5000, 'Button for opening up dates selection is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound("24");
+    //browser.sleep(2000);
+    homePage.setOutbound(outBoundDay,outBoundMonth,outBoundYear);
     browser.waitForAngular();
-    homePage.setInbound("28");
+    homePage.setInbound(inBoundDay,inBoundMonth,inBoundYear);
     browser.getCurrentUrl().then(function(url) {
-      //här måste man veta exakt datum, och just nu väljs inget särskilt datum
-      //expect(url.includes('[???]')).toBe(true);
-      console.log("this assertion can't be implemented until handling of dates is done properly");
+      //expecten här behöver att funktionen setOutbound/setInbound kan ta ett riktigt datum och välja just det datumet
     });
   });
 
   it('Click forward button', function(){
+    browser.wait(EC.elementToBeClickable(homePage.openDates), 5000, '"Forward button" is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     console.log("fifth test");
     homePage.clickForwardButton();
     browser.getCurrentUrl().then(function(url) {
@@ -123,12 +198,32 @@ afterAll(function() {
   });
 
   it('accept cookies', function(){
+    var cookieButtonPres = true;
+    browser.wait(EC.presenceOf(upsellPage.cookieButton), 5000, '"Forward button" is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    catch(function(err){
+      cookieButtonPres = false;
+    }).then(function(){
+      if (cookieButtonPres){
+        upsellPage.cookieButton.click();
+      }
+    });
+    
     console.log("sixth test");
-    upsellPage.cookieButton.click();
+    //upsellPage.cookieButton.click();
     expect(upsellPage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
   });
 
   it('select outbound flight', function(){
+    browser.wait(EC.elementToBeClickable(upsellPage.flight1), 5000, '"Forward button" is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     console.log("seventh test");
     upsellPage.flight1.click();
     browser.waitForAngular();
@@ -145,6 +240,16 @@ afterAll(function() {
   });
 
   it('click shopping cart button', function(){
+    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     console.log("eighth test");
     upsellPage.shoppingCartButton.click();
     browser.waitForAngular();
@@ -238,6 +343,7 @@ afterAll(function() {
   //all other adults
 
   it('remaining adult details', function (){
+    
     for (var i = 1; i < totalAdults; i++) {
       let j = i;
       helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
