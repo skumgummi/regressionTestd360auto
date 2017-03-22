@@ -11,7 +11,7 @@ var helperFunctions = require('../helpers/helperFunctions.js');
 
 var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
-var totalAdults = 4;
+var totalAdults = 2;
 var totalChildren = 0;
 var totalInfants = 0;
 var totalPassengers;
@@ -23,11 +23,12 @@ var seats = [];
 var flights = [];
 var availableSeats = [];
 var numberOfFlights = [];
+var seatMaps = [];
 
 beforeAll(function(){
   console.log("before all running!");
-  //browser.get('https://d360u.flysas.com/se-en');
-  browser.get('https://sas.no/en');
+  browser.get('https://d360u.flysas.com/se-en');
+  //browser.get('https://sas.no/en');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
 
   totalPassengers = totalAdults+totalChildren+totalInfants;
@@ -93,7 +94,7 @@ afterAll(function() {
   it('select dates', function(){
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound("21");
+    homePage.setOutbound("23");
     browser.waitForAngular();
     homePage.setInbound("26");
     browser.getCurrentUrl().then(function(url) {
@@ -334,18 +335,22 @@ afterAll(function() {
   });
   */
 
+  /*
   it('Select seats for more passengers', function(){
     for(var i = 1; i<=totalChildren+totalAdults; i++){
-      console.log('this is the thing '+i);
-      current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+i+']'));
+      let j = i;
+      console.log('this is the thing '+j);
+      let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+j+']'));
       browser.waitForAngular().then(function(){
         numberOfFlights = helperFunctions.getNumberOfFlights();
         browser.waitForAngular().then(function(){
           console.log("Should come after message with elm length "+numberOfFlights.length);
-          for(var j = 0; j < numberOfFlights.length; j++){
-            numberOfFlights[j].click();
+          for(var k = 0; k < numberOfFlights.length; k++){
+            let l = k;
+            numberOfFlights[l].click();
             browser.waitForAngular().then(function(){
               availableSeats = helperFunctions.getAvailableSeats();
+
             });
             browser.waitForAngular().then(function(){
               current.click();
@@ -361,6 +366,50 @@ afterAll(function() {
 
       });
     };
+  });
+  */
+
+
+  it('fill up seat plans', function(){
+    browser.waitForAngular().then(function(){
+      numberOfFlights = helperFunctions.getNumberOfFlights();
+    })
+    browser.waitForAngular().then(function(){
+      console.log('numberOfFlights.length = ' + numberOfFlights.length);
+      for(var i = 0; i<numberOfFlights.length; i++){
+        let j = i;
+        console.log('seatMap for loop: ' + j);
+        numberOfFlights[j].click();
+        browser.waitForAngular().then(function(url) {
+          availableSeats = helperFunctions.getAvailableSeats();
+          seatMaps.push(availableSeats);
+          console.log('seatMaps is: ' + seatMaps[0][0]);
+        })
+      }
+    })
+  });
+
+  it('Select seats for more passengers second try', function(){
+    browser.waitForAngular().then(function(){
+      numberOfFlights = helperFunctions.getNumberOfFlights();
+    }).then(function(){
+      console.log('numberOfFlights.length is: ' +numberOfFlights.length);
+      for(var i = 0; i<numberOfFlights.length; i++){
+        let j = i;
+        console.log('first for loop: ' + j);
+        numberOfFlights[j].click();
+
+        for(var k = 1; k<=totalChildren+totalAdults; k++){
+          let l = k;
+          console.log('second for loop: ' + l);
+          let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+l+']'));
+          current.click();
+          console.log('first '+seatMaps[0][0]);
+          console.log('second '+seatMaps[1][0]);
+          //kan inte referera till element från annan it
+        }
+      }
+    })
   });
 
 /*
