@@ -17,7 +17,10 @@ var paymentPage = function(){
   this.payNowButton = element(by.css('input[value="PAY NOW"]'));
 
   this.reviewButton = element(by.buttonText('REVIEW'));
+  //this.reviewButton = element(by.css('.btn.btn-primary.payment-button.active'));
   this.confirmButton = element(by.xpath('//*[@id="accordion"]/div[3]/div[3]/button'));
+
+  this.fareNotAvailableError = element(by.binding('fareNotAvailableMsg'));
 
   //this is an iframe, but is it from SIP or just from a credit card service? If SIP, it will need to be replaced when SIP is bypassed.
   this.creditCardFrame = element(by.id('creditCardFrame'));

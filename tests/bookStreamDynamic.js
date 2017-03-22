@@ -11,13 +11,16 @@ var helperFunctions = require('../helpers/helperFunctions.js');
 
 var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
-var totalAdults = 7;
-var totalChildren = 2;
-var totalInfants = 7;
+var totalAdults = 1;
+var totalChildren = 1;
+var totalInfants = 1;
 var totalPassengers;
 
 var flyers = [];
 var flyerInputElements = [];
+
+//to be used to skip test of test through if-statements
+var testFailed = false;
 
 beforeAll(function(){
   console.log("before all running!");
@@ -28,7 +31,7 @@ beforeAll(function(){
   var t = totalPassengers*1000;
   t+=30000;
   console.log('timeout is now '+t);
-  allScriptsTimeout = 30000+t;
+  allScriptsTimeout = t;
   browser.waitForAngular();
 });
 
@@ -40,7 +43,17 @@ afterAll(function() {
 
   it('select amount of passengers', function(){
     console.log("first test");
+    
+    
 
+    
+
+    //this mostly verifies that page has loaded correctly, and test can proceed
+    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found. Did page load correctly?')
+      .catch(function(expectation) {
+        testFailed = true;
+        throw expectation;
+    });
     
     homePage.openTravelers.click().then(function(){
       //one adult chosen by default, so i = 1
@@ -59,12 +72,16 @@ afterAll(function() {
     });*/
 
     //this checks the input field rather than the URL
-    element(by.css('input[ng-show="travellersFlag"]')).getAttribute('value').then(function(attribute){
-      expect(attribute).toEqual('4 Travelers','Chosen number of travellers not correct for this (hardcoded) test.');
-    });
+    //element(by.css('input[ng-show="travellersFlag"]')).getAttribute('value').then(function(attribute){
+      //expect(attribute).toEqual('4 Travelers','Chosen number of travellers not correct for this (hardcoded) test.');
+    //});
   });
 
   it('select origin', function(){
+    browser.wait(EC.elementToBeClickable(homePage.openOrigin), 5000, 'Not able to . Button not identified as clickable.').then(function(clickable){
+      expect(clickable).toBe(true,'Not able to select amount of travelers. Button not identified as clickable');
+    });
+
     console.log("second test");
     homePage.openOrigin.click();
     homePage.openOrigin.sendKeys('ARN');
@@ -77,7 +94,7 @@ afterAll(function() {
   it('select destination', function(){
     console.log("third test");
     homePage.openDestination.click();
-    homePage.openDestination.sendKeys('LHR');
+    homePage.openDestination.sendKeys('LAX');
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
     browser.getCurrentUrl().then(function(url) {
       expect(url.includes('dest=LHR')).toBe(true,'URL doesnt contain "dest=LHR" ');
@@ -87,9 +104,9 @@ afterAll(function() {
   it('select dates', function(){
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound("11");
+    homePage.setOutbound("24");
     browser.waitForAngular();
-    homePage.setInbound("15");
+    homePage.setInbound("28");
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
@@ -182,6 +199,20 @@ afterAll(function() {
     } else {
       passengerPage.gender0DropDownFemale.click();
     }
+    var dobPresent = true;
+    browser.wait(EC.presenceOf(passengerPage.dob0), 100)
+      .catch(function(expectation) {
+        dobPresent = false;
+        //throw expectation;
+    }).then(function(){
+      if (dobPresent) {
+        //date of birth
+        passengerPage.dob0.click();
+        passengerPage.dob0.sendKeys(flyer0.dobAdult);
+        passengerPage.dob0.sendKeys('01');
+        passengerPage.dob0.sendKeys('01');
+      }
+    });
     
     //email
     passengerPage.email0.click();
@@ -192,8 +223,9 @@ afterAll(function() {
     passengerPage.phone0.sendKeys(flyer0.phone);
     
     
-    //i starts at 1 because the first adult is handled separately
-    for (var i = 1; i < totalPassengers; i++) {
+    //0th position in this array represents the first adult, which is already used
+    //however it is added anyway to maintain sound logic
+    for (var i = 0; i < totalPassengers; i++) {
       var inputObj = helperFunctions.getFlyerInputsObj(i);
       flyerInputElements.push(inputObj);
       var flyer = helperFunctions.getFlyer();
@@ -206,105 +238,116 @@ afterAll(function() {
   //all other adults
 
   it('remaining adult details', function (){
-    for (var i = 0; i < totalAdults-1; i++) {
-      
-    
-      
-      helperFunctions.scrollElementToBeClickable(flyerInputElements[i].firstName);
+    for (var i = 1; i < totalAdults; i++) {
+      let j = i;
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
 
       //first name
-      flyerInputElements[i].firstName.click();
-      flyerInputElements[i].firstName.sendKeys(flyers[i].firstName);
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
       //last name
-      flyerInputElements[i].lastName.click();
-      flyerInputElements[i].lastName.sendKeys(flyers[i].lastName);
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
       //gender
-      flyerInputElements[i].gender.click();
-      if (flyers[i].gender == 'male'){
-        flyerInputElements[i].genderDropDownMale.click();
+      flyerInputElements[j].gender.click();
+      if (flyers[j].gender == 'male'){
+        flyerInputElements[j].genderDropDownMale.click();
       } else {
-        flyerInputElements[i].genderDropDownFemale.click();
+        flyerInputElements[j].genderDropDownFemale.click();
       }
+      var dobPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].dob), 100)
+        .catch(function(expectation) {
+          dobPresent = false;
+      }).then(function(){
+        if (dobPresent) {
+          //date of birth
+          flyerInputElements[j].dob.click();
+          flyerInputElements[j].dob.sendKeys(flyers[j].dobAdult);
+          flyerInputElements[j].dob.sendKeys('01');
+          flyerInputElements[j].dob.sendKeys('01');
+        }
+      });
+
       //this expect is not ideal
       //it might even fuck up at the end, looking for a new element to scroll to when no scroll is required
-      expect(flyerInputElements[i].firstName.isPresent()).toBe(true,'Cant find next element. Wont be able to scroll to it!');
+      expect(flyerInputElements[j].firstName.isPresent()).toBe(true,'Cant find next element. Wont be able to scroll to it!');
     }
   });
 
   it('all children details', function (){
-    for (var i = totalAdults-1; i < totalChildren+totalAdults-1; i++) {
+    for (var i = totalAdults; i < totalChildren+totalAdults; i++) {
       
-      
-      helperFunctions.scrollElementToBeClickable(flyerInputElements[i].firstName);
+      let j = i;
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
       //first name
-      flyerInputElements[i].firstName.click();
-      flyerInputElements[i].firstName.sendKeys(flyers[i].firstName);
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
       //last name
-      flyerInputElements[i].lastName.click();
-      flyerInputElements[i].lastName.sendKeys(flyers[i].lastName);
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
+      
+      //gender
+      var genderPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].gender), 100).
+      catch(function(expectation){
+        genderPresent = false;
+      }).then(function(){
+        if(genderPresent){
+          flyerInputElements[j].gender.click();
+          if (flyers[j].gender == 'male'){
+            flyerInputElements[j].genderDropDownMale.click();
+          } else {
+            flyerInputElements[j].genderDropDownFemale.click();
+          }
+        }
+      });
+          
       //date of birth
-      flyerInputElements[i].dob.click();
+      flyerInputElements[j].dob.click();
       //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
-      flyerInputElements[i].dob.sendKeys(flyers[i].dobChild);
-      flyerInputElements[i].dob.sendKeys('01');
-      flyerInputElements[i].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys(flyers[j].dobChild);
+      flyerInputElements[j].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys('01');
     }
   });
 
   it('all infants details', function (){
-    for (var i = totalAdults+totalChildren-1; i < totalPassengers-1; i++) {
-      helperFunctions.scrollElementToBeClickable(flyerInputElements[i].firstName);
+    for (var i = totalAdults+totalChildren; i < totalPassengers; i++) {
+      let j = i;
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
       //first name
-      flyerInputElements[i].firstName.click();
-      flyerInputElements[i].firstName.sendKeys(flyers[i].firstName);
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
       //last name
-      flyerInputElements[i].lastName.click();
-      flyerInputElements[i].lastName.sendKeys(flyers[i].lastName);
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
+      
+      //gender
+      var genderPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].gender), 100).
+      catch(function(expectation){
+        genderPresent = false;
+      }).then(function(){
+        if(genderPresent){
+          flyerInputElements[j].gender.click();
+          if (flyers[j].gender == 'male'){
+            flyerInputElements[j].genderDropDownMale.click();
+          } else {
+            flyerInputElements[j].genderDropDownFemale.click();
+          }
+        }
+      });
+          
       //date of birth
-      flyerInputElements[i].dob.click();
+      flyerInputElements[j].dob.click();
       //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
-      flyerInputElements[i].dob.sendKeys(flyers[i].dobInfant);
-      flyerInputElements[i].dob.sendKeys('01');
-      flyerInputElements[i].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys(flyers[j].dobInfant);
+      flyerInputElements[j].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys('01');
     }
   });
 
-  
-
-/*
-  //#3
-  it('first child details', function (){
-    var flyer2 = helperFunctions.getFlyer();
-    
-    helperFunctions.scrollElementToBeClickable(passengerPage.firstName2);
-    //first name
-    passengerPage.firstName2.click();
-    passengerPage.firstName2.sendKeys(flyer2.firstName);
-    //last name
-    passengerPage.lastName2.click();
-    passengerPage.lastName2.sendKeys(flyer2.lastName);
-    //date of birth
-    passengerPage.dob2.click();
-    //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
-    passengerPage.dob2.sendKeys(flyer2.dobChild);
-  });
-
-  //#4
-  it('first infant details', function (){
-    helperFunctions.scrollElementToBeClickable(passengerPage.firstName3);
-    //first name
-    passengerPage.firstName3.click();
-    passengerPage.firstName3.sendKeys(flyer3.firstName);
-    //last name
-    passengerPage.lastName3.click();
-    passengerPage.lastName3.sendKeys(flyer3.lastName);
-    //date of birth
-    passengerPage.dob3.click();
-    //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
-    passengerPage.dob3.sendKeys(flyer3.dobInfant);
-  });
-
-*/
 
   it('click shopping cart button', function(){
     
@@ -327,13 +370,13 @@ afterAll(function() {
   it('Enter card details', function(){
     console.log("eighteenth test");
     paymentPage.visa();
+    
+
     //additional expects done in above function in paymentPage.js
     //browser.sleep(5000);
     //expect(paymentPage.reviewButton);
     //var EC = protractor.ExpectedConditions;
-    browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 5000).then(function(clickable){
-      expect(clickable).toBe(true,'Button to review payment is not clickable or visible!');
-    });
+    browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 15000, 'Button to review payment is not clickable or visible!');
   });
 
 
@@ -370,33 +413,44 @@ afterAll(function() {
 
   it('review purchase', function(){
     console.log('twentyfourth test');
+    
     paymentPage.reviewButton.click();
     
-    browser.wait(EC.visibilityOf(paymentPage.paxDetails), 15000).then(function(clickable){
-      expect(paymentPage.paxDetails.isPresent()).toBe(true,'Pax details arent visible!');
-      expect(paymentPage.interTotalPrize.isPresent()).toBe(true,'Total prize not visible!');
-      expect(paymentPage.insuranceRadioOptions.isPresent()).toBe(true,'Insurance options not visible!');
-    });
+    browser.wait(EC.and(EC.presenceOf(paymentPage.paxDetails), EC.presenceOf(paymentPage.interTotalPrize),EC.presenceOf(paymentPage.insuranceRadioOptions)), 15000,'"paxDetails", "interTotalPrize" or "insuranceRadioOptions" not present on page!');
+    //.catch(function(err){
+      //throw err;
+    //});
+    expect(paymentPage.fareNotAvailableError.isPresent()).toBe(false,'"Fare Not Available"-message detected! Try a different flight!');
   });
 
   it('accept terms', function(){
     console.log('twentyfifth test');
-
-    paymentPage.checkBox.click().then(function(){
-      paymentPage.inputAcceptCheckBox.getAttribute('checked').then(function(attribute){
-        expect(attribute).toBe('true','Checkbox still not checked after click!');
-      });
-    })
-    
-    browser.wait(EC.elementToBeClickable(paymentPage.payNowButton), 5000).then(function(clickable){
-      expect(clickable).toBe(true,'Button to confirm payment is not clickable or visible!');
+    browser.wait(EC.visibilityOf(paymentPage.checkBox), 15000).then(function(visible){
+      expect(visible).toBe(true,'Checkbox to accept terms not visible!');
+      if (visible){
+        paymentPage.checkBox.click().then(function(){
+          paymentPage.inputAcceptCheckBox.getAttribute('checked').then(function(attribute){
+            expect(attribute).toBe('true','Checkbox still not checked after click!');
+          });
+        });
+      }
     });
+    
+    browser.wait(EC.elementToBeClickable(paymentPage.payNowButton), 5000,'Button to confirm payment is not clickable or visible!');
+      /*.then(function(clickable){
+        expect(clickable).toBe(true,'Button to confirm payment is not clickable or visible!');
+      });*/
   });
 
   it('Pay', function(){
     console.log('twentysixth test');
-    paymentPage.payNowButton.click().then(function(result){
-      expect(paymentPage.reservationNumber.isPresent()).toBe(true,'Reservation number not displayed!');
+    browser.wait(EC.visibilityOf(paymentPage.payNowButton), 5000).then(function(visible){
+      
+      if (visible) { 
+        paymentPage.payNowButton.click().then(function(result){
+          expect(paymentPage.reservationNumber.isPresent()).toBe(true,'Reservation number not displayed!');
+        });
+      }
     });
   });
   
