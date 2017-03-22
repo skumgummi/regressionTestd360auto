@@ -25,18 +25,20 @@ var availableSeats = [];
 var numberOfFlights = [];
 var seatMaps = [];
 
+//to be used to skip test of test through if-statements
+var testFailed = false;
+
 beforeAll(function(){
   console.log("before all running!");
   browser.get('https://d360u.flysas.com/se-en');
   //browser.get('https://sas.no/en');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
 
-  //unfortunately this doesn't actually work :/
-  /*totalPassengers = totalAdults+totalChildren+totalInfants;
+  totalPassengers = totalAdults+totalChildren+totalInfants;
   var t = totalPassengers*1000;
   t+=30000;
   console.log('timeout is now '+t);
-  allScriptsTimeout = 30000+t;*/
+  allScriptsTimeout = t;
   browser.waitForAngular();
 });
 
@@ -49,6 +51,16 @@ afterAll(function() {
   it('select amount of passengers', function(){
     console.log("first test");
 
+
+
+
+
+    //this mostly verifies that page has loaded correctly, and test can proceed
+    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found. Did page load correctly?')
+      .catch(function(expectation) {
+        testFailed = true;
+        throw expectation;
+    });
 
     homePage.openTravelers.click().then(function(){
       //one adult chosen by default, so i = 1
@@ -67,12 +79,16 @@ afterAll(function() {
     });*/
 
     //this checks the input field rather than the URL
-    element(by.css('input[ng-show="travellersFlag"]')).getAttribute('value').then(function(attribute){
+    //element(by.css('input[ng-show="travellersFlag"]')).getAttribute('value').then(function(attribute){
       //expect(attribute).toEqual('4 Travelers','Chosen number of travellers not correct for this (hardcoded) test.');
-    });
+    //});
   });
 
   it('select origin', function(){
+    browser.wait(EC.elementToBeClickable(homePage.openOrigin), 5000, 'Not able to . Button not identified as clickable.').then(function(clickable){
+      expect(clickable).toBe(true,'Not able to select amount of travelers. Button not identified as clickable');
+    });
+
     console.log("second test");
     homePage.openOrigin.click();
     homePage.openOrigin.sendKeys('ARN');
@@ -95,9 +111,9 @@ afterAll(function() {
   it('select dates', function(){
     console.log("fourth test");
     homePage.openDates.click();
-    homePage.setOutbound("23");
+    homePage.setOutbound("24");
     browser.waitForAngular();
-    homePage.setInbound("26");
+    homePage.setInbound("28");
     browser.getCurrentUrl().then(function(url) {
       //här måste man veta exakt datum, och just nu väljs inget särskilt datum
       //expect(url.includes('[???]')).toBe(true);
@@ -145,8 +161,6 @@ afterAll(function() {
     console.log("expect not yet implemented");
   });
 
-
-
   it('select return flight', function(){
     console.log("ninth test");
     //upsell.Page.returnFlight7.scrollIntoView();
@@ -178,7 +192,7 @@ afterAll(function() {
   it('main adult details', function (){
     var flyer0 = helperFunctions.getFlyer();
 
-    
+
     //first name
     passengerPage.firstName0.click();
     passengerPage.firstName0.sendKeys(flyer0.firstName);
@@ -206,7 +220,7 @@ afterAll(function() {
         passengerPage.dob0.sendKeys('01');
       }
     });
-    
+
     //email
     passengerPage.email0.click();
     passengerPage.email0.sendKeys(flyer0.email);
@@ -214,9 +228,10 @@ afterAll(function() {
     //phone number
     passengerPage.phone0.click();
     passengerPage.phone0.sendKeys(flyer0.phone);
-    
-    
-    //i starts at 1 because the first adult is handled separately
+
+
+    //0th position in this array represents the first adult, which is already used
+    //however it is added anyway to maintain sound logic
     for (var i = 0; i < totalPassengers; i++) {
       var inputObj = helperFunctions.getFlyerInputsObj(i);
       flyerInputElements.push(inputObj);
@@ -226,7 +241,7 @@ afterAll(function() {
 
   });
 
- 
+
   //all other adults
 
   it('remaining adult details', function (){
@@ -269,7 +284,7 @@ afterAll(function() {
 
   it('all children details', function (){
     for (var i = totalAdults; i < totalChildren+totalAdults; i++) {
-      
+
       let j = i;
       helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
       //first name
@@ -278,7 +293,7 @@ afterAll(function() {
       //last name
       flyerInputElements[j].lastName.click();
       flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
-      
+
       //gender
       var genderPresent = true;
       browser.wait(EC.presenceOf(flyerInputElements[j].gender), 100).
@@ -294,7 +309,7 @@ afterAll(function() {
           }
         }
       });
-          
+
       //date of birth
       flyerInputElements[j].dob.click();
       //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
@@ -314,7 +329,7 @@ afterAll(function() {
       //last name
       flyerInputElements[j].lastName.click();
       flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
-      
+
       //gender
       var genderPresent = true;
       browser.wait(EC.presenceOf(flyerInputElements[j].gender), 100).
@@ -330,7 +345,7 @@ afterAll(function() {
           }
         }
       });
-          
+
       //date of birth
       flyerInputElements[j].dob.click();
       //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
@@ -339,9 +354,6 @@ afterAll(function() {
       flyerInputElements[j].dob.sendKeys('01');
     }
   });
-
-
-
 
 
   it('click shopping cart button', function(){
@@ -354,106 +366,29 @@ afterAll(function() {
     });
   });
 
-  /*
-  it('select seat', function(){
-    console.log("seventeenth test");
-    browser.wait(EC.elementToBeClickable(ancillariesPage.selectSeatButton), 5000).then(function(clickable){
-      expect(clickable).toBe(true,'Select seat button is not clickable or visible!');
-    });
-    ancillariesPage.selectSeatButton.click();
-    availableSeats = helperFunctions.getAvailableSeats();
-
-
-    browser.getCurrentUrl().then(function(url) {
-      console.log(availableSeats.length);
-      helperFunctions.scrollElementToBeClickable(availableSeats[0]);
-      availableSeats[0].click();
-    });
-  });
-  */
-
   it('Press select seats anicillaries button', function(){
     ancillariesPage.selectSeatButton.click();
   });
 
-/*
-  it ('Select more seats', function(){
-    numberOfFlights = helperFunctions.getNumberOfFlights();
+  it('Select seats for more passengers second try', function(){
     browser.waitForAngular().then(function(){
-      console.log("Should come after message with elm length "+numberOfFlights.length);
-      for(var i = 0; i < numberOfFlights.length; i++){
-        numberOfFlights[i].click();
-        browser.waitForAngular().then(function(){
-          availableSeats = helperFunctions.getAvailableSeats();
-        });
-
-        browser.getCurrentUrl().then(function(url) {
-          console.log(availableSeats.length);
-          helperFunctions.scrollElementToBeClickable(availableSeats[0]);
-          availableSeats[0].click();
-        });
-      };
-    })
-  });
-  */
-
-  /*
-  it('Select seats for more passengers', function(){
-    for(var i = 1; i<=totalChildren+totalAdults; i++){
-      let j = i;
-      console.log('this is the thing '+j);
-      let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+j+']'));
       browser.waitForAngular().then(function(){
         numberOfFlights = helperFunctions.getNumberOfFlights();
-        browser.waitForAngular().then(function(){
-          console.log("Should come after message with elm length "+numberOfFlights.length);
-          for(var k = 0; k < numberOfFlights.length; k++){
-            let l = k;
-            numberOfFlights[l].click();
-            browser.waitForAngular().then(function(){
-              availableSeats = helperFunctions.getAvailableSeats();
-
-            });
-            browser.waitForAngular().then(function(){
-              browser.wait(EC.elementToBeClickable(current), 5000).then(function(clickable){
-                current.click();
-              });
-            });
-
-            browser.getCurrentUrl().then(function(url) {
-              console.log(availableSeats.length);
-              helperFunctions.scrollElementToBeClickable(availableSeats[0]);
-              availableSeats[0].click();
-            });
-          };
-        });
-
-      });
-    };
-  });
-  */
-
-
-  it('fill up seat plans', function(){
-    browser.waitForAngular().then(function(){
-      numberOfFlights = helperFunctions.getNumberOfFlights();
-    })
-    browser.waitForAngular().then(function(){
-      console.log('numberOfFlights.length = ' + numberOfFlights.length);
-      for(var i = 0; i<numberOfFlights.length; i++){
-        let j = i;
-        console.log('seatMap for loop: ' + j);
-        numberOfFlights[j].click();
-        browser.waitForAngular().then(function(url) {
-          availableSeats = helperFunctions.getAvailableSeats();
-          seatMaps.push(availableSeats);
-          console.log('seatMaps is: ' + seatMaps[0][0]);
-        })
-      }
-    })
-  });
-
-  it('Select seats for more passengers second try', function(){
+      })
+      browser.waitForAngular().then(function(){
+        console.log('numberOfFlights.length = ' + numberOfFlights.length);
+        for(var i = 0; i<numberOfFlights.length; i++){
+          let j = i;
+          console.log('seatMap for loop: ' + j);
+          numberOfFlights[j].click();
+          browser.waitForAngular().then(function(url) {
+            availableSeats = helperFunctions.getAvailableSeats();
+            seatMaps.push(availableSeats);
+            console.log('seatMaps is: ' + seatMaps[0][0]);
+          })
+        }
+      })
+    });
     browser.waitForAngular().then(function(){
       numberOfFlights = helperFunctions.getNumberOfFlights();
     }).then(function(){
@@ -476,25 +411,24 @@ afterAll(function() {
     })
   });
 
-/*
   it('click shopping cart button', function(){
     console.log("seventeenth test");
     browser.waitForAngular();
     ancillariesPage.shoppingCartButton.click().then(function(){
       expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
     });
-  });*/
-/*
+  });
+
   it('Enter card details', function(){
     console.log("eighteenth test");
     paymentPage.visa();
+
+
     //additional expects done in above function in paymentPage.js
     //browser.sleep(5000);
     //expect(paymentPage.reviewButton);
     //var EC = protractor.ExpectedConditions;
-    browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 5000).then(function(clickable){
-      expect(clickable).toBe(true,'Button to review payment is not clickable or visible!');
-    });
+    browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 15000, 'Button to review payment is not clickable or visible!');
   });
 
 
@@ -528,37 +462,48 @@ afterAll(function() {
     });
   }*/
 
-/*
+
   it('review purchase', function(){
     console.log('twentyfourth test');
+
     paymentPage.reviewButton.click();
 
-    browser.wait(EC.visibilityOf(paymentPage.paxDetails), 15000).then(function(clickable){
-      expect(paymentPage.paxDetails.isPresent()).toBe(true,'Pax details arent visible!');
-      expect(paymentPage.interTotalPrize.isPresent()).toBe(true,'Total prize not visible!');
-      expect(paymentPage.insuranceRadioOptions.isPresent()).toBe(true,'Insurance options not visible!');
-    });
+    browser.wait(EC.and(EC.presenceOf(paymentPage.paxDetails), EC.presenceOf(paymentPage.interTotalPrize),EC.presenceOf(paymentPage.insuranceRadioOptions)), 15000,'"paxDetails", "interTotalPrize" or "insuranceRadioOptions" not present on page!');
+    //.catch(function(err){
+      //throw err;
+    //});
+    expect(paymentPage.fareNotAvailableError.isPresent()).toBe(false,'"Fare Not Available"-message detected! Try a different flight!');
   });
 
   it('accept terms', function(){
     console.log('twentyfifth test');
-
-    paymentPage.checkBox.click().then(function(){
-      paymentPage.inputAcceptCheckBox.getAttribute('checked').then(function(attribute){
-        expect(attribute).toBe('true','Checkbox still not checked after click!');
-      });
-    })
-
-    browser.wait(EC.elementToBeClickable(paymentPage.payNowButton), 5000).then(function(clickable){
-      expect(clickable).toBe(true,'Button to confirm payment is not clickable or visible!');
+    browser.wait(EC.visibilityOf(paymentPage.checkBox), 15000).then(function(visible){
+      expect(visible).toBe(true,'Checkbox to accept terms not visible!');
+      if (visible){
+        paymentPage.checkBox.click().then(function(){
+          paymentPage.inputAcceptCheckBox.getAttribute('checked').then(function(attribute){
+            expect(attribute).toBe('true','Checkbox still not checked after click!');
+          });
+        });
+      }
     });
+
+    browser.wait(EC.elementToBeClickable(paymentPage.payNowButton), 5000,'Button to confirm payment is not clickable or visible!');
+      /*.then(function(clickable){
+        expect(clickable).toBe(true,'Button to confirm payment is not clickable or visible!');
+      });*/
   });
 
   it('Pay', function(){
     console.log('twentysixth test');
-    paymentPage.payNowButton.click().then(function(result){
-      expect(paymentPage.reservationNumber.isPresent()).toBe(true,'Reservation number not displayed!');
+    browser.wait(EC.visibilityOf(paymentPage.payNowButton), 5000).then(function(visible){
+
+      if (visible) {
+        paymentPage.payNowButton.click().then(function(result){
+          expect(paymentPage.reservationNumber.isPresent()).toBe(true,'Reservation number not displayed!');
+        });
+      }
     });
   });
-  */
+
 });

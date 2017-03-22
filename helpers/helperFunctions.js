@@ -57,7 +57,6 @@ module.exports = {
           });
         }
       });
-      console.log("numFlights is: " +numFlights.length);
       return numFlights;
   },
 
