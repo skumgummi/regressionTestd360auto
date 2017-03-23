@@ -24,6 +24,7 @@ var inBoundYear = '2017'
 var orig = 'ARN';
 var dest = 'LHR';
 var flyers = [];
+var doSelectSeats = true;
 
 //these values do not need to be set through test parameters
 var totalPassengers;
@@ -559,26 +560,9 @@ afterAll(function() {
 
   it('Select seats for more passengers second try', function(){
     //var availableSeats = [];
-    
-    helperFunctions.selectTheDamnSeats(numberOfFlights,totalAdults+totalChildren);
-      //availableSeats = helperFunctions.getAvailableSeats();
-      /*for (var i = 0; i < numberOfFlights.length; i++) {
-        let j = i;
-        numberOfFlights[j].click();
-        let avSeats = helperFunctions.getAvailableSeats();
-        browser.waitForAngular().then(function(){
-          for(var k = 1; k<=3; k++){
-            let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
-            current.click();
-            avSeats[k-1].click();
-          } 
-        });
-      }*/
-      
-    
-
-
-    browser.sleep(15000);
+    if(doSelectSeats){
+      helperFunctions.selectSeats(numberOfFlights,totalAdults+totalChildren);
+    }
   });
 /*
   it('click shopping cart button', function(){
