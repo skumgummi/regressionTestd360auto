@@ -2,15 +2,26 @@ var passengerPage = require('../pages/passenger_page.js');
 var ancillariesPage = require('../pages/ancillaries_page.js');
 
 var count = 0;
-var seats = new getAvailableSeats();
-var flights = new getNumberOfFlights();
 
 module.exports = {
   foo: 'bar',
   doSomething: function () {
     return 1+1;
   },
-
+  selectTheDamnSeats: function (numberOfFlights, seatsRequired) {
+    for (var i = 0; i < numberOfFlights.length; i++) {
+        let j = i;
+        numberOfFlights[j].click();
+        let avSeats = this.getAvailableSeats();
+        browser.waitForAngular().then(function(){
+          for(var k = 1; k<=seatsRequired; k++){
+            let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
+            current.click();
+            avSeats[k-1].click();
+          } 
+        });
+      }
+  },
 
 
   /******************************************
@@ -85,13 +96,12 @@ module.exports = {
 		//flyer.firstName = this.getRandomString(this.getRandomNum(2,32));
 		//flyer.lastName = this.getRandomString(this.getRandomNum(2,40));
 
-		var rand = this.getRandomNum(1,2);
+		var rand = this.getRandomNum(1,3);
+    console.log(rand+'<--------------- This is the female/male rand number!');
 		if (rand === 1) {
 			flyer.gender = 'male';
 		}
-		flyer.email =  'autotest@autotestmail.com';
-		//flyer.email = 'rickard.sjogren@sogeti.se';
-		//flyer.email = 'niklas.ekstrand@sogeti.se';
+		flyer.email =  'testskapp@gmail.com';
 		flyer.phone = '70'+this.getRandomNum(1000000,9999999);
 		flyer.countryCode = 46;
 

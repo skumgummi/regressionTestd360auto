@@ -371,7 +371,42 @@ afterAll(function() {
   });
 
   it('Select seats for more passengers second try', function(){
-    helperFunctions.seatSelectionDynamic(totalAdults+totalChildren);
+    var availableSeats = [];
+    var numberOfFlights = [];
+    
+    numberOfFlights = helperFunctions.getNumberOfFlights();
+    for(var k = 1; k<=totalPassengers; k++){
+            let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
+            current.click();
+            availableSeats[k-1].click();
+    }
+
+
+    for(var k = 1; k<=totalPassengers; k++){
+            let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
+            current.click();
+            availableSeats[k-1].click();
+    }
+
+    /*browser.waitForAngular().then(function(){
+      numberOfFlights = helperFunctions.getNumberOfFlights();
+    }).then(function(){
+      for(var i = 0; i<numberOfFlights; i++){
+        let j = i
+        browser.waitForAngular().then(function(){
+          numberOfFlights[j].click();
+          availableSeats = seats.getAvailableSeats();
+        }).then(function(){
+          for(var k = 1; k<=totalPassengers; k++){
+            let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
+            current.click();
+            availableSeats[k-1].click();
+          }
+        });
+      }
+    });*/
+
+    //helperFunctions.seatSelectionDynamic(totalAdults+totalChildren);
   });
 
   it('click shopping cart button', function(){

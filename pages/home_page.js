@@ -72,6 +72,7 @@ var homePage = function(){
 
   this.travellerFlag = element(by.css('input[ng-show="travellersFlag"]'));
   this.fwdButton = element(by.css('.sas-cep-arrow.center-block'));
+  this.closeTripOverlay = element(by.css('a[ng-click="closeTripOverlay()"]'));
 
   
   //var datePickerCss = '.ui-state-enabled.ui-state-hover.ui-datepicker-td-hover';
@@ -82,7 +83,7 @@ var homePage = function(){
     var monthId = month+year;
     var otbDay = day;
     var selectedDate = element(by.id(monthId)).element(by.linkText(otbDay));
-    helperFunctions.scrollElementUpWithOffset(selectedDate,420);
+    helperFunctions.scrollElementUpWithOffset(selectedDate,620);
     selectedDate.click();
     browser.driver.sleep(400);
   }
@@ -93,7 +94,7 @@ var homePage = function(){
     var monthId = month+year;
     var inbDay = day;
     var selectedDate = element(by.id(monthId)).element(by.linkText(inbDay));
-    helperFunctions.scrollElementUpWithOffset(selectedDate,300);
+    helperFunctions.scrollElementUpWithOffset(selectedDate,500);
     selectedDate.click();
     browser.driver.sleep(400);
   }
