@@ -8,20 +8,7 @@ module.exports = {
   doSomething: function () {
     return 1+1;
   },
-  selectTheDamnSeats: function (numberOfFlights, seatsRequired) {
-    for (var i = 0; i < numberOfFlights.length; i++) {
-        let j = i;
-        numberOfFlights[j].click();
-        let avSeats = this.getAvailableSeats();
-        browser.waitForAngular().then(function(){
-          for(var k = 1; k<=seatsRequired; k++){
-            let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
-            current.click();
-            avSeats[k-1].click();
-          } 
-        });
-      }
-  },
+  
 
 
   /******************************************
@@ -395,61 +382,6 @@ module.exports = {
     return inputObj;
   },
 
-  seatSelection : function(){
-    browser.waitForAngular();
-    //ancillariesPage.selectSeatButton.click();
-    console.log('selecting seat 1');
-    ancillariesPage.selectSeat();
-    ancillariesPage.selectSeat2.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 2');
-        ancillariesPage.selectSeat2.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    ancillariesPage.selectSeat3.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 3');
-        ancillariesPage.selectSeat3.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    ancillariesPage.selectSeat4.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 4');
-        ancillariesPage.selectSeat4.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    ancillariesPage.selectSeat5.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 5');
-        ancillariesPage.selectSeat5.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    ancillariesPage.selectSeat6.isPresent().then(function(present){
-      if(present){
-        console.log('selecting seat 6');
-        ancillariesPage.selectSeat6.click();
-        ancillariesPage.selectSeat();
-      }
-    });
-    browser.waitForAngular().then(function(){
-      ancillariesPage.forgotSeatOkay.isPresent().then(function(present){
-        if(present){
-          console.log('Forgot to pick seat, but thats okay');
-          ancillariesPage.forgotSeatOkay.click();
-        }
-      });
-      ancillariesPage.seatAddToBooking.isPresent().then(function(present){
-        if(present){
-          ancillariesPage.seatAddToBooking.click();
-        }
-      });
-    });
-  },
-
   getTomorrow : function(){
     var date = new Date();
     var tomorrow = date.getDate()+1;
@@ -462,26 +394,19 @@ module.exports = {
     count++;
   },
 
-  seatSelectionDynamic : function(totalPassengers){
-    var availableSeats = [];
-    var numberOfFlights = [];
-    browser.waitForAngular().then(function(){
-      numberOfFlights = flights.getNumberOfFlights();
-    }).then(function(){
-      for(var i = 0; i<numberOfFlights; i++){
-        let j = i
+  selectSeats: function (numberOfFlights, seatsRequired) {
+    for (var i = 0; i < numberOfFlights.length; i++) {
+        let j = i;
+        numberOfFlights[j].click();
+        let avSeats = this.getAvailableSeats();
         browser.waitForAngular().then(function(){
-          numberOfFlights[j].click();
-          availableSeats = seats.getAvailableSeats();
-        }).then(function(){
-          for(var k = 1; k<=totalPassengers; k++){
+          for(var k = 1; k<=seatsRequired; k++){
             let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
             current.click();
-            availableSeats[k-1].click();
-          }
-        })
+            avSeats[k-1].click();
+          } 
+        });
       }
-    })
   }
 
 };

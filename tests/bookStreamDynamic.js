@@ -550,7 +550,7 @@ afterAll(function() {
     });
   });
 
-  it('Press select seats anicillaries button', function(){
+  it('Press select seats ancillaries button', function(){
     ancillariesPage.selectSeatButton.click();
 
     
