@@ -2,6 +2,8 @@ var passengerPage = require('../pages/passenger_page.js');
 var ancillariesPage = require('../pages/ancillaries_page.js');
 
 var count = 0;
+var seats = new getAvailableSeats();
+var flights = new getNumberOfFlights();
 
 module.exports = {
   foo: 'bar',
@@ -448,5 +450,28 @@ module.exports = {
     console.log(" ");
     console.log('Test number: ' + count);
     count++;
+  },
+
+  seatSelectionDynamic : function(totalPassengers){
+    var availableSeats = [];
+    var numberOfFlights = [];
+    browser.waitForAngular().then(function(){
+      numberOfFlights = flights.getNumberOfFlights();
+    }).then(function(){
+      for(var i = 0; i<numberOfFlights; i++){
+        let j = i
+        browser.waitForAngular().then(function(){
+          numberOfFlights[j].click();
+          availableSeats = seats.getAvailableSeats();
+        }).then(function(){
+          for(var k = 1; k<=totalPassengers; k++){
+            let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
+            current.click();
+            availableSeats[k-1].click();
+          }
+        })
+      }
+    })
   }
+
 };

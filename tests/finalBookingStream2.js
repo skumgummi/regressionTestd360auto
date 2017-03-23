@@ -19,11 +19,11 @@ var totalPassengers;
 var flyers = [];
 var flyerInputElements = [];
 
-var seats = [];
-var flights = [];
-var availableSeats = [];
-var numberOfFlights = [];
-var seatMaps = [];
+//var seats = [];
+//var flights = [];
+//var availableSeats = [];
+//var numberOfFlights = [];
+//var seatMaps = [];
 
 //to be used to skip test of test through if-statements
 var testFailed = false;
@@ -371,44 +371,7 @@ afterAll(function() {
   });
 
   it('Select seats for more passengers second try', function(){
-    browser.waitForAngular().then(function(){
-      browser.waitForAngular().then(function(){
-        numberOfFlights = helperFunctions.getNumberOfFlights();
-      })
-      browser.waitForAngular().then(function(){
-        console.log('numberOfFlights.length = ' + numberOfFlights.length);
-        for(var i = 0; i<numberOfFlights.length; i++){
-          let j = i;
-          console.log('seatMap for loop: ' + j);
-          numberOfFlights[j].click();
-          browser.waitForAngular().then(function(url) {
-            availableSeats = helperFunctions.getAvailableSeats();
-            seatMaps.push(availableSeats);
-            console.log('seatMaps is: ' + seatMaps[0][0]);
-          })
-        }
-      })
-    });
-    browser.waitForAngular().then(function(){
-      numberOfFlights = helperFunctions.getNumberOfFlights();
-    }).then(function(){
-      console.log('numberOfFlights.length is: ' +numberOfFlights.length);
-      for(var i = 0; i<numberOfFlights.length; i++){
-        let j = i;
-        console.log('first for loop: ' + j);
-        numberOfFlights[j].click();
-
-        for(var k = 1; k<=totalChildren+totalAdults; k++){
-          let l = k;
-          console.log('second for loop: ' + l);
-          let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+l+']'));
-          current.click();
-          console.log('first '+seatMaps[0][0]);
-          console.log('second '+seatMaps[1][0]);
-          //kan inte referera till element från annan it
-        }
-      }
-    })
+    helperFunctions.seatSelectionDynamic(totalAdults+totalChildren);
   });
 
   it('click shopping cart button', function(){
@@ -461,7 +424,6 @@ afterAll(function() {
       paymentPage.postalcodeForm.sendKeys('11111');
     });
   }*/
-
 
   it('review purchase', function(){
     console.log('twentyfourth test');
