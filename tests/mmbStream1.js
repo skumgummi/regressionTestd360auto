@@ -64,7 +64,7 @@ describe ('mmb stream 1', function(){
   it('select dates', function(){
     helperFunctions.testCounter();
     homePage.openDates.click();
-    homePage.setOutbound(helperFunctions.getTomorrow());
+    homePage.setOutbound(helperFunctions.getTomorrow(), '3', '2017');
   });
 
   it('Click forward button', function(){

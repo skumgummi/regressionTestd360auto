@@ -56,8 +56,8 @@ var paymentPage = function(){
     expect(creditCardBox.getAttribute('value')).toBe('4111 1111 1111 1111', 'credit card number in box doesnt match number entered!');
     idEndDate.sendKeys('08/18');
     expect(idEndDate.getAttribute('value')).toBe('08/18', 'end date in box doesnt match end date entered!');
-    ownerVisible.sendKeys('Emil Burman');
-    expect(ownerVisible.getAttribute('value')).toBe('Emil Burman','owner name in box doesnt match name entered!');
+    ownerVisible.sendKeys('Niklas Ekstrand');
+    expect(ownerVisible.getAttribute('value')).toBe('Niklas Ekstrand','owner name in box doesnt match name entered!');
     cvv.sendKeys('737');
     expect(cvv.getAttribute('value')).toBe('737','cvv numbers in box dont match numbers entered!');
     browser.driver.switchTo().defaultContent();
@@ -79,11 +79,40 @@ var paymentPage = function(){
     expect(creditCardBox.getAttribute('value')).toBe('3742 5101 8720 018', 'credit card number in box doesnt match number entered!');
     idEndDate.sendKeys('08/18');
     expect(idEndDate.getAttribute('value')).toBe('08/18', 'end date in box doesnt match end date entered!');
-    ownerVisible.sendKeys('Emil Burman');
-    expect(ownerVisible.getAttribute('value')).toBe('Emil Burman','owner name in box doesnt match name entered!');
+    ownerVisible.sendKeys('Niklas Ekstrand');
+    expect(ownerVisible.getAttribute('value')).toBe('Niklas Ekstrand','owner name in box doesnt match name entered!');
     cvv.sendKeys('000');
     expect(cvv.getAttribute('value')).toBe('000','cvv numbers in box dont match numbers entered!');
     browser.driver.switchTo().defaultContent();
+
+	}
+
+  this.amex = function() {
+	  browser.driver.switchTo().frame("creditCardFrame");
+      browser.driver.findElement(protractor.By.id('pan_visible')).sendKeys('370000000000002');
+      browser.driver.findElement(protractor.By.id('idEndDate')).sendKeys('08/18');
+      browser.driver.findElement(protractor.By.id('owner_visible')).sendKeys('Niklas Ekstrand');
+      browser.driver.findElement(protractor.By.id('cvv')).sendKeys('737');
+      browser.driver.switchTo().defaultContent();
+	}
+
+	this.diners = function() { //CVV
+	  browser.driver.switchTo().frame("creditCardFrame");
+      browser.driver.findElement(protractor.By.id('pan_visible')).sendKeys('36006666333344');
+      browser.driver.sleep(2400);
+      browser.driver.findElement(protractor.By.id('idEndDate')).sendKeys('08/18');
+      browser.driver.findElement(protractor.By.id('owner_visible')).sendKeys('Niklas Ekstrand');
+      browser.driver.switchTo().defaultContent();
+
+	}
+
+	this.discover = function() {
+	  browser.driver.switchTo().frame("creditCardFrame");
+      browser.driver.findElement(protractor.By.id('pan_visible')).sendKeys('6445644564456445');
+      browser.driver.findElement(protractor.By.id('idEndDate')).sendKeys('08/18');
+      browser.driver.findElement(protractor.By.id('owner_visible')).sendKeys('Niklas Ekstrand');
+      browser.driver.findElement(protractor.By.id('cvv')).sendKeys('737');
+      browser.driver.switchTo().defaultContent();
 
 	}
 

@@ -71,10 +71,10 @@ var homePage = function(){
   this.news = element(by.css('a[title="News"]'));
 
   this.travellerFlag = element(by.css('input[ng-show="travellersFlag"]'));
-  this.fwdButton = element(by.css('.sas-cep-arrow.center-block'));
+  this.fwdButton = element(by.css('button[enable-sar-cep=""]')); 
   this.closeTripOverlay = element(by.css('a[ng-click="closeTripOverlay()"]'));
 
-  
+
   //var datePickerCss = '.ui-state-enabled.ui-state-hover.ui-datepicker-td-hover';
   //placeholder dates!
   this.setOutbound = function(day, month, year) {
@@ -112,7 +112,7 @@ var homePage = function(){
 
   this.clickForwardButton = function() {
    //var fwdButton = element(by.css('.cepArrow.center-block'));
-   
+
    this.fwdButton.click();
    return require('./upsell_page.js');
  }
