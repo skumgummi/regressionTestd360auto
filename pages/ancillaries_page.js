@@ -2,7 +2,7 @@ var ancillariesPage = function(){
 
   var helperFunctions = require('../helpers/helperFunctions.js');
 
-  this.shoppingCartButton = element(by.buttonText('CONTINUE'));
+  this.shoppingCartButton = element(by.css('button[ng-click="$parent.moveToPaymentFromExtras()"]'));
 
   this.airplaneType = element(by.xpath('//*[@id="segment-container"]/div[5]/ng-include/div/div/div/div/div/div[2]/div/div/div[1]/p/b'));
 
@@ -14,7 +14,9 @@ var ancillariesPage = function(){
   this.selectSeat4 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[4]/a'));
   this.selectSeat5 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[5]/a'));
   this.selectSeat6 = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[6]/a'));
-  this.seatAddToBooking = element(by.xpath('//*[@id="cep-widget"]/div/div[1]/div[1]/div/div[1]/div[3]/button'));
+  //this.seatAddToBooking = element(by.xpath('//*[@id="cep-widget"]/div/div[1]/div[1]/div/div[1]/div[3]/button'));
+  this.seatAddToBooking = element(by.css('.extraCartContainer')).element(by.css('.btn.btn-primary.confirmBooking'));
+
   this.forgotSeatOkay = element(by.xpath('//*[@id="cep-widget"]/div[1]/div[2]/div[2]/div[2]/button'));
   var noSeatAvailable = element(by.binding('translation["ancillarySeatMap.noseatavailabletext"]'));
   var seatOccupied = element(by.css('span.seat-icon.seatOccupied.icon-cancel'));

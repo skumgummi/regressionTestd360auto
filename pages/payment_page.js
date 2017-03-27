@@ -14,10 +14,11 @@ var paymentPage = function(){
   this.countryForm = element(by.id('country'));
 
   this.checkBox = element(by.css('.icon-ok'));
-  this.payNowButton = element(by.css('input[value="PAY NOW"]'));
+  this.payNowButton = element(by.css('input[ng-click="creditCardConfirmation()"]'));
+  
 
-  this.reviewButton = element(by.buttonText('REVIEW'));
-  //this.reviewButton = element(by.css('.btn.btn-primary.payment-button.active'));
+  //this.reviewButton = element(by.buttonText('REVIEW'));
+  this.reviewButton = element(by.css('button[ng-click="proceedForPayment();hideExpandedContent();"]'));
   this.confirmButton = element(by.xpath('//*[@id="accordion"]/div[3]/div[3]/button'));
 
   this.fareNotAvailableError = element(by.binding('fareNotAvailableMsg'));

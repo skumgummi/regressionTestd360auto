@@ -22,6 +22,6 @@ var upsellPage = function(){
   this.returnFlight7 = element(by.id('GOReturn7'));
 
   this.shoppingCartButton = element(by.id('shoppingcrtbtn'));
-  this.cookieButton = element(by.id('closeButton'));
+  //this.cookieButton = element(by.id('closeButton'));
 };
 module.exports = new upsellPage();

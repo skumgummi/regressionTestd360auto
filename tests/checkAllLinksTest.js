@@ -64,7 +64,7 @@ describe('testing all links on a given page', function(){
 				var url = '';
 				url += link;
 		        //link.getAttribute("href").then(function (href) {
-		        if(url.includes('d360u')){
+		        if(url.includes('d360u' || 'sas.se' || 'sas.no' || 'sas.dk' || 'flysas.com')){
 
 
 		        	browser.get(link).then(function(){

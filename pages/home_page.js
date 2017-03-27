@@ -2,14 +2,16 @@ var homePage = function(){
 
   var helperFunctions = require('../helpers/helperFunctions.js');
 
-  this.cookieButton = element(by.id('closeButton'));
-
+  //this.cookieButton = element(by.id('closeButton'));
+  this.cookieButton = element(by.css('button.close1'));
+  
   this.adultsLabel = element(by.id('Adults')).element(by.binding('pax.paxConstraints.preSelected'));
   this.childrenLabel = element(by.id('Children')).element(by.binding('pax.paxConstraints.preSelected'));
   this.infantsLabel = element(by.id('Infants')).element(by.binding('pax.paxConstraints.preSelected'));
 
   this.myTripsButton = element(by.id('my-trips'));
   this.openTravelers = element(by.binding('translation["booking.cep.travellers"]'));
+  this.openTravelersLocator = $('#translation["booking.cep.travellers"]').locator(); 
   this.openOrigin = element(by.id('select-origin'));
   this.openDestination = element(by.id('select-destination'));
   this.openReturnFrom = element(by.id('select-ReturnFrom'));
@@ -71,7 +73,10 @@ var homePage = function(){
   this.news = element(by.css('a[title="News"]'));
 
   this.travellerFlag = element(by.css('input[ng-show="travellersFlag"]'));
-  this.fwdButton = element(by.css('.sas-cep-arrow.center-block'));
+  //this.fwdButton = element(by.css('.sas-cep-arrow.center-block'));
+  this.fwdButton = element(by.xpath('//*[@id="findBtn"]'));
+  //this.fwdButton = element(by.css('button[enable-sar-cep=""]'));
+  
   this.closeTripOverlay = element(by.css('a[ng-click="closeTripOverlay()"]'));
 
   
@@ -83,7 +88,7 @@ var homePage = function(){
     var monthId = month+year;
     var otbDay = day;
     var selectedDate = element(by.id(monthId)).element(by.linkText(otbDay));
-    helperFunctions.scrollElementUpWithOffset(selectedDate,620);
+    helperFunctions.scrollElementUpWithOffset(selectedDate,520);
     selectedDate.click();
     browser.driver.sleep(400);
   }
@@ -94,7 +99,7 @@ var homePage = function(){
     var monthId = month+year;
     var inbDay = day;
     var selectedDate = element(by.id(monthId)).element(by.linkText(inbDay));
-    helperFunctions.scrollElementUpWithOffset(selectedDate,500);
+    helperFunctions.scrollElementUpWithOffset(selectedDate,400);
     selectedDate.click();
     browser.driver.sleep(400);
   }
@@ -114,7 +119,7 @@ var homePage = function(){
    //var fwdButton = element(by.css('.cepArrow.center-block'));
    
    this.fwdButton.click();
-   return require('./upsell_page.js');
+   //return require('./upsell_page.js');
  }
 
 };

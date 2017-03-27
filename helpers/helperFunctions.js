@@ -123,7 +123,7 @@ module.exports = {
 	    	scrollTarget = location.y-headerHeight;
 
 	    	if(scrollTarget < 0) {
-	    		//console.log('scroll target of '+scrollTarget+' changed to 0');
+	    		console.log('scroll target of '+scrollTarget+' changed to 0');
 	    		scrollTarget = 0;
 	    	}
 
@@ -396,9 +396,10 @@ module.exports = {
 
   selectSeats: function (numberOfFlights, seatsRequired) {
     for (var i = 0; i < numberOfFlights.length; i++) {
-        let j = i;
-        numberOfFlights[j].click();
-        let avSeats = this.getAvailableSeats();
+      let j = i;
+      numberOfFlights[j].click();
+      let avSeats = this.getAvailableSeats();
+      //if(seatsRequired <= avSeats.length){
         browser.waitForAngular().then(function(){
           for(var k = 1; k<=seatsRequired; k++){
             let current = element(by.xpath('//*[@id="segment-container"]/div[4]/div['+k+']'));
@@ -406,7 +407,10 @@ module.exports = {
             avSeats[k-1].click();
           } 
         });
-      }
+      //}
+      
+    }
+    ancillariesPage.seatAddToBooking.click();
   }
 
 };
