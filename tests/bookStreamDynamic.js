@@ -12,16 +12,15 @@ var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
 
 //these are the test parameters
-var continueTestAfterFailure = false;
-var totalAdults = 1;
-var totalChildren = 0;
-var totalInfants = 0;
-var outBoundDay = '23';
-var outBoundMonth = '6';
+var totalAdults = 2;
+var totalChildren = 1;
+var totalInfants = 1;
+var outBoundDay = '20';
+var outBoundMonth = '4';
 var outBoundYear = '2017';
 //avoid chosing inbound date 6 or 7 days after outbound. Due to layout of "please select return date"-tooltip it's not possible to close it by script (it is covered by text element)
 var inBoundDay = '30';
-var inBoundMonth = '6';
+var inBoundMonth = '4';
 var inBoundYear = '2017';
 var orig = 'ARN';
 var dest = 'LHR';
@@ -32,6 +31,7 @@ var postalCode = '11111';
 var adress = 'StreetMcStreetface 11';
 var country = 'Sweden';
 var city = 'Stockholm';
+//var continueTestAfterFailure = false;  //ended up not being used
 //end of test parameters
 
 //flight1/returnFlight1 = first flight in list. Change to a different number to select a later flight during the day
@@ -47,9 +47,10 @@ var totalInfantsStr = '';
 var flyerInputElements = [];
 var numberOfFlights = [];
 var cookieButtonPres = true;
+var formPresent = true;
 
 
-//to be used to skip rest of test through if-statements
+//was meant to be used to skip rest of test through if-statements, but decided not to use it for that
 var testFailed = false;
 //if seat selection can't be done, skips that step
 var seatSelectionFailed = false;
@@ -209,14 +210,11 @@ afterAll(function() {
       //do nothing
     }).then(function(){
       //this is only done if error is not caught
-      homePage.closeTripOverlay.click();
+      //homePage.closeTripOverlay.click();     //currently this doesn't work because element to be clicked is covered by a text element. Implication: don't book return flight 6 or 7 days after outbound flight
     });
     
     browser.waitForAngular();
-    homePage.setInbound(inBoundDay,inBoundMonth,inBoundYear);
-    browser.getCurrentUrl().then(function(url) {
-      //expecten här behöver att funktionen setOutbound/setInbound kan ta ett riktigt datum och välja just det datumet
-    });
+    homePage.setInbound(inBoundDay,inBoundMonth,inBoundYear);    
   });
 
   it('Click forward button', function(){
@@ -249,7 +247,7 @@ afterAll(function() {
         expect(testFailed).toBe(false);
       }
     });
-    upsellPage.flight1.click();
+    outBoundFlight.click();
     browser.waitForAngular();
     /*upsellPage.shoppingCartButton.isPresent().then(function(selectReturn){
         if(selectReturn){
@@ -288,7 +286,7 @@ afterAll(function() {
         expect(testFailed).toBe(false);
       }
     });
-    upsellPage.returnFlight3.click();    
+    inBoundFlight.click();    
   });
 
   it('click shopping cart button', function(){
@@ -592,13 +590,8 @@ afterAll(function() {
 
   it('Enter card details', function(){
     paymentPage.visa();
-    
-
-    //additional expects done in above function in paymentPage.js
-    //browser.sleep(5000);
-    //expect(paymentPage.reviewButton);
-    //var EC = protractor.ExpectedConditions;
-    browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 15000, 'Button to review payment is not clickable or visible!');
+    //expects done in above function in paymentPage.js
+   
   });
 
 
@@ -606,58 +599,66 @@ afterAll(function() {
   
     
   it('enter city', function(){
-    browser.wait(EC.elementToBeClickable(paymentPage.cityForm), 15000).
+    browser.wait(EC.presenceOf(paymentPage.cityForm), 5000).
     catch(function(err){
       //no need to throw error. This form isn't always present.
+      formPresent = false;
     }).then(function(){
       //this is just to give the html reporter feedback that this step has passed
       expect(testFailed).toBe(false);
+
+      if (formPresent) {
+        paymentPage.cityForm.click();
+        paymentPage.cityForm.sendKeys(city);
+        paymentPage.cityForm.sendKeys(protractor.Key.ENTER);
+      }
     });
-    paymentPage.cityForm.click();
-    paymentPage.cityForm.sendKeys(city);
-    paymentPage.cityForm.sendKeys(protractor.Key.ENTER);
+    
     
 
   });
 
   it('enter country', function(){
-    browser.wait(EC.elementToBeClickable(paymentPage.countryForm), 15000).
-    catch(function(err){
-      //no need to throw error. This form isn't always present.
-    }).then(function(){
-      //this is just to give the html reporter feedback that this step has passed
-      expect(testFailed).toBe(false);
-    });
-    paymentPage.countryForm.click();
-    paymentPage.countryForm.sendKeys(country);
-    paymentPage.countryForm.sendKeys(protractor.Key.ENTER);
-
+    if (formPresent) {
+      browser.wait(EC.presenceOf(paymentPage.countryForm), 1000).
+      catch(function(err){
+        //no need to throw error. This form isn't always present.
+      }).then(function(){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      });
+      paymentPage.countryForm.click();
+      paymentPage.countryForm.sendKeys(country);
+      paymentPage.countryForm.sendKeys(protractor.Key.ENTER);    
+    }
   });
 
   it('Enter address', function(){
-    browser.wait(EC.elementToBeClickable(paymentPage.addressForm), 15000).
-    catch(function(err){
-      //no need to throw error. This form isn't always present.
-    }).then(function(){
-      //this is just to give the html reporter feedback that this step has passed
-      expect(testFailed).toBe(false);
-    });
-    paymentPage.addressForm.click();
-    paymentPage.addressForm.sendKeys(adress);
-
+    if (formPresent) {
+      browser.wait(EC.presenceOf(paymentPage.addressForm), 1000).
+      catch(function(err){
+        //no need to throw error. This form isn't always present.
+      }).then(function(){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      });
+      paymentPage.addressForm.click();
+      paymentPage.addressForm.sendKeys(adress);
+    }
   });
 
   it('enter postal code', function(){
-    browser.wait(EC.elementToBeClickable(paymentPage.postalcodeForm), 15000).
-    catch(function(err){
-      //no need to throw error. This form isn't always present.
-    }).then(function(){
-      //this is just to give the html reporter feedback that this step has passed
-      expect(testFailed).toBe(false);
-    });
-    paymentPage.postalcodeForm.click();
-    paymentPage.postalcodeForm.sendKeys(postalCode);
-
+    if (formPresent) {
+      browser.wait(EC.presenceOf(paymentPage.postalcodeForm), 1000).
+      catch(function(err){
+        //no need to throw error. This form isn't always present.
+      }).then(function(){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      });
+      paymentPage.postalcodeForm.click();
+      paymentPage.postalcodeForm.sendKeys(postalCode);
+    }
   });
   
   
