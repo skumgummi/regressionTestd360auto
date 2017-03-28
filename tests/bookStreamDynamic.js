@@ -12,9 +12,9 @@ var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
 
 //these are the test parameters
-var totalAdults = 2;
-var totalChildren = 1;
-var totalInfants = 1;
+var totalAdults = 1;
+var totalChildren = 0;
+var totalInfants = 0;
 var outBoundDay = '20';
 var outBoundMonth = '4';
 var outBoundYear = '2017';
@@ -25,7 +25,7 @@ var inBoundYear = '2017';
 var orig = 'ARN';
 var dest = 'LHR';
 var flyers = [];
-var doSelectSeats = true;
+var doSelectSeats = false;
 //these are occasionally required
 var postalCode = '11111';
 var adress = 'StreetMcStreetface 11';
@@ -48,7 +48,7 @@ var flyerInputElements = [];
 var numberOfFlights = [];
 var cookieButtonPres = true;
 var formPresent = true;
-var pnr = 'failed'; //if this isn't changed by the end of the test, it means the test has failed and then 'failed' is a proper output for "pnr" in the report
+var pnr = 'N/A'; //if this isn't changed by the end of the test, it means the test has failed
 
 
 //was meant to be used to skip rest of test through if-statements, but decided not to use it for that
@@ -80,9 +80,9 @@ afterAll(function() {
   browser.driver.manage().deleteAllCookies();
   browser.executeScript('window.sessionStorage.clear();');
   browser.executeScript('window.localStorage.clear();');
-  browser.manage().logs().get('browser').then(function(browserLog) {
+  /*browser.manage().logs().get('browser').then(function(browserLog) {  //this prints the browser log to the console
         console.log('\n log: ' + require('util').inspect(browserLog));
-  });
+  });*/
 });
   
   it('accept cookies if needed', function(){
@@ -600,15 +600,14 @@ afterAll(function() {
   
     
   it('enter city', function(){
-    browser.wait(EC.presenceOf(paymentPage.cityForm), 5000).
+    browser.wait(EC.presenceOf(paymentPage.cityForm), 1000).
     catch(function(err){
       //no need to throw error. This form isn't always present.
       formPresent = false;
     }).then(function(){
-      //this is just to give the html reporter feedback that this step has passed
-      expect(testFailed).toBe(false);
-
       if (formPresent) {
+        //if form isn't present, without the expect it will say the step is skipped
+        expect(testFailed).toBe(false);
         paymentPage.cityForm.click();
         paymentPage.cityForm.sendKeys(city);
         paymentPage.cityForm.sendKeys(protractor.Key.ENTER);

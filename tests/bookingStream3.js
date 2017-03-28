@@ -1,5 +1,6 @@
 describe ('booking stream, 2 adults, 1 child, 1 infant, ARN-EWR return, Diners', function(){
 
+
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
 var passengerPage = require('../pages/passenger_page.js');
