@@ -9,7 +9,7 @@ module.exports = {
     return 1+1;
   },
   
-
+  
 
   /******************************************
   * ATTENTION          						*
@@ -130,6 +130,29 @@ module.exports = {
 		    browser.executeScript('window.scrollTo(0,'+scrollTarget+');');
 	    });
 	},
+
+  collectAllLinksOnPage: function (array) {
+    var pagesToCheck = array;
+    $$('a').map(function(link) {
+        return link.getAttribute("href");
+    }).then(function(links) {
+      
+      //this should clear the list of links and enter this single link, to verify that error handling works
+      //links = ['https://d360u.flysas.com/en/foo/'];
+      //urlsToCheck = ['https://d360u.flysas.com/en/foo/'];
+        links.forEach(function(link) {
+        
+        let url = link;
+            if(url !== null && url !== undefined){
+              if(url.includes('d360u' || 'sas.se' || 'sas.no' || 'sas.dk' || 'flysas.com')){
+                console.log('Found a relevant link!');
+                pagesToCheck.indexOf(url) === -1 ? pagesToCheck.push(url) : console.log("This item already exists");
+              }
+            }
+        });
+    });
+    return pagesToCheck;
+  },
 
 	//returns a random number between the values given to the function
 	getRandomNum: function (min, max){
