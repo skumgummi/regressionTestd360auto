@@ -583,7 +583,7 @@ it('accept cookies if needed', function(){
 
   it('Enter card details', function(){
     console.log("eighteenth test");
-    paymentPage.diners();
+    paymentPage.mc();
 
 
     //additional expects done in above function in paymentPage.js
