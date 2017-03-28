@@ -102,7 +102,7 @@ afterAll(function() {
     
 
     //this mostly verifies that page has loaded correctly, and test can proceed
-    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found using locator '+homePage.openTravelersLocator.value+'. Did page load correctly? Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found using locator '+homePage.openTravelersLocator.value+'. Did page load correctly? Test will likely fail as a result.').
       catch(function(err) {
         testFailed = true;
         throw err;
@@ -156,7 +156,7 @@ afterAll(function() {
   
 
   it('select origin', function(){
-    browser.wait(EC.elementToBeClickable(homePage.openOrigin), 5000, 'Button for selecting origin not clickable/present. Did page load correctly? Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(homePage.openOrigin), 5000, 'Button for selecting origin not clickable/present. Did page load correctly? Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -175,7 +175,7 @@ afterAll(function() {
   });
 
   it('select destination', function(){
-    browser.wait(EC.elementToBeClickable(homePage.openDestination), 5000, 'Button for selecting destination is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(homePage.openDestination), 5000, 'Button for selecting destination is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -192,7 +192,7 @@ afterAll(function() {
   });
 
   it('select dates', function(){
-    browser.wait(EC.elementToBeClickable(homePage.openDates), 5000, 'Button for opening up dates selection is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(homePage.openDates), 5000, 'Button for opening up dates selection is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -218,7 +218,7 @@ afterAll(function() {
   });
 
   it('Click forward button', function(){
-    browser.wait(EC.presenceOf(homePage.fwdButton), 5000, '"Forward button" is not present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.presenceOf(homePage.fwdButton), 5000, '"Forward button" is not present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -237,7 +237,7 @@ afterAll(function() {
 
 
   it('select outbound flight', function(){
-    browser.wait(EC.elementToBeClickable(upsellPage.flight1), 5000, '"Forward button" is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(upsellPage.flight1), 5000, '"Forward button" is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -262,7 +262,7 @@ afterAll(function() {
   });
 
   it('click shopping cart button', function(){
-    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -276,7 +276,7 @@ afterAll(function() {
   });
 
   it('select return flight', function(){
-    browser.wait(EC.elementToBeClickable(upsellPage.returnFlight3), 5000, 'Desired flight option is not clickable/present. Dynamic flight option selection not yet implemented. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(upsellPage.returnFlight3), 5000, 'Desired flight option is not clickable/present. Dynamic flight option selection not yet implemented. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -290,7 +290,7 @@ afterAll(function() {
   });
 
   it('click shopping cart button', function(){
-    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -309,7 +309,7 @@ afterAll(function() {
 
   //first adult
   it('Passenger details: main adult details', function (){
-    browser.wait(EC.presenceOf(passengerPage.firstName0), 5000, 'First Name input box for first adult not found! Did page load correctly? Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.presenceOf(passengerPage.firstName0), 5000, 'First Name input box for first adult not found! Did page load correctly? Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -377,7 +377,7 @@ afterAll(function() {
     for (var i = 1; i < totalAdults; i++) {
       let j = i;
       let adultNo = i+1;
-      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for adult #'+adultNo+' not found! Did page load correctly? Skipping remainder of this test to avoid critical failure.').
+      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for adult #'+adultNo+' not found! Did page load correctly? Test will likely fail as a result.').
       catch(function(err){
         testFailed = true;
         throw err;
@@ -427,7 +427,7 @@ afterAll(function() {
       
       let j = i;
       let childNo = i-totalAdults+1;
-      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for adult #'+childNo+' not found! Did page load correctly? Skipping remainder of this test to avoid critical failure.').
+      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for adult #'+childNo+' not found! Did page load correctly? Test will likely fail as a result.').
       catch(function(err){
         testFailed = true;
         throw err;
@@ -477,7 +477,7 @@ afterAll(function() {
     for (var i = totalAdults+totalChildren; i < totalPassengers; i++) {
       let j = i;
       let infantNo = i-totalAdults-totalChildren+1;
-      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for infant #'+infantNo+' not found! Did page load correctly? Skipping remainder of this test to avoid critical failure.').
+      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for infant #'+infantNo+' not found! Did page load correctly? Test will likely fail as a result.').
       catch(function(err){
         testFailed = true;
         throw err;
@@ -525,7 +525,7 @@ afterAll(function() {
 
 
   it('click shopping cart button', function(){
-    browser.wait(EC.elementToBeClickable(passengerPage.goToPaymentButton), 5000, 'Go to payment button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(passengerPage.goToPaymentButton), 5000, 'Go to payment button is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -572,7 +572,7 @@ afterAll(function() {
 
 
   it('click shopping cart button', function(){
-    browser.wait(EC.elementToBeClickable(ancillariesPage.shoppingCartButton), 15000, 'Go to payment button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(ancillariesPage.shoppingCartButton), 15000, 'Go to payment button is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
