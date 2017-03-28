@@ -48,6 +48,7 @@ var flyerInputElements = [];
 var numberOfFlights = [];
 var cookieButtonPres = true;
 var formPresent = true;
+var pnr = 'failed'; //if this isn't changed by the end of the test, it means the test has failed and then 'failed' is a proper output for "pnr" in the report
 
 
 //was meant to be used to skip rest of test through if-statements, but decided not to use it for that
@@ -680,7 +681,7 @@ afterAll(function() {
     //.catch(function(err){
       //throw err;
     //});
-    expect(paymentPage.fareNotAvailableError.isPresent()).toBe(false,'"Fare Not Available"-message detected! Try a different flight!');
+    expect(paymentPage.fareNotAvailableError.isPresent()).toBe(false,'"Fare Not Available"-message detected! Try a different flight/date!');
   });
 
   it('accept terms', function(){
@@ -707,6 +708,12 @@ afterAll(function() {
       if (pres) { 
         paymentPage.payNowButton.click().then(function(result){
           expect(paymentPage.reservationNumber.isPresent()).toBe(true,'Reservation number not displayed!');
+          paymentPage.reservationNumber.getText().then(function(reservNumb){
+            pnr = reservNumb;
+            console.log(pnr);
+            console.log(reservNumb);
+            console.log('********************************')
+          })
         });
       }
     });
