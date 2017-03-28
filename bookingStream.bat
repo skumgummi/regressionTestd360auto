@@ -1,3 +1,3 @@
 @echo off
-protractor ./tests/confDynamic.js
+protractor ./tests/confTestSuite1.js
 pause

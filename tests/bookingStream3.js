@@ -61,6 +61,20 @@ afterAll(function() {
   browser.executeScript('window.localStorage.clear();');
 });
 
+it('accept cookies if needed', function(){
+
+  browser.wait(EC.presenceOf(homePage.cookieButton), 5000).
+  catch(function(err){
+    cookieButtonPres = false;
+  }).then(function(){
+    if (cookieButtonPres){
+      homePage.cookieButton.click();
+    }
+  });
+
+  expect(homePage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
+});
+
   it('select amount of passengers', function(){
     console.log("first test");
 
