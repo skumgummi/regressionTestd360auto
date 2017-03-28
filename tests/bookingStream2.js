@@ -1,4 +1,6 @@
-describe ('booking stream, 1 adult, logged in, ARN-AMS return, Klarna', function(){
+
+
+describe ('booking stream', function(){
 
 var homePage = require('../pages/home_page.js');
 var upsellPage = require('../pages/upsell_page.js');
@@ -9,90 +11,116 @@ var helperFunctions = require('../helpers/helperFunctions.js');
 var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
 
+//d360u login details
 var username = "ebgfi";
 var password = "sas111";
 
-//these should be changed to take data from test parameters or something like that (i.e. data driven)
+//these are the test parameters
+var doLogIn = true;
 var totalAdults = 1;
 var totalChildren = 0;
 var totalInfants = 0;
-var outBoundDay = '24';
+var outBoundDay = '23';
 var outBoundMonth = '6';
 var outBoundYear = '2017';
-var inBoundDay = '25'
-var inBoundMonth = '6'
-var inBoundYear = '2017'
+//avoid chosing inbound date 6 or 7 days after outbound. Due to layout of "please select return date"-tooltip it's not possible to close it by script (it is covered by text element)
+var inBoundDay = '2';
+var inBoundMonth = '7';
+var inBoundYear = '2017';
 var orig = 'ARN';
 var dest = 'AMS';
 var flyers = [];
 var doSelectSeats = false;
+//these are occasionally required
+var postalCode = '11111';
+var adress = 'StreetMcStreetface 11';
+var country = 'Sweden';
+var city = 'Stockholm';
+//var continueTestAfterFailure = false;  //ended up not being used
+//end of test parameters
 
-//these values do not need to be set through test parameters
+//flight1/returnFlight1 = first flight in list. Change to a different number to select a later flight during the day
+//for return trips, make sure inbound flight is later than outbount flight
+var outBoundFlight = upsellPage.flight1;
+var inBoundFlight = upsellPage.returnFlight1;
+
+//these values do not need to be changed. They are used by the code
 var totalPassengers;
 var totalAdultsStr = '';
 var totalChildrenStr = '';
 var totalInfantsStr = '';
 var flyerInputElements = [];
 var numberOfFlights = [];
+var cookieButtonPres = true;
+var formPresent = true;
+var pnr = 'N/A'; //if this isn't changed by the end of the test, it means the test has failed
 
-//to be used to skip rest of test through if-statements
+
+//was meant to be used to skip rest of test through if-statements, but decided not to use it for that
 var testFailed = false;
+//if seat selection can't be done, skips that step
+var seatSelectionFailed = false;
 
 beforeAll(function(){
   console.log("before all running!");
   browser.get('https://d360u.flysas.com/se-en');
   //browser.get('https://sas.se');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
-
+  
   totalPassengers = totalAdults+totalChildren+totalInfants;
   var t = totalPassengers*1000;
   t+=30000;
   console.log('timeout is now '+t);
   allScriptsTimeout = t;
-
+  
   totalAdultsStr = totalAdults+'';
   totalChildrenStr = totalChildren+'';
   totalInfantsStr = totalInfants+'';
-
+  
   browser.waitForAngular();
-
+  
 });
 
 afterAll(function() {
   browser.driver.manage().deleteAllCookies();
   browser.executeScript('window.sessionStorage.clear();');
   browser.executeScript('window.localStorage.clear();');
+  /*browser.manage().logs().get('browser').then(function(browserLog) {  //this prints the browser log to the console
+        console.log('\n log: ' + require('util').inspect(browserLog));
+  });*/
 });
+  
+  it('accept cookies if needed', function(){
+    
+    browser.wait(EC.presenceOf(homePage.cookieButton), 5000).
+    catch(function(err){
+      cookieButtonPres = false;
+    }).then(function(){
+      if (cookieButtonPres){
+        homePage.cookieButton.click();
+      }
+    });
+    
+    expect(homePage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
+  });
 
-it('accept cookies if needed', function(){
-
-  browser.wait(EC.presenceOf(homePage.cookieButton), 5000).
-  catch(function(err){
-    cookieButtonPres = false;
-  }).then(function(){
-    if (cookieButtonPres){
-      homePage.cookieButton.click();
+  it('login', function(){
+    if(doLogIn) {
+      homePage.loginLink.click();
+      homePage.emailField.click();
+      homePage.emailField.sendKeys(username);
+      homePage.passwordField.click();
+      homePage.passwordField.sendKeys(password);
+      homePage.loginButton.click();
     }
   });
 
-  expect(homePage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
-});
-
-it('login', function(){
-  helperFunctions.testCounter();
-  homePage.loginLink.click();
-  homePage.emailField.click();
-  homePage.emailField.sendKeys(username);
-  homePage.passwordField.click();
-  homePage.passwordField.sendKeys(password);
-  homePage.loginButton.click();
-});
-
   it('select amount of passengers', function(){
-    console.log("first test");
+    
+
     //this mostly verifies that page has loaded correctly, and test can proceed
-    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found. Did page load correctly? Skipping remainder of this test to avoid critical failure.')
-      .catch(function(err) {
+    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found using locator '+homePage.openTravelersLocator.value+'. Did page load correctly? Test will likely fail as a result.').
+      catch(function(err) {
         testFailed = true;
         throw err;
     }).then(function(){
@@ -101,8 +129,7 @@ it('login', function(){
         expect(testFailed).toBe(false);
       }
     });
-
-    helperFunctions.scrollElementToBeClickable(homePage.openTravelers);
+    
     homePage.openTravelers.click().then(function(){
       //one adult chosen by default, so i = 1
       for (var i = 1; i < totalAdults; i++) {
@@ -143,8 +170,10 @@ it('login', function(){
     });
   });
 
+  
+
   it('select origin', function(){
-    browser.wait(EC.elementToBeClickable(homePage.openOrigin), 5000, 'Button for selecting origin not clickable/present. Did page load correctly? Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(homePage.openOrigin), 5000, 'Button for selecting origin not clickable/present. Did page load correctly? Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -154,17 +183,16 @@ it('login', function(){
         expect(testFailed).toBe(false);
       }
     });
-
-    console.log("second test");
+    
     homePage.openOrigin.click();
     homePage.openOrigin.sendKeys(orig);
     homePage.openOrigin.sendKeys(protractor.Key.ENTER);
     //homePage.openOrigin.getAttribute('value')
-
+    
   });
 
   it('select destination', function(){
-    browser.wait(EC.elementToBeClickable(homePage.openDestination), 5000, 'Button for selecting destination is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(homePage.openDestination), 5000, 'Button for selecting destination is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -174,15 +202,14 @@ it('login', function(){
         expect(testFailed).toBe(false);
       }
     });
-    console.log("third test");
     homePage.openDestination.click();
     homePage.openDestination.sendKeys(dest);
     homePage.openDestination.sendKeys(protractor.Key.ENTER);
-
+    
   });
 
   it('select dates', function(){
-    browser.wait(EC.elementToBeClickable(homePage.openDates), 5000, 'Button for opening up dates selection is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(homePage.openDates), 5000, 'Button for opening up dates selection is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -192,50 +219,42 @@ it('login', function(){
         expect(testFailed).toBe(false);
       }
     });
-    console.log("fourth test");
     homePage.openDates.click();
     //browser.sleep(2000);
     homePage.setOutbound(outBoundDay,outBoundMonth,outBoundYear);
-    /*browser.wait(EC.presenceOf(homePage.closeTripOverlay),5000).
+    browser.wait(EC.presenceOf(homePage.closeTripOverlay),5000).
     catch(function(err){
       //do nothing
     }).then(function(){
       //this is only done if error is not caught
-      homePage.closeTripOverlay.click();
-    });*/
-    browser.waitForAngular();
-    homePage.setInbound(inBoundDay,inBoundMonth,inBoundYear);
-    browser.getCurrentUrl().then(function(url) {
-      //expecten här behöver att funktionen setOutbound/setInbound kan ta ett riktigt datum och välja just det datumet
+      //homePage.closeTripOverlay.click();     //currently this doesn't work because element to be clicked is covered by a text element. Implication: don't book return flight 6 or 7 days after outbound flight
     });
+    
+    browser.waitForAngular();
+    homePage.setInbound(inBoundDay,inBoundMonth,inBoundYear);    
   });
 
   it('Click forward button', function(){
-    console.log("fifth test");
+    browser.wait(EC.presenceOf(homePage.fwdButton), 5000, '"Forward button" is not present. Test will likely fail as a result.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     homePage.clickForwardButton();
     browser.getCurrentUrl().then(function(url) {
       expect(url.includes('booking/select-flights?')).toBe(true,'URL doesnt show "booking/select-flights", user might not be able to select flight');
     });
   });
 
-  it('accept cookies', function(){
-    var cookieButtonPres = true;
-    browser.wait(EC.presenceOf(upsellPage.cookieButton), 5000, '"Forward button" is not clickable/present. Skipping remainder of this test to avoid critical failure.').
-    catch(function(err){
-      cookieButtonPres = false;
-    }).then(function(){
-      if (cookieButtonPres){
-        upsellPage.cookieButton.click();
-      }
-    });
 
-    console.log("sixth test");
-    //upsellPage.cookieButton.click();
-    expect(upsellPage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
-  });
 
   it('select outbound flight', function(){
-    browser.wait(EC.elementToBeClickable(upsellPage.flight1), 5000, '"Forward button" is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(upsellPage.flight1), 5000, '"Forward button" is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -245,8 +264,7 @@ it('login', function(){
         expect(testFailed).toBe(false);
       }
     });
-    console.log("seventh test");
-    upsellPage.flight1.click();
+    outBoundFlight.click();
     browser.waitForAngular();
     /*upsellPage.shoppingCartButton.isPresent().then(function(selectReturn){
         if(selectReturn){
@@ -261,7 +279,7 @@ it('login', function(){
   });
 
   it('click shopping cart button', function(){
-    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -271,16 +289,11 @@ it('login', function(){
         expect(testFailed).toBe(false);
       }
     });
-    console.log("eighth test");
     upsellPage.shoppingCartButton.click();
-    //skippar expect för denna tills vidare
-    //kräver någon sorts funktion som kollar om ett element är i viewporten eller inte
-    //bör gå att göra med en executescript
-    console.log("expect not yet implemented");
   });
 
   it('select return flight', function(){
-    browser.wait(EC.elementToBeClickable(upsellPage.returnFlight3), 5000, 'Desired flight option is not clickable/present. Dynamic flight option selection not yet implemented. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(upsellPage.returnFlight3), 5000, 'Desired flight option is not clickable/present. Dynamic flight option selection not yet implemented. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -290,26 +303,11 @@ it('login', function(){
         expect(testFailed).toBe(false);
       }
     });
-
-    console.log("ninth test");
-    //upsell.Page.returnFlight7.scrollIntoView();
-    upsellPage.returnFlight1.click();
-    browser.waitForAngular();
-    /*upsellPage.shoppingCartButton.isPresent().then(function(selectReturn){
-        if(selectReturn){
-          upsellPage.shoppingCartButton.getText().then(function(selectReturn){
-            expect(selectReturn).toEqual('CONTINUE', 'shopping cart button is supposed to be "CONTINUE"!');
-          });
-        }else {
-          //this will always fail, because this only happens when selectReturn is false.
-          expect(selectReturn).toBe(true, 'shopping cart button is not present on page!');
-        }
-
-    });*/
+    inBoundFlight.click();    
   });
 
   it('click shopping cart button', function(){
-    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+    browser.wait(EC.elementToBeClickable(upsellPage.shoppingCartButton), 5000, 'Shopping cart button is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -320,33 +318,232 @@ it('login', function(){
       }
     });
 
-    console.log("tenth test");
     upsellPage.shoppingCartButton.click();
 
   });
 
 
-  it('click shopping cart button passenger page', function(){
-    browser.wait(EC.elementToBeClickable(passengerPage.goToPaymentButton), 5000, 'Go to payment button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
-    catch(function(err){
-      testFailed = true;
-      throw err;
-    }).then(function(){
-      if (!testFailed){
-        //this is just to give the html reporter feedback that this step has passed
-        expect(testFailed).toBe(false);
+
+  //first adult
+  it('Passenger details: main adult details', function (){
+    if(!doLogIn) {
+      browser.wait(EC.presenceOf(passengerPage.firstName0), 5000, 'First Name input box for first adult not found! Did page load correctly? Test will likely fail as a result.').
+      catch(function(err){
+        testFailed = true;
+        throw err;
+      }).then(function(){
+        if (!testFailed){
+          //this is just to give the html reporter feedback that this step has passed
+          expect(testFailed).toBe(false);
+        }
+      });
+
+      var flyer0 = helperFunctions.getFlyer();
+     
+      //first name
+      passengerPage.firstName0.click();
+      passengerPage.firstName0.sendKeys(flyer0.firstName);
+      //last name
+      passengerPage.lastName0.click();
+      passengerPage.lastName0.sendKeys(flyer0.lastName);
+      //gender
+      passengerPage.gender0.click();
+      if (flyer0.gender == 'male'){
+        passengerPage.gender0DropDownMale.click();
+      } else {
+        passengerPage.gender0DropDownFemale.click();
       }
-    });
-    console.log("sixteenth test");
-    passengerPage.goToPaymentButton.click();
-    browser.waitForAngular();
-    browser.getCurrentUrl().then(function(url) {
-      expect(url.includes('booking/Extras')).toBe(true, 'URL doesnt contain "booking/Extras". Is user really at the extras page?');
-    });
+      var dobPresent = true;
+      browser.wait(EC.presenceOf(passengerPage.dob0), 100).
+      catch(function(expectation) {
+        dobPresent = false;
+      }).then(function(){
+        if (dobPresent) {
+          //date of birth
+          passengerPage.dob0.click();
+          passengerPage.dob0.sendKeys(flyer0.dobAdult);
+          passengerPage.dob0.sendKeys('01');
+          passengerPage.dob0.sendKeys('01');
+        }
+      });
+      
+      //email
+      passengerPage.email0.click();
+      passengerPage.email0.sendKeys(flyer0.email);
+
+      //phone number
+      passengerPage.phone0.click();
+      passengerPage.phone0.sendKeys(flyer0.phone);
+    }
+    
+    //0th position in this array represents the first adult, which is already used
+    //however it is added anyway to maintain sound logic
+    for (var i = 0; i < totalPassengers; i++) {
+      var inputObj = helperFunctions.getFlyerInputsObj(i);
+      flyerInputElements.push(inputObj);
+      var flyer = helperFunctions.getFlyer();
+      flyers.push(flyer);
+    }
+
   });
 
-  it('click shopping cart button ancillaries page', function(){
-    browser.wait(EC.elementToBeClickable(ancillariesPage.shoppingCartButton), 5000, 'Go to payment button is not clickable/present. Skipping remainder of this test to avoid critical failure.').
+ 
+  //all other adults
+
+  it('Passenger details: remaining adults', function (){
+    
+    for (var i = 1; i < totalAdults; i++) {
+      let j = i;
+      let adultNo = i+1;
+      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for adult #'+adultNo+' not found! Did page load correctly? Test will likely fail as a result.').
+      catch(function(err){
+        testFailed = true;
+        throw err;
+      }).then(function(){
+        if (!testFailed){
+          //this is just to give the html reporter feedback that this step has passed
+          expect(testFailed).toBe(false);
+        }
+      });
+      
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
+
+      //first name
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
+      //last name
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
+      //gender
+      flyerInputElements[j].gender.click();
+      if (flyers[j].gender == 'male'){
+        flyerInputElements[j].genderDropDownMale.click();
+      } else {
+        flyerInputElements[j].genderDropDownFemale.click();
+      }
+      var dobPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].dob), 100).
+      catch(function(expectation) {
+          dobPresent = false;
+      }).then(function(){
+        if (dobPresent) {
+          //date of birth
+          flyerInputElements[j].dob.click();
+          flyerInputElements[j].dob.sendKeys(flyers[j].dobAdult);
+          flyerInputElements[j].dob.sendKeys('01');
+          flyerInputElements[j].dob.sendKeys('01');
+        }
+      });
+      if (j+1 < totalAdults){
+        expect(flyerInputElements[j+1].firstName.isPresent()).toBe(true,'Cant find next element. Wont be able to scroll to it!');
+      }
+    }
+  });
+
+  it('Passenger details: all children', function (){
+    for (var i = totalAdults; i < totalChildren+totalAdults; i++) {
+      
+      let j = i;
+      let childNo = i-totalAdults+1;
+      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for adult #'+childNo+' not found! Did page load correctly? Test will likely fail as a result.').
+      catch(function(err){
+        testFailed = true;
+        throw err;
+      }).then(function(){
+        if (!testFailed){
+          //this is just to give the html reporter feedback that this step has passed
+          expect(testFailed).toBe(false);
+        }
+      });
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
+      //first name
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
+      //last name
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
+      
+      //gender
+      var genderPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].gender), 100).
+      catch(function(expectation){
+        genderPresent = false;
+      }).then(function(){
+        if(genderPresent){
+          flyerInputElements[j].gender.click();
+          if (flyers[j].gender == 'male'){
+            flyerInputElements[j].genderDropDownMale.click();
+          } else {
+            flyerInputElements[j].genderDropDownFemale.click();
+          }
+        }
+      });
+          
+      //date of birth
+      flyerInputElements[j].dob.click();
+      //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
+      flyerInputElements[j].dob.sendKeys(flyers[j].dobChild);
+      flyerInputElements[j].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys('01');
+      if (j+1 < totalChildren+totalAdults){
+        expect(flyerInputElements[j+1].firstName.isPresent()).toBe(true,'Cant find next element. Wont be able to scroll to it!');
+      }
+    }
+  });
+
+  it('Passenger details: all infants', function (){
+    for (var i = totalAdults+totalChildren; i < totalPassengers; i++) {
+      let j = i;
+      let infantNo = i-totalAdults-totalChildren+1;
+      browser.wait(EC.presenceOf(flyerInputElements[j].firstName), 5000, 'First Name input box for infant #'+infantNo+' not found! Did page load correctly? Test will likely fail as a result.').
+      catch(function(err){
+        testFailed = true;
+        throw err;
+      }).then(function(){
+        if (!testFailed){
+          //this is just to give the html reporter feedback that this step has passed
+          expect(testFailed).toBe(false);
+        }
+      });
+      helperFunctions.scrollElementToBeClickable(flyerInputElements[j].firstName);
+      //first name
+      flyerInputElements[j].firstName.click();
+      flyerInputElements[j].firstName.sendKeys(flyers[j].firstName);
+      //last name
+      flyerInputElements[j].lastName.click();
+      flyerInputElements[j].lastName.sendKeys(flyers[j].lastName);
+      
+      //gender
+      var genderPresent = true;
+      browser.wait(EC.presenceOf(flyerInputElements[j].gender), 100).
+      catch(function(expectation){
+        genderPresent = false;
+      }).then(function(){
+        if(genderPresent){
+          flyerInputElements[j].gender.click();
+          if (flyers[j].gender == 'male'){
+            flyerInputElements[j].genderDropDownMale.click();
+          } else {
+            flyerInputElements[j].genderDropDownFemale.click();
+          }
+        }
+      });
+          
+      //date of birth
+      flyerInputElements[j].dob.click();
+      //currently date of birth in flyer object is hardcoded. Later on, it should be generated based on current date
+      flyerInputElements[j].dob.sendKeys(flyers[j].dobInfant);
+      flyerInputElements[j].dob.sendKeys('01');
+      flyerInputElements[j].dob.sendKeys('01');
+      if (j+1 < totalPassengers){
+        expect(flyerInputElements[j+1].firstName.isPresent()).toBe(true,'Cant find next element. Wont be able to scroll to it!');
+      }
+    }
+  });
+
+/*
+  it('click shopping cart button', function(){
+    browser.wait(EC.elementToBeClickable(passengerPage.goToPaymentButton), 5000, 'Go to payment button is not clickable/present. Test will likely fail as a result.').
     catch(function(err){
       testFailed = true;
       throw err;
@@ -356,7 +553,53 @@ it('login', function(){
         expect(testFailed).toBe(false);
       }
     });
-    console.log("seventeenth test");
+    passengerPage.goToPaymentButton.click();
+  });
+*/
+  it('Press select seats ancillaries button', function(){
+    if (doSelectSeats) {
+      browser.wait(EC.elementToBeClickable(ancillariesPage.selectSeatButton), 5000, 'Seat selection ancillary button not present/clickable! Trying to continue test without selecting seats.').
+      catch(function(err){
+        seatSelectionFailed = true;
+        console.log('SEAT SELECTION FAILED! Variable is now = '+seatSelectionFailed);
+        //testFailed = true;
+        throw err;
+      }).then(function(){
+        if (!testFailed){
+          //this is just to give the html reporter feedback that this step has passed
+          expect(testFailed).toBe(false);
+        }
+      });
+    }
+    if(doSelectSeats && !seatSelectionFailed){
+      ancillariesPage.selectSeatButton.click();
+    }
+    browser.waitForAngular();
+
+    
+    numberOfFlights = helperFunctions.getNumberOfFlights();
+  });
+
+  it('Select seats for more passengers', function(){
+    if(doSelectSeats && !seatSelectionFailed){
+      helperFunctions.selectSeats(numberOfFlights,totalAdults+totalChildren);
+    }
+
+   
+  });
+
+
+  it('click shopping cart button', function(){
+    browser.wait(EC.elementToBeClickable(ancillariesPage.shoppingCartButton), 15000, 'Go to payment button is not clickable/present. Test will likely fail as a result.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     browser.waitForAngular();
     ancillariesPage.shoppingCartButton.click().then(function(){
       expect(paymentPage.creditCardFrame.isPresent()).toBe(true,'Credit card iframe not present! Is page still loading?');
@@ -364,38 +607,90 @@ it('login', function(){
   });
 
   it('click klarna button', function(){
-    helperFunctions.testCounter();
-    browser.sleep(10000);
-    helperFunctions.scrollElementToBeClickable(paymentPage.klarnaButton);
+    browser.wait(EC.elementToBeClickable(paymentPage.klarnaButton), 15000, 'Klarna payment button not found. Test will likely fail as a result.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
+    browser.sleep(5000);
+    helperFunctions.scrollElementUpWithOffset(paymentPage.klarnaButton, 0);
     paymentPage.klarnaButton.click();
   });
 
   it('click klarna invoice', function(){
-    helperFunctions.testCounter();
+    browser.wait(EC.elementToBeClickable(paymentPage.klarnaInvoice), 15000, 'Klarna invoice button not found. Test will likely fail as a result.').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     paymentPage.klarnaInvoice.click();
-    browser.sleep(10000);
+    browser.sleep(5000);
   });
 
+
   it('review purchase', function(){
-    helperFunctions.testCounter();
-    browser.sleep(25000);
+    browser.wait(EC.elementToBeClickable(paymentPage.reviewButton), 25000, 'Button to review payment is not clickable or visible!').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
     paymentPage.reviewButton.click();
+    
+    //browser.wait(EC.and(EC.presenceOf(paymentPage.paxDetails), EC.presenceOf(paymentPage.interTotalPrize),EC.presenceOf(paymentPage.insuranceRadioOptions)), 15000,'"paxDetails", "interTotalPrize" or "insuranceRadioOptions" not present on page!');
+    //.catch(function(err){
+      //throw err;
+    //});
+    paymentPage.fareNotAvailableError.isPresent().then(function(pres){
+      if(pres) {
+        paymentPage.fareNotAvailableError.getText().then(function(text){
+          expect(paymentPage.fareNotAvailableError.isPresent()).toBe(false,'Error message detected! Attempting to output error message: '+text);
+        });
+      } else {
+        expect(paymentPage.fareNotAvailableError.isPresent()).toBe(false,'Error message detected! Attempting to output error message: ');
+      }
+    });
+    
   });
 
   it('accept terms', function(){
-    helperFunctions.testCounter();
-    paymentPage.checkBox.click();
+    browser.wait(EC.visibilityOf(paymentPage.checkBox), 15000).then(function(visible){
+      expect(visible).toBe(true,'Checkbox to accept terms not visible!');
+      if (visible){
+        paymentPage.checkBox.click().then(function(){
+          paymentPage.inputAcceptCheckBox.getAttribute('checked').then(function(attribute){
+            expect(attribute).toBe('true','Checkbox still not checked after click!');
+          });
+        });
+      }
+    });
   });
 
   it('Pay', function(){
-    helperFunctions.testCounter();
+    browser.wait(EC.presenceOf(paymentPage.confirmButton), 5000, 'Button to confirm payment is not clickable or visible!').then(function(pres){
     paymentPage.confirmButton.click();
-    browser.sleep(25000);
+    browser.sleep(5000);
+    
+    browser.ignoreSynchronization = true;
+    });
   });
 
   it('enter klarna details', function(){
     helperFunctions.testCounter();
-    browser.ignoreSynchronization = true;
     paymentPage.klarnaSSNField.click();
     paymentPage.klarnaSSNField.sendKeys(paymentPage.klarnaSSN);
     browser.sleep(1000);
@@ -404,5 +699,5 @@ it('login', function(){
     paymentPage.klarnaSubmitButton.click();
     browser.sleep(3000);
   });
-
+  
 });

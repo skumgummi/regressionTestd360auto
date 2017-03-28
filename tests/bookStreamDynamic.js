@@ -11,7 +11,12 @@ var helperFunctions = require('../helpers/helperFunctions.js');
 var hotkeys = require('protractor-hotkeys');
 var EC = protractor.ExpectedConditions;
 
+//d360u login details
+var username = "ebgfi";
+var password = "sas111";
+
 //these are the test parameters
+var doLogIn = false;
 var totalAdults = 1;
 var totalChildren = 0;
 var totalInfants = 0;
@@ -97,6 +102,17 @@ afterAll(function() {
     });
     
     expect(homePage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
+  });
+
+  it('login', function(){
+    if(doLogIn) {
+      homePage.loginLink.click();
+      homePage.emailField.click();
+      homePage.emailField.sendKeys(username);
+      homePage.passwordField.click();
+      homePage.passwordField.sendKeys(password);
+      homePage.loginButton.click();
+    }
   });
 
   it('select amount of passengers', function(){
