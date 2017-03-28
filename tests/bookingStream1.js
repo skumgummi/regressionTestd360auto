@@ -16,7 +16,7 @@ var totalInfants = 0;
 var outBoundDay = '23';
 var outBoundMonth = '6';
 var outBoundYear = '2017';
-var inBoundDay = '5'
+var inBoundDay = '20'
 var inBoundMonth = '7'
 var inBoundYear = '2017'
 var orig = 'ARN';
@@ -59,6 +59,20 @@ afterAll(function() {
   browser.driver.manage().deleteAllCookies();
   browser.executeScript('window.sessionStorage.clear();');
   browser.executeScript('window.localStorage.clear();');
+});
+
+it('accept cookies if needed', function(){
+
+  browser.wait(EC.presenceOf(homePage.cookieButton), 5000).
+  catch(function(err){
+    cookieButtonPres = false;
+  }).then(function(){
+    if (cookieButtonPres){
+      homePage.cookieButton.click();
+    }
+  });
+
+  expect(homePage.cookieButton.isPresent()).toBe(false,'accept cookies button still present!');
 });
 
   it('select amount of passengers', function(){
@@ -120,14 +134,11 @@ afterAll(function() {
     });
   });
 
-  it('login', function(){
+  it('Select one-way', function(){
     helperFunctions.testCounter();
-    homePage.loginLink.click();
-    homePage.emailField.click();
-    homePage.emailField.sendKeys(username);
-    homePage.passwordField.click();
-    homePage.passwordField.sendKeys(password);
-    homePage.loginButton.click();
+    homePage.tripSelect.click();
+    browser.waitForAngular();
+    homePage.oneWay.click();
   });
 
   it('select origin', function(){
@@ -162,8 +173,6 @@ afterAll(function() {
       }
     });
     console.log("third test");
-    homePage.tripSelect.click();
-    homePage.oneWay.click();
     homePage.openDestination.click();
     homePage.openDestination.sendKeys(dest);
     homePage.openDestination.sendKeys(protractor.Key.ENTER);

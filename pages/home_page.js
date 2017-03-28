@@ -4,14 +4,14 @@ var homePage = function(){
 
   //this.cookieButton = element(by.id('closeButton'));
   this.cookieButton = element(by.css('button.close1'));
-  
+
   this.adultsLabel = element(by.id('Adults')).element(by.binding('pax.paxConstraints.preSelected'));
   this.childrenLabel = element(by.id('Children')).element(by.binding('pax.paxConstraints.preSelected'));
   this.infantsLabel = element(by.id('Infants')).element(by.binding('pax.paxConstraints.preSelected'));
 
   this.myTripsButton = element(by.id('my-trips'));
   this.openTravelers = element(by.binding('translation["booking.cep.travellers"]'));
-  this.openTravelersLocator = $('#translation["booking.cep.travellers"]').locator(); 
+  this.openTravelersLocator = $('#translation["booking.cep.travellers"]').locator();
   this.openOrigin = element(by.id('select-origin'));
   this.openDestination = element(by.id('select-destination'));
   this.openReturnFrom = element(by.id('select-ReturnFrom'));
@@ -31,9 +31,12 @@ var homePage = function(){
   this.passwordField = element(by.id('loginPassword'));
   this.loginButton = element(by.css('.btn.btn-blue.login-button-blue.mt0'));
   this.tripSelect = element(by.id('tripSelect'));
-  this.oneWay = element(by.xpath('//*[@id="tripSelect"]/ul/li[1]/a'));
-  this.returnTrip = element(by.xpath('//*[@id="tripSelect"]/ul/li[2]/a'));
-  this.returnFromAnotherCity = element(by.xpath('//*[@id="tripSelect"]/ul/li[3]/a'));
+  //this.oneWay = element(by.xpath('//*[@id="tripSelect"]/ul/li[1]/a'));
+  this.oneWay = element(by.xpath('//*[@id="triptype1"]/a'));
+  //this.returnTrip = element(by.xpath('//*[@id="tripSelect"]/ul/li[2]/a'));
+  this.returnTrip = element(by.xpath('//*[@id="triptype2"]/a'));
+  //this.returnFromAnotherCity = element(by.xpath('//*[@id="tripSelect"]/ul/li[3]/a'));
+  this.returnFromAnotherCity = element(by.xpath('//*[@id="triptype3"]/a'));
   this.monthSelect = element(by.id('monthSelect'));
   this.selectAugust = element(by.xpath('//*[@id="dateView"]/div[1]/div[2]/div[1]/div/div[1]/div[1]/div/ul/li[6]/a'));
 
@@ -76,10 +79,10 @@ var homePage = function(){
   //this.fwdButton = element(by.css('.sas-cep-arrow.center-block'));
   this.fwdButton = element(by.xpath('//*[@id="findBtn"]'));
   //this.fwdButton = element(by.css('button[enable-sar-cep=""]'));
-  
+
   this.closeTripOverlay = element(by.css('a[ng-click="closeTripOverlay()"]'));
 
-  
+
   //var datePickerCss = '.ui-state-enabled.ui-state-hover.ui-datepicker-td-hover';
   //placeholder dates!
   this.setOutbound = function(day, month, year) {
@@ -117,7 +120,7 @@ var homePage = function(){
 
   this.clickForwardButton = function() {
    //var fwdButton = element(by.css('.cepArrow.center-block'));
-   
+
    this.fwdButton.click();
    //return require('./upsell_page.js');
  }
