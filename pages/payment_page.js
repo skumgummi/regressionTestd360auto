@@ -31,7 +31,9 @@ var paymentPage = function(){
   this.reservationNumber = element(by.binding('reservation.airlineBookingReference'));
   this.insuranceRadioOptions = element(by.css('#readytoPayRadio'));
 
-  this.klarnaButton = element(by.xpath('//*[@id="payAccordion"]/div[3]/div[2]'));
+  
+  this.klarnaButton = element(by.css('button[aria-controls="klarnaCollapse"]'));
+  //this.klarnaButton = element(by.xpath('//*[@id="payAccordion"]/div[3]/button'));
   this.klarnaInvoice = element(by.id('klarna_invoice'));
 
   //Klarna test website stuff (https://test.adyen.com/hpp/details.shtml)
