@@ -697,7 +697,21 @@ afterAll(function() {
     paymentPage.klarnaRetrieveAddress.click();
     browser.sleep(1000);
     paymentPage.klarnaSubmitButton.click();
-    browser.sleep(3000);
+    browser.sleep(10000);
   });
+  it('checking that pnr is present', function() {
+    browser.ignoreSynchronization = false;
+    browser.wait(EC.presenceOf(paymentPage.reservationNumber), 15000, 'After Klarna payment, unable to find pnr for the booking!').
+    catch(function(err){
+      testFailed = true;
+      throw err;
+    }).then(function(){
+      if (!testFailed){
+        //this is just to give the html reporter feedback that this step has passed
+        expect(testFailed).toBe(false);
+      }
+    });
+  });
+
   
 });
