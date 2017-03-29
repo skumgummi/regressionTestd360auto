@@ -66,7 +66,7 @@ beforeAll(function(){
   browser.get('https://d360u.flysas.com/se-en');
   //browser.get('https://sas.se');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
-  
+  browser.ignoreSynchronization = false;
   totalPassengers = totalAdults+totalChildren+totalInfants;
   var t = totalPassengers*1000;
   t+=30000;
@@ -119,7 +119,7 @@ afterAll(function() {
     
 
     //this mostly verifies that page has loaded correctly, and test can proceed
-    browser.wait(EC.presenceOf(homePage.openTravelers), 5000, 'Not able to select amount of travelers. Button not found using locator '+homePage.openTravelersLocator.value+'. Did page load correctly? Test will likely fail as a result.').
+    browser.wait(EC.presenceOf(homePage.openTravelers), 15000, 'Not able to select amount of travelers. Button not found using locator '+homePage.openTravelersLocator.value+'. Did page load correctly? Test will likely fail as a result.').
       catch(function(err) {
         testFailed = true;
         throw err;

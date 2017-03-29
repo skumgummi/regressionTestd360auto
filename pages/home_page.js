@@ -10,7 +10,8 @@ var homePage = function(){
   this.infantsLabel = element(by.id('Infants')).element(by.binding('pax.paxConstraints.preSelected'));
 
   this.myTripsButton = element(by.id('my-trips'));
-  this.openTravelers = element(by.binding('translation["booking.cep.travellers"]'));
+  this.openTravelers = element(by.css('input[ng-show="travellersFlag"]'));
+  //this.openTravelers = element(by.binding('translation["booking.cep.travellers"]'));
   this.openTravelersLocator = $('#translation["booking.cep.travellers"]').locator();
   this.openOrigin = element(by.id('select-origin'));
   this.openDestination = element(by.id('select-destination'));
