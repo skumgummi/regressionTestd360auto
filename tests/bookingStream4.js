@@ -31,6 +31,7 @@ var totalChildrenStr = '';
 var totalInfantsStr = '';
 var flyerInputElements = [];
 var numberOfFlights = [];
+var cookieButtonPres = true;
 
 //to be used to skip rest of test through if-statements
 var testFailed = false;
@@ -583,7 +584,7 @@ it('accept cookies if needed', function(){
 
   it('Enter card details', function(){
     console.log("eighteenth test");
-    paymentPage.diners();
+    paymentPage.mc();
 
 
     //additional expects done in above function in paymentPage.js

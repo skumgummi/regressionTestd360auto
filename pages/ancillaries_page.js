@@ -32,14 +32,14 @@ var ancillariesPage = function(){
   this.bagCancelButton = element(by.binding('translation["ancillaryxbags.cancel"]'));
 
   this.addMealButton = element(by.css('img[alt="Select Meal"]'));
-  this.selectMealOutbound = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[1]/a'));
-  this.selectMealReturn = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[2]/a'));
+  this.selectMealOutbound = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[1]/button'));
+  this.selectMealReturn = element(by.xpath('//*[@id="segment-container"]/div[2]/ul/li[2]/button'));
   this.mealDropDown = element(by.css('.btn.btn-default.paidMealsBtn'));
   this.mealDropDownOption1 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[2]'));
   this.mealDropDownOption2 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[3]'));
   this.mealDropDownOption3 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[4]'));
   this.mealDropDownOption4 = element(by.xpath('//*[@id="segment-container"]/div[4]/div[1]/div[1]/div/div[2]/div/ul/li[5]'));
-
+  this.mealAddToBooking = element(by.id('ancMealAddBkng'));
 
 
   this.selectSeat = function(){
