@@ -23,6 +23,7 @@ var orig = 'ARN';
 var dest = 'GOT';
 var flyers = [];
 var doSelectSeats = false;
+var cookieButtonPres = true;
 
 //these values do not need to be set through test parameters
 var totalPassengers;
@@ -586,6 +587,7 @@ it('accept cookies if needed', function(){
 
       if (visible) {
         paymentPage.payNowButton.click().then(function(result){
+          browser.sleep(10000);
           expect(paymentPage.reservationNumber.isPresent()).toBe(true,'Reservation number not displayed!');
         });
       }

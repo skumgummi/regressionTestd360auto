@@ -31,6 +31,7 @@ var totalChildrenStr = '';
 var totalInfantsStr = '';
 var flyerInputElements = [];
 var numberOfFlights = [];
+var cookieButtonPres = true;
 
 //to be used to skip rest of test through if-statements
 var testFailed = false;

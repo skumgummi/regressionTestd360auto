@@ -15,7 +15,7 @@ var paymentPage = function(){
 
   this.checkBox = element(by.css('.icon-ok'));
   this.payNowButton = element(by.css('input[ng-click="creditCardConfirmation()"]'));
-  
+
 
   //this.reviewButton = element(by.buttonText('REVIEW'));
   this.reviewButton = element(by.css('button[ng-click="proceedForPayment();hideExpandedContent();"]'));
@@ -31,9 +31,8 @@ var paymentPage = function(){
   this.reservationNumber = element(by.binding('reservation.airlineBookingReference'));
   this.insuranceRadioOptions = element(by.css('#readytoPayRadio'));
 
-  
-  this.klarnaButton = element(by.css('button[aria-controls="klarnaCollapse"]'));
-  //this.klarnaButton = element(by.xpath('//*[@id="payAccordion"]/div[3]/button'));
+  this.klarnaButton = element(by.xpath('//*[@id="payAccordion"]/div[3]/div[2]'));
+  //*[@id="payAccordion"]/div[3]/button
   this.klarnaInvoice = element(by.id('klarna_invoice'));
 
   //Klarna test website stuff (https://test.adyen.com/hpp/details.shtml)
